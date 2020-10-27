@@ -13,6 +13,11 @@ enum gameStates {
 	IN_GAME,
 };
 
+struct Vec2
+{
+	int x, y;
+};
+
 struct Rect
 {
 	int x, y, w, h;
@@ -26,4 +31,5 @@ struct Player
 	bool goUp, goDown, goLeft, goRight;
 	Player() :score{ 0 }, getCoins{ false }, goUp{ false }, goDown{ false }, goRight{ false }, goLeft{ false } {};
 };
+
 
