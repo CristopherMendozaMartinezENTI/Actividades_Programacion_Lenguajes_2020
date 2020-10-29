@@ -8,10 +8,12 @@
 
 int main(int, char* [])
 {
-	// --- Init ---
+	try {
+
+	// --- INIT ---
+
 #pragma region InitSDL
 
-	try {
 		// --- INIT SDL ---
 		if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 			throw std::exception("No es pot inicialitzar SDL subsystems");
@@ -44,6 +46,7 @@ int main(int, char* [])
 #pragma endregion 	
 
 	// --- SPRITES ---
+
 #pragma region Backgrounds
 
 	//Main Menu Background
@@ -150,7 +153,8 @@ int main(int, char* [])
 
 #pragma endregion
 
-	//-->ANIMATED SPRITES ---
+	//--- ANIMATED SPRITES ---
+
 #pragma region Players Ands Scoreboards
 
 			//Players
@@ -199,6 +203,7 @@ int main(int, char* [])
 #pragma endregion 
 
 	// --- GAME LOOP ---
+
 #pragma region Event Manager
 		SDL_Event event;
 		gameStates state = MENU;
@@ -253,6 +258,7 @@ int main(int, char* [])
 #pragma endregion
 
 	// --- UPDATE --
+
 #pragma region Menu Interactions
 
 				//Hide Mouse 
@@ -271,8 +277,8 @@ int main(int, char* [])
 					mouseClicked = false;
 					state = IN_GAME;
 					sec = 0;
-					playerClass1.ResetPlayer();
-					playerClass2.ResetPlayer();
+					playerClass1.Reset();
+					playerClass2.Reset();
 					boardP1.Reset();
 					boardP2.Reset();
 				}
@@ -310,12 +316,9 @@ int main(int, char* [])
 
 #pragma endregion
 
-#pragma region Players Animations, Movement and Scores
+#pragma region Players Movement and Scores
 
-			playerClass1.Move();
-			playerClass2.Move();
-
-			//Players Movement
+			//Player Movement
 			if (state == IN_GAME) {
 				playerClass1.Update();
 				player1Rect = MyRect2SDL(&playerClass1.returnRect());
@@ -375,7 +378,7 @@ int main(int, char* [])
 			SDL_snprintf(exactTime, size, "%f", timeLeft);
 
 			for (int i = 0; i < size; i++) {
-				if (exactTime[i] == '.') exactTime[i] == ':';
+				if (exactTime[i] == '.') exactTime[i] = ':';
 			}
 
 			tmpSurf = { TTF_RenderText_Blended(inGameFont, exactTime, SDL_Color{ 255,0,0,0 }) };
@@ -386,6 +389,7 @@ int main(int, char* [])
 #pragma endregion 
 
 	// --- DRAW ---
+
 #pragma region Game State Machine
 
 			SDL_RenderClear(m_renderer);
@@ -416,18 +420,18 @@ int main(int, char* [])
 				//Coins
 				for (int i = 0; i < AMOUNT_OF_COINS; i++) {
 					SDL_RenderCopy(m_renderer, coinTexture, nullptr, &coinRect[i]);
-					//Time
-					SDL_RenderCopy(m_renderer, timeTexture, nullptr, &timeRect);
-					//Score Board
-					SDL_RenderCopy(m_renderer, player1ScoreTexture, nullptr, &player1ScoreRect);
-					SDL_RenderCopy(m_renderer, player2ScoreTexture, nullptr, &player2ScoreRect);
-					SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Right, &scorePositionPlayer1Right);
-					SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Center, &scorePositionPlayer1Center);
-					SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Left, &scorePositionPlayer1Left);
-					SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Right, &scorePositionPlayer2Right);
-					SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Center, &scorePositionPlayer2Center);
-					SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Left, &scorePositionPlayer2Left);
 				}
+				//Time
+				SDL_RenderCopy(m_renderer, timeTexture, nullptr, &timeRect);
+				//Score Board
+				SDL_RenderCopy(m_renderer, player1ScoreTexture, nullptr, &player1ScoreRect);
+				SDL_RenderCopy(m_renderer, player2ScoreTexture, nullptr, &player2ScoreRect);
+				SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Right, &scorePositionPlayer1Right);
+				SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Center, &scorePositionPlayer1Center);
+				SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Left, &scorePositionPlayer1Left);
+				SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Right, &scorePositionPlayer2Right);
+				SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Center, &scorePositionPlayer2Center);
+				SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Left, &scorePositionPlayer2Left);
 				break;
 			default:
 				break;
@@ -444,9 +448,10 @@ int main(int, char* [])
 
 #pragma endregion 
 
+// --- DESTROY ---
+
 #pragma region Close SDL
 
-	// --- DESTROY ---
 		SDL_DestroyTexture(bgTexture);
 		SDL_DestroyTexture(cursorTexture);
 		SDL_DestroyTexture(titleTexture);
@@ -464,6 +469,7 @@ int main(int, char* [])
 		SDL_DestroyWindow(m_window);
 		SDL_Quit();
 		Mix_Quit();
+
 
 #pragma endregion 
 

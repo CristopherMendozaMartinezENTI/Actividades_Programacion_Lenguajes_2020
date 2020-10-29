@@ -17,9 +17,8 @@ public:
 	PlayerClass(int _textWidth, int _textHeight, PlayerType _type);
 	~PlayerClass();
 
-	void Move();
 	void Update();
-	void ResetPlayer();
+	void Reset();
 	void setGetCoinsToTrue();
 	void setGetCoinsToFalse();
 	bool getCoinState();

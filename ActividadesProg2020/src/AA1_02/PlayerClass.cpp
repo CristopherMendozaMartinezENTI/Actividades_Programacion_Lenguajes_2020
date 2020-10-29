@@ -46,14 +46,11 @@ PlayerClass::~PlayerClass()
 {
 }
 
-void PlayerClass::Move()
+void PlayerClass::Update()
 {
 	if (dir.goUp || dir.goDown || dir.goRight || dir.goLeft) isMoving = true;
 	if (!dir.goUp && !dir.goDown && !dir.goRight && !dir.goLeft) isMoving = false;
-}
 
-void PlayerClass::Update()
-{
 	if (isMoving) {
 		if (dir.goUp && playerPosition.y > 300) {
 			playerPosition.x += 0 * MOTION_SPEED;
@@ -102,7 +99,7 @@ void PlayerClass::Update()
 	}
 }
 
-void PlayerClass::ResetPlayer()
+void PlayerClass::Reset()
 {
 	switch (type)
 	{
