@@ -43,7 +43,7 @@ int main(int, char* [])
 
 #pragma endregion 	
 
-		// --- SPRITES ---
+	// --- SPRITES ---
 #pragma region Backgrounds
 
 	//Main Menu Background
@@ -150,9 +150,9 @@ int main(int, char* [])
 
 #pragma endregion
 
-#pragma region Animated Sprites
+	//-->ANIMATED SPRITES ---
+#pragma region Players Ands Scoreboards
 
-		//-->Animated Sprite ---
 			//Players
 		SDL_Texture* playerTexture{ IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png") };
 		if (playerTexture == nullptr) throw std::exception("Error: playerTexture init");
@@ -198,7 +198,8 @@ int main(int, char* [])
 
 #pragma endregion 
 
-		// --- GAME LOOP ---
+	// --- GAME LOOP ---
+#pragma region Event Manager
 		SDL_Event event;
 		gameStates state = MENU;
 		Vec2 mouseAxis{ 0, 0 };
@@ -249,16 +250,17 @@ int main(int, char* [])
 				}
 			}
 
-			// --- UPDATE --
+#pragma endregion
+
+	// --- UPDATE --
+#pragma region Menu Interactions
+
 				//Hide Mouse 
 			SDL_ShowCursor(SDL_DISABLE);
 
 			//Putting the Mouse at the center of the cursor 
 			cursorRect.x += (((mouseAxis.x - (cursorRect.w / 2)) - cursorRect.x) / 10);
 			cursorRect.y += (((mouseAxis.y - (cursorRect.h / 2)) - cursorRect.y) / 10);
-
-
-#pragma region Menu: Button Colliders
 
 			//Changing Play Button Texture
 			if (pointCollision(mouseAxis, playButtonRect))
@@ -308,12 +310,12 @@ int main(int, char* [])
 
 #pragma endregion
 
-#pragma region Players Animations, Movement and Score
+#pragma region Players Animations, Movement and Scores
 
 			playerClass1.Move();
 			playerClass2.Move();
 
-			//Movement
+			//Players Movement
 			if (state == IN_GAME) {
 				playerClass1.Update();
 				player1Rect = MyRect2SDL(&playerClass1.returnRect());
@@ -324,7 +326,6 @@ int main(int, char* [])
 				player2Position = MyRect2SDL(&playerClass2.returnPos());
 			}
 
-			
 			//If the two get the same item, P1 will always get it
 			for (int i = 0; i < AMOUNT_OF_COINS; i++)
 			{
@@ -346,8 +347,6 @@ int main(int, char* [])
 
 			//Scoreboards Update
 			boardP1.Update(playerClass1);
-			boardP2.Update(playerClass2);
-
 			scoreRectPlayer1Right = MyRect2SDL(&boardP1.returnScoreRectRight());
 			scorePositionPlayer1Right = MyRect2SDL(&boardP1.returnScorePositionRight());
 			scoreRectPlayer1Center = MyRect2SDL(&boardP1.returnScoreRectCenter());
@@ -355,13 +354,13 @@ int main(int, char* [])
 			scoreRectPlayer1Left = MyRect2SDL(&boardP1.returnScoreRectLeft());
 			scorePositionPlayer1Left = MyRect2SDL(&boardP1.returnScorePositionLeft());
 
+			boardP2.Update(playerClass2);
 			scoreRectPlayer2Right = MyRect2SDL(&boardP2.returnScoreRectRight());
 			scorePositionPlayer2Right = MyRect2SDL(&boardP2.returnScorePositionRight());
 			scoreRectPlayer2Center = MyRect2SDL(&boardP2.returnScoreRectCenter());
 			scorePositionPlayer2Center = MyRect2SDL(&boardP2.returnScorePositionCenter());
 			scoreRectPlayer2Left = MyRect2SDL(&boardP2.returnScoreRectLeft());
 			scorePositionPlayer2Left = MyRect2SDL(&boardP2.returnScorePositionLeft());
-
 
 #pragma endregion 
 
@@ -386,10 +385,10 @@ int main(int, char* [])
 
 #pragma endregion 
 
-			// --- DRAW ---
-			SDL_RenderClear(m_renderer);
-
+	// --- DRAW ---
 #pragma region Game State Machine
+
+			SDL_RenderClear(m_renderer);
 
 			switch (state)
 			{
@@ -434,8 +433,6 @@ int main(int, char* [])
 				break;
 			}
 
-#pragma endregion 
-
 			//Update the screen
 			SDL_RenderPresent(m_renderer);
 
@@ -445,9 +442,11 @@ int main(int, char* [])
 				SDL_Delay((int)(DELAY_TIME - frameTime));
 		}
 
+#pragma endregion 
+
 #pragma region Close SDL
 
-		// --- DESTROY ---
+	// --- DESTROY ---
 		SDL_DestroyTexture(bgTexture);
 		SDL_DestroyTexture(cursorTexture);
 		SDL_DestroyTexture(titleTexture);
