@@ -4,7 +4,7 @@
 #include <exception>
 #include <iostream>
 #include <string>
-#include "Types.h"
+#include "PlayerClass.h"
 
 int main(int, char* [])
 {
@@ -157,36 +157,15 @@ int main(int, char* [])
 			//Player1
 		SDL_Texture* playerTexture{ IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png") };
 		if (playerTexture == nullptr) throw std::exception("Error: playerTexture init");
-		int textWidth, textHeight, frameWidth1, frameHeight1;
+		int textWidth{ 0 }, textHeight{ 0 }, frameWidth{ 0 }, frameHeight{ 0 };
 		SDL_QueryTexture(playerTexture, NULL, NULL, &textWidth, &textHeight);
-		SDL_Rect player1Rect, player1Position;
-		frameWidth1 = textWidth / 12;
-		frameHeight1 = textHeight / 8;
-		player1Position.x = 800;
-		player1Position.y = 800;
-		player1Rect.x = frameWidth1 * 3;
-		player1Rect.y = 0;
-		player1Position.w = player1Rect.w = frameWidth1;
-		player1Position.h = player1Rect.h = frameHeight1;
-		player1Position.h = frameHeight1 * PLAYER_SIZE;
-		player1Position.w = frameWidth1 * PLAYER_SIZE;
-
-
-		//Player2
-		SDL_Rect player2Rect, player2Position;
-		int frameWidth2, frameHeight2;
-		frameWidth2 = textWidth / 12;
-		frameHeight2 = textHeight / 8;
-		player2Position.x = 1100;
-		player2Position.y = 800;
-		player2Rect.x = player2Rect.y = 0;
-		player2Position.w = player2Rect.w = frameWidth2;
-		player2Position.h = player2Rect.h = frameHeight2;
-		player2Position.h = frameHeight2 * PLAYER_SIZE;
-		player2Position.w = frameWidth2 * PLAYER_SIZE;
-
-		int frameTimeSprite1 = 0;
-		int frameTimeSprite2 = 0;
+		SDL_Rect player1Rect{ 0 };
+		SDL_Rect player1Position{ 0 };
+		SDL_Rect player2Rect{ 0 };
+		SDL_Rect player2Position{ 0 };
+		
+		PlayerClass playerClass1(textWidth, textHeight, frameWidth, frameHeight, player1Rect, player1Position, PlayerClass::PlayerType::P1);
+		PlayerClass playerClass2(textWidth, textHeight, frameWidth, frameHeight, player2Rect, player2Position, PlayerClass::PlayerType::P2);
 
 		//Puntuacion Player 1
 		SDL_Texture* scoreTexture{ IMG_LoadTexture(m_renderer, "../../res/img/num.png") };
@@ -274,7 +253,7 @@ int main(int, char* [])
 		Mix_Music* menuMusic = Mix_LoadMUS("../../res/au/mainTheme.mp3");
 		if (menuMusic == NULL) return false;
 		Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-		Mix_PlayMusic(menuMusic, -1);
+		//Mix_PlayMusic(menuMusic, -1);
 
 #pragma endregion 
 
@@ -282,8 +261,6 @@ int main(int, char* [])
 		SDL_Event event;
 		gameStates state = MENU;
 		Vec2 mouseAxis;
-		Player player1;
-		Player player2;
 		char exactTime[5];
 		bool player1OnMove = false;
 		bool player2OnMove = false;
@@ -302,24 +279,24 @@ int main(int, char* [])
 					break;
 				case SDL_KEYDOWN:
 					if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false;
-					if (event.key.keysym.sym == SDLK_UP) player1.goUp = true;
-					if (event.key.keysym.sym == SDLK_DOWN) player1.goDown = true;
-					if (event.key.keysym.sym == SDLK_RIGHT) player1.goRight = true;
-					if (event.key.keysym.sym == SDLK_LEFT) player1.goLeft = true;
-					if (event.key.keysym.sym == SDLK_w) player2.goUp = true;
-					if (event.key.keysym.sym == SDLK_s) player2.goDown = true;
-					if (event.key.keysym.sym == SDLK_d) player2.goRight = true;
-					if (event.key.keysym.sym == SDLK_a) player2.goLeft = true;
+					if (event.key.keysym.sym == SDLK_UP) playerClass1.dir.goUp = true;
+					if (event.key.keysym.sym == SDLK_DOWN) playerClass1.dir.goDown = true;
+					if (event.key.keysym.sym == SDLK_RIGHT) playerClass1.dir.goRight = true;
+					if (event.key.keysym.sym == SDLK_LEFT) playerClass1.dir.goLeft = true;
+					if (event.key.keysym.sym == SDLK_w) playerClass2.dir.goUp = true;
+					if (event.key.keysym.sym == SDLK_s) playerClass2.dir.goDown = true;
+					if (event.key.keysym.sym == SDLK_d) playerClass2.dir.goRight = true;
+					if (event.key.keysym.sym == SDLK_a) playerClass2.dir.goLeft = true;
 					break;
 				case SDL_KEYUP:
-					if (event.key.keysym.sym == SDLK_UP) player1.goUp = false;
-					if (event.key.keysym.sym == SDLK_DOWN) player1.goDown = false;
-					if (event.key.keysym.sym == SDLK_RIGHT) player1.goRight = false;
-					if (event.key.keysym.sym == SDLK_LEFT) player1.goLeft = false;
-					if (event.key.keysym.sym == SDLK_w) player2.goUp = false;
-					if (event.key.keysym.sym == SDLK_s) player2.goDown = false;
-					if (event.key.keysym.sym == SDLK_d) player2.goRight = false;
-					if (event.key.keysym.sym == SDLK_a) player2.goLeft = false;
+					if (event.key.keysym.sym == SDLK_UP) playerClass1.dir.goUp = false;
+					if (event.key.keysym.sym == SDLK_DOWN) playerClass1.dir.goDown = false;
+					if (event.key.keysym.sym == SDLK_RIGHT) playerClass1.dir.goRight = false;
+					if (event.key.keysym.sym == SDLK_LEFT)playerClass1.dir.goLeft = false;
+					if (event.key.keysym.sym == SDLK_w) playerClass2.dir.goUp = false;
+					if (event.key.keysym.sym == SDLK_s) playerClass2.dir.goDown = false;
+					if (event.key.keysym.sym == SDLK_d)	playerClass2.dir.goRight = false;
+					if (event.key.keysym.sym == SDLK_a)	playerClass2.dir.goLeft = false;
 					break;
 				case SDL_MOUSEMOTION:
 					mouseAxis.x = event.motion.x;
@@ -352,21 +329,9 @@ int main(int, char* [])
 				{
 					mouseClicked = false;
 					state = IN_GAME;
-					//Restart player positions and scores
 					sec = 0;
-					player1Position.x = 800;
-					player1Position.y = 800;
-					player1Rect.x = frameWidth1 * 3;
-					player1Rect.y = 0;
-					player2Position.x = 1100;
-					player2Position.y = 800;
-					player2Rect.x = player2Rect.y = 0;
-					scoreRectPlayer1Right.x = 0;
-					scoreRectPlayer1Center.x = 0;
-					scoreRectPlayer1Left.x = 0;
-					scoreRectPlayer2Right.x = 0;
-					scoreRectPlayer2Left.x = 0;
-					scoreRectPlayer2Left.x = 0;
+					playerClass1.ResetPlayer();
+					playerClass2.ResetPlayer();
 				}
 			}
 			else
@@ -404,98 +369,42 @@ int main(int, char* [])
 
 #pragma region Players Animations, Movement and Score
 
-			if (player1.goUp || player1.goDown || player1.goRight || player1.goLeft) player1OnMove = true;
-			if (player2.goUp || player2.goDown || player2.goRight || player2.goLeft) player2OnMove = true;
-			if (!player1.goUp && !player1.goDown && !player1.goRight && !player1.goLeft) player1OnMove = false;
-			if (!player2.goUp && !player2.goDown && !player2.goRight && !player2.goLeft) player2OnMove = false;
+			playerClass1.Move();
+			playerClass2.Move();
 
 			//Movement
 			if (state == IN_GAME) {
-				//Player 1 
-				if (player1OnMove) {
-					if (player1.goUp && player1Position.y > 300) {
-						player1Position.x += 0 * MOTION_SPEED;
-						player1Position.y += -1 * MOTION_SPEED;
-						player1Rect.y = frameHeight1 * 3;
-					}
-					if (player1.goDown && player1Position.y < SCREEN_HEIGHT - 70) {
-						player1Position.x += 0 * MOTION_SPEED;
-						player1Position.y += 1 * MOTION_SPEED;
-						player1Rect.y = frameHeight1 * 0;
-					}
-					if (player1.goRight && player1Position.x < SCREEN_WIDTH - 60) {
-						player1Position.x += 1 * MOTION_SPEED;
-						player1Position.y += 0 * MOTION_SPEED;
-						player1Rect.y = frameHeight1 * 2;
-					}
-					if (player1.goLeft && player1Position.x > 0) {
-						player1Position.x += -1 * MOTION_SPEED;
-						player1Position.y += 0 * MOTION_SPEED;
-						player1Rect.y = frameHeight1 * 1;
-					}
+				playerClass1.Update();
+				player1Rect = MyRect2SDL(&playerClass1.returnRect());
+				player1Position = MyRect2SDL(&playerClass1.returnPos());
 
-					frameTimeSprite1++;
-					if (FPS / frameTimeSprite1 <= 9)
-					{
-						frameTimeSprite1 = 0;
-						player1Rect.x += frameWidth1;
-						if (player1Rect.x >= (frameWidth1 * 6)) player1Rect.x = frameWidth1 * 3;
-					}
-				}
+				playerClass2.Update();
+				player2Rect = MyRect2SDL(&playerClass2.returnRect());
+				player2Position = MyRect2SDL(&playerClass2.returnPos());
 
-				//Player 2 
-				if (player2OnMove) {
-					if (player2.goUp && player2Position.y > 300) {
-						player2Position.x += 0 * MOTION_SPEED;
-						player2Position.y += -1 * MOTION_SPEED;
-						player2Rect.y = frameHeight2 * 3;
-					}
-					if (player2.goDown && player2Position.y < SCREEN_HEIGHT - 70) {
-						player2Position.x += 0 * MOTION_SPEED;
-						player2Position.y += 1 * MOTION_SPEED;
-						player2Rect.y = frameHeight2 * 0;
-					}
-					if (player2.goRight && player2Position.x < SCREEN_WIDTH - 60) {
-						player2Position.x += 1 * MOTION_SPEED;
-						player2Position.y += 0 * MOTION_SPEED;
-						player2Rect.y = frameHeight2 * 2;
-					}
-					if (player2.goLeft && player2Position.x > 0) {
-						player2Position.x += -1 * MOTION_SPEED;
-						player2Position.y += 0 * MOTION_SPEED;
-						player2Rect.y = frameHeight2 * 1;
-					}
-					frameTimeSprite2++;
-					if (FPS / frameTimeSprite2 <= 9)
-					{
-						frameTimeSprite2 = 0;
-						player2Rect.x += frameWidth2;
-						if (player2Rect.x >= (frameWidth2 * 3)) player2Rect.x = 0;
-					}
-				}
 			}
 
-			//Ganar� siempre el jugador 1 en el caso de que ambos cojan el mismo saco de oro al mismo tiempo
+			//If the two get the same item, P1 will always get it
 			for (int i = 0; i < AMOUNT_OF_COINS; i++)
 			{
-				if (rectCollision(player1Position, coinRect[i])) {
+				if (rectCollision(playerClass1.returnPos(), coinRect[i])) {
 					coinRect[i].x = (rand() % SCREEN_WIDTH) - 50;
 					coinRect[i].y = (rand() % 700) + 300;
-					player1.score++;
-					player1.getCoins = true;
+					playerClass1.score++;
+					playerClass1.getCoins = true;
 				}
-				else if (rectCollision(player2Position, coinRect[i])) {
+				else if (rectCollision(playerClass2.returnPos(), coinRect[i])) {
 					coinRect[i].x = (rand() % SCREEN_WIDTH) - 50;
 					coinRect[i].y = (rand() % 700) + 300;
-					player2.score++;
-					player2.getCoins = true;
+					playerClass2.score++;
+					playerClass2.getCoins = true;
 				}
 			}
 
-			if (player1.getCoins) {
+			if (playerClass1.getCoins) {
 				frameTimeScore1Right++;
 				if (FPS / frameTimeScore1Right <= 9) {
-					player1.getCoins = false;
+					playerClass1.getCoins = false;
 					frameTimeScore1Right = 0;
 					scoreRectPlayer1Right.x += frameWidthScore1Right;
 					if (scoreRectPlayer1Right.x >= (scoreWidth)) {
@@ -511,10 +420,10 @@ int main(int, char* [])
 				}
 			}
 
-			if (player2.getCoins) {
+			if (playerClass2.getCoins) {
 				frameTimeScore2Right++;
 				if (FPS / frameTimeScore2Right <= 9) {
-					player2.getCoins = false;
+					playerClass2.getCoins = false;
 					frameTimeScore2Right = 0;
 					scoreRectPlayer2Right.x += frameWidthScore2Right;
 					if (scoreRectPlayer2Right.x >= (scoreWidth)) {

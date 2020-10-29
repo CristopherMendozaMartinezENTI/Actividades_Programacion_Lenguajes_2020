@@ -17,8 +17,8 @@ enum gameStates {
 struct Directions
 {
 	bool goUp, goDown, goLeft, goRight;
+	Directions() : goUp{ false }, goDown{ false }, goRight{ false }, goLeft{ false } {};
 };
-
 
 struct Vec2
 {
@@ -53,3 +53,5 @@ struct Player
 	bool goUp, goDown, goLeft, goRight;
 	Player() :score{ 0 }, getCoins{ false }, goUp{ false }, goDown{ false }, goRight{ false }, goLeft{ false } {};
 };
+
+static SDL_Rect MyRect2SDL(const Rect* r) { return { r->x, r->y, r->w, r->h }; }

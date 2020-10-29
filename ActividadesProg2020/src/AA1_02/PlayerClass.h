@@ -9,10 +9,11 @@ public:
 	};
 
 	Directions dir;
+	int score;
+	bool getCoins;
 
 private:
-	int textWidth, textHeight, frameWidth, frameHeight, frameTime, score;
-	bool getCoins;
+	int textWidth, textHeight, frameWidth, frameHeight, frameTime;
 	bool isMoving;
 	Rect playerRect, playerPosition;
 	PlayerType type;
@@ -24,6 +25,8 @@ public:
 	void Move();
 	void Update();
 	void ResetPlayer();
+	Rect returnRect();
+	Rect returnPos();
 	
 };
 
