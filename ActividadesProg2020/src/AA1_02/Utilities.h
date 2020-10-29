@@ -5,13 +5,18 @@
 #define FPS  60
 #define DELAY_TIME 1000.0f / FPS
 #define MAX_TIME 20000
-#define AMOUNT_OF_COINS 10
+#define AMOUNT_OF_COINS 5
 #define PLAYER_SIZE 2
 #define MOTION_SPEED 5
 
 enum gameStates {
 	MENU,
 	IN_GAME
+};
+
+enum class PlayerType
+{
+	P1, P2
 };
 
 struct Directions
@@ -44,14 +49,5 @@ inline bool rectCollision(Rect rect1, Rect rect2)
 		|| pointCollision(Vec2{ rect1.x,rect1.y + rect1.h }, rect2)
 		|| pointCollision(Vec2{ rect1.x + rect1.w, rect1.y + rect1.h }, rect2));
 }
-
-struct Player
-{
-	int score;
-	bool getCoins;
-	//Directions
-	bool goUp, goDown, goLeft, goRight;
-	Player() :score{ 0 }, getCoins{ false }, goUp{ false }, goDown{ false }, goRight{ false }, goLeft{ false } {};
-};
 
 static SDL_Rect MyRect2SDL(const Rect* r) { return { r->x, r->y, r->w, r->h }; }

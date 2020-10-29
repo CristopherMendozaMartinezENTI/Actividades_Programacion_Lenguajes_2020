@@ -2,32 +2,32 @@
 
 
 
-PlayerClass::PlayerClass(int _textWidth, int _textHeight, int _frameWidth, int _frameHeight, Rect _playerRect, Rect _playerPosition, PlayerType _type)
+PlayerClass::PlayerClass()
+{
+}
+
+PlayerClass::PlayerClass(int _textWidth, int _textHeight, PlayerType _type)
 {
 	textWidth = _textWidth;
 	textHeight = _textHeight;
-	frameWidth = _frameWidth;
-	frameHeight = _frameHeight;
-	playerRect = _playerRect;
-	playerPosition = _playerPosition;
 	type = _type;
 	score = 0;
 	isMoving = false;
-	getCoins = false;
+	getCoin = false;
 
 	frameWidth = textWidth / 12;
 	frameHeight = textHeight / 8;
 
 	switch (type)
 	{
-	case PlayerClass::PlayerType::P1:
+	case PlayerType::P1:
 		playerPosition.x = 800;
 		playerPosition.y = 800;
 		playerRect.x = frameWidth * 3;
 		playerRect.y = 0;
 
 		break;
-	case PlayerClass::PlayerType::P2:
+	case PlayerType::P2:
 		playerPosition.x = 1100;
 		playerPosition.y = 800;
 		playerRect.x = playerRect.y = 0;
@@ -78,7 +78,7 @@ void PlayerClass::Update()
 
 		switch (type)
 		{
-		case PlayerClass::PlayerType::P1:
+		case PlayerType::P1:
 			frameTime++;
 			if (FPS / frameTime <= 9)
 			{
@@ -87,7 +87,7 @@ void PlayerClass::Update()
 				if (playerRect.x >= (frameWidth * 6)) playerRect.x = frameWidth * 3;
 			}
 			break;
-		case PlayerClass::PlayerType::P2:
+		case PlayerType::P2:
 			frameTime++;
 			if (FPS / frameTime <= 9)
 			{
@@ -106,13 +106,13 @@ void PlayerClass::ResetPlayer()
 {
 	switch (type)
 	{
-	case PlayerClass::PlayerType::P1:
+	case PlayerType::P1:
 		playerPosition.x = 800;
 		playerPosition.y = 800;
 		playerRect.x = frameWidth * 3;
 		playerRect.y = 0;
 		break;
-	case PlayerClass::PlayerType::P2:
+	case PlayerType::P2:
 		playerPosition.x = 1100;
 		playerPosition.y = 800;
 		playerRect.x = playerRect.y = 0;
@@ -121,6 +121,26 @@ void PlayerClass::ResetPlayer()
 		break;
 	}
 
+}
+
+void PlayerClass::setGetCoinsToTrue()
+{
+	getCoin = true;
+}
+
+void PlayerClass::setGetCoinsToFalse()
+{
+	getCoin = false;
+}
+
+bool PlayerClass::getCoinState()
+{
+	return getCoin;
+}
+
+PlayerType PlayerClass::getPlayerType()
+{
+	return type;
 }
 
 Rect PlayerClass::returnRect()

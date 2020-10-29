@@ -1,32 +1,31 @@
 #pragma once
-#include "Types.h"
+#include "Utilities.h"
 class PlayerClass
 {
-public:
-	enum class PlayerType
-	{
-		P1, P2
-	};
-
-	Directions dir;
-	int score;
-	bool getCoins;
 
 private:
 	int textWidth, textHeight, frameWidth, frameHeight, frameTime;
-	bool isMoving;
+	bool isMoving, getCoin;
 	Rect playerRect, playerPosition;
 	PlayerType type;
 
 public:
-	PlayerClass(int _textWidth, int _textHeight, int _frameWidth, int _frameHeight, Rect _playerRect, Rect _playerPosition, PlayerType _type);
+	Directions dir;
+	int score;
+
+	PlayerClass();
+	PlayerClass(int _textWidth, int _textHeight, PlayerType _type);
 	~PlayerClass();
 
 	void Move();
 	void Update();
 	void ResetPlayer();
+	void setGetCoinsToTrue();
+	void setGetCoinsToFalse();
+	bool getCoinState();
+	PlayerType getPlayerType();
 	Rect returnRect();
 	Rect returnPos();
-	
+
 };
 
