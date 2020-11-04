@@ -1,10 +1,4 @@
-﻿#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
-#include <exception>
-#include <iostream>
-#include <string>
-#include "ScoreBoard.h"
+﻿#include "ScoreBoard.h"
 
 int main(int, char* [])
 {
@@ -67,7 +61,6 @@ int main(int, char* [])
 		SDL_Texture* cursorTexture{ IMG_LoadTexture(m_renderer, "../../res/img/kintoun.png") };
 		if (cursorTexture == nullptr) throw std::exception("Error: platerTexture init");
 		SDL_Rect cursorRect{ 0, 0, 350, 190 };
-		SDL_Rect cursorTarget{ 0, 0, 100, 100 };
 
 #pragma endregion
 
@@ -95,7 +88,7 @@ int main(int, char* [])
 
 #pragma endregion
 
-#pragma region Sound Button
+#pragma region Sound Off Button
 
 		//Sound Off Button (Menu)
 		tmpSurf = { TTF_RenderText_Blended(font, "Sound Off", SDL_Color{ 255,128,0,0 }) };
@@ -107,7 +100,7 @@ int main(int, char* [])
 
 #pragma endregion
 
-#pragma region Sound Button
+#pragma region Sound On Button
 
 		//Sound On Button (Menu)
 		tmpSurf = { TTF_RenderText_Blended(font, "Sound On", SDL_Color{ 255,128,0,0 }) };
@@ -160,7 +153,7 @@ int main(int, char* [])
 			//Players
 		SDL_Texture* playerTexture{ IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png") };
 		if (playerTexture == nullptr) throw std::exception("Error: playerTexture init");
-		int textWidth{ 0 }, textHeight{ 0 }, frameWidth{ 0 }, frameHeight{ 0 };
+		int textWidth{ 0 }, textHeight{ 0 };
 		SDL_QueryTexture(playerTexture, NULL, NULL, &textWidth, &textHeight);
 		SDL_Rect player1Rect{ 0 }, player1Position{ 0 }, player2Rect{ 0 }, player2Position{ 0 };
 		
@@ -170,7 +163,7 @@ int main(int, char* [])
 		//ScoreBoard
 		SDL_Texture* scoreTexture{ IMG_LoadTexture(m_renderer, "../../res/img/num.png") };
 		if (scoreTexture == nullptr) throw std::exception("Error: scoreTexture init");
-		int scoreWidth, scoreHeight, frameWidthScore1Right, frameHeightScore1Right;
+		int scoreWidth, scoreHeight;
 		SDL_QueryTexture(scoreTexture, NULL, NULL, &scoreWidth, &scoreHeight);
 
 		//ScoreBoard Player 1
@@ -213,7 +206,8 @@ int main(int, char* [])
 		bool mouseClicked = false;
 		bool playMenuMusic = false;
 
-		while (isRunning) {
+		while (isRunning)
+		{
 			frameStart = SDL_GetTicks();
 			// HANDLE EVENTS
 			while (SDL_PollEvent(&event))
@@ -373,13 +367,13 @@ int main(int, char* [])
 			sec += DELAY_TIME;
 			if (sec >= MAX_TIME) state = MENU;
 
-			float timeLeft = (MAX_TIME - sec) / 1000;
+			int timeLeft = (MAX_TIME - sec) / 1000;
 			int size = sizeof(exactTime);
-			SDL_snprintf(exactTime, size, "%f", timeLeft);
+			SDL_snprintf(exactTime, size, "%i", timeLeft);
 
-			for (int i = 0; i < size; i++) {
+			/*for (int i = 0; i < size; i++) {
 				if (exactTime[i] == '.') exactTime[i] = ':';
-			}
+			}*/
 
 			tmpSurf = { TTF_RenderText_Blended(inGameFont, exactTime, SDL_Color{ 255,0,0,0 }) };
 			if (tmpSurf == nullptr) throw std::exception("No es pot crear SDL surface");
