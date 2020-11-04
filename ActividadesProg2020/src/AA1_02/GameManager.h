@@ -6,7 +6,6 @@ class GameManager
 private:
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
-	Uint32 frameStart, frameTime;
 	float sec;
 
 	//Textures
@@ -18,6 +17,7 @@ private:
 	SDL_Texture* playHover;
 	SDL_Texture* playAux;
 	SDL_Texture* soundOffTexture;
+	SDL_Texture* soundOffHover;
 	SDL_Texture* soundOffAux;
 	SDL_Texture* soundOnTexture;
 	SDL_Texture* soundOnHover;
@@ -28,6 +28,8 @@ private:
 	SDL_Texture* player2ScoreTexture;
 	SDL_Texture* playerTexture;
 	SDL_Texture* scoreTexture;
+	SDL_Texture* coinTexture;
+	SDL_Texture* timeTexture;
 
 	//Variables para definir texturas
 	int textWidth, textHeight, scoreWidth, scoreHeight;
@@ -51,6 +53,8 @@ private:
 	SDL_Rect player1Position; 
 	SDL_Rect player2Rect; 
 	SDL_Rect player2Position;
+	SDL_Rect coinRect[AMOUNT_OF_COINS];
+	SDL_Rect timeRect;
 
 	//Puntuacion Player 1
 	SDL_Rect scoreRectPlayer1Right, scorePositionPlayer1Right;
@@ -66,22 +70,29 @@ private:
 	SDL_Surface* tmpSurf;
 
 	//Players 
-	PlayerClass playerClass1;
-	PlayerClass playerClass2;
+	ScoreBoard boardP1;
+	ScoreBoard boardP2;
 
-	SDL_Event event;
-	gameStates state;
-	Vec2 mouseAxis;
+	Mix_Music* menuMusic;
+
 	char exactTime[5];
-	bool isRunning;
-	bool mouseClicked;
-	bool playMenuMusic;
 
 public:
-	GameManager();
+	Uint32 frameStart, frameTime;
+	PlayerClass playerClass1;
+	PlayerClass playerClass2;
+	gameStates state;
+	Vec2 mouseAxis;
+	bool isRunning;
+	bool playMenuMusic;
+	bool mouseClicked;
+
+	GameManager(SDL_Window* _window, SDL_Renderer* _renderer);
 	~GameManager();
 
+	void SDLInit();
 	void Update();
+	void Draw();
 	void Destroy();
 };
 

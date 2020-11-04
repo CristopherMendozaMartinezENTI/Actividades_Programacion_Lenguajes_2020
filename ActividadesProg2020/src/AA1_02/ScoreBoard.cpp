@@ -1,5 +1,9 @@
 #include "ScoreBoard.h"
 
+ScoreBoard::ScoreBoard()
+{
+}
+
 ScoreBoard::ScoreBoard(int _scoreWidth, int _scoreHeight, PlayerClass _player)
 {
 	scoreWidth = _scoreWidth;
