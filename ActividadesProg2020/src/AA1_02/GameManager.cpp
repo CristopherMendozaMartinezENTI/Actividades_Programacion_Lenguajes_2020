@@ -4,27 +4,33 @@ GameManager::GameManager(SDL_Window* _window, SDL_Renderer* _renderer)
 {
 	m_window = _window;
 	m_renderer = _renderer;
+	state = MENU;
+	isRunning = true;
+	mouseClicked = false;
+	playMenuMusic = false;
+	mouseAxis = { 0, 0 };
 
-	// --- SPRITES ---
+// --- SPRITES ---
 #pragma region Backgrounds
 
 		//Main Menu Background
-		bgTexture = { IMG_LoadTexture(m_renderer, "../../res/img/bg.jpg") };
-		if (bgTexture == nullptr) throw std::exception("Error: bgTexture init");
-		bgRect = { 0,0,SCREEN_WIDTH, SCREEN_HEIGHT };
+		textures["bgTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/bg.jpg") };
+		if (textures["bgTexture"] == nullptr) throw std::exception("Error: bgTexture init");
+		rectangles["bgRect"] = { 0,0,SCREEN_WIDTH, SCREEN_HEIGHT };
+
 
 		//In game Backgroung
-		gameBgTexture = { IMG_LoadTexture(m_renderer, "../../res/img/bgCastle.jpg") };
-		if (bgTexture == nullptr) throw std::exception("Error: gameBgTexture init");
-		gameBgRect = { 0,0,SCREEN_WIDTH, SCREEN_HEIGHT };
+		textures["gameBgTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/bgCastle.jpg") };
+		if (textures["gameBgTexture"] == nullptr) throw std::exception("Error: gameBgTexture init");
+		rectangles["gameBgRect"] = { 0,0,SCREEN_WIDTH, SCREEN_HEIGHT };
 
 #pragma endregion
 
 #pragma region Cursor
 
 		//Cursor
-		cursorTexture = { IMG_LoadTexture(m_renderer, "../../res/img/kintoun.png") };
-		if (cursorTexture == nullptr) throw std::exception("Error: platerTexture init");
+		textures["cursorTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/kintoun.png") };
+		if (textures["cursorTexture"] == nullptr) throw std::exception("Error: platerTexture init");
 		cursorRect = { 0, 0, 350, 190 };
 
 #pragma endregion
@@ -36,19 +42,20 @@ GameManager::GameManager(SDL_Window* _window, SDL_Renderer* _renderer)
 		if (font == nullptr) throw std::exception("No es pot inicialitzar SDL_ttf");
 		tmpSurf = { TTF_RenderText_Blended(font, "My First SDL Game", SDL_Color{255,210,10,0}) };
 		if (tmpSurf == nullptr) throw std::exception("No es pot crear SDL surface");
-		titleTexture = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["titleTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 		titleRect = { (SCREEN_WIDTH - tmpSurf->w) / 2, 200, tmpSurf->w, tmpSurf->h };
+
 #pragma endregion
 
 #pragma region Play Button 
 
 		//Play Button (Menu)
 		tmpSurf = { TTF_RenderText_Blended(font, "Play", SDL_Color{ 255,128,0,0 }) };
-		playTexture = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["playTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 		playButtonRect = { (SCREEN_WIDTH - tmpSurf->w) / 2, 400, tmpSurf->w, tmpSurf->h };
 		tmpSurf = { TTF_RenderText_Blended(font, "Play", SDL_Color{ 255,0,0,0 }) };
-		playHover = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-		playAux = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["playHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["playAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 
 #pragma endregion
 
@@ -56,11 +63,11 @@ GameManager::GameManager(SDL_Window* _window, SDL_Renderer* _renderer)
 
 		//Sound Off Button (Menu)
 		tmpSurf = { TTF_RenderText_Blended(font, "Sound Off", SDL_Color{ 255,128,0,0 }) };
-		soundOffTexture = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["soundOffTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 		soundButtonRect = { (SCREEN_WIDTH - tmpSurf->w) / 2, 600, tmpSurf->w, tmpSurf->h };
 		tmpSurf = { TTF_RenderText_Blended(font, "Sound Off", SDL_Color{ 255,0,0,0 }) };
-		soundOffHover = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-		soundOffAux = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["soundOffHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["soundOffAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 
 #pragma endregion
 
@@ -68,9 +75,9 @@ GameManager::GameManager(SDL_Window* _window, SDL_Renderer* _renderer)
 
 		//Sound On Button (Menu)
 		tmpSurf = { TTF_RenderText_Blended(font, "Sound On", SDL_Color{ 255,128,0,0 }) };
-		soundOnTexture = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["soundOnTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 		tmpSurf = { TTF_RenderText_Blended(font, "Sound On", SDL_Color{ 255,0,0,0 }) };
-		soundOnHover = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["soundOnHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 
 #pragma endregion
 
@@ -78,47 +85,49 @@ GameManager::GameManager(SDL_Window* _window, SDL_Renderer* _renderer)
 
 		//Exit Button (Menu)
 		tmpSurf = { TTF_RenderText_Blended(font, "Exit", SDL_Color{ 255,128,0,0 }) };
-		exitTexture = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["exitTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 		exitButtonRect = { (SCREEN_WIDTH - tmpSurf->w) / 2, 800, tmpSurf->w, tmpSurf->h };
 		tmpSurf = { TTF_RenderText_Blended(font, "Exit", SDL_Color{ 255,0,0,0 }) };
-		exitHover = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-		exitAux = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["exitHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["exitAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 
 #pragma endregion
 
 #pragma region Score Boards
+
 		//Player 1 text
 		inGameFont = { TTF_OpenFont("../../res/ttf/Arial.ttf", 80) };
 		if (inGameFont == nullptr) throw std::exception("No es pot inicialitzar SDL_ttf");
 		tmpSurf = { TTF_RenderText_Blended(inGameFont, "PlayerOne: ", SDL_Color{ 0,0,0}) };
-		player1ScoreTexture = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["player1ScoreTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 		player1ScoreRect = { 30, 30, tmpSurf->w, tmpSurf->h };
 
 		//Player 2 text
 		tmpSurf = { TTF_RenderText_Blended(inGameFont, "PlayerTwo: ", SDL_Color{ 0,0,0}) };
-		player2ScoreTexture = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+		textures["player2ScoreTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 		player2ScoreRect = { 30, 120, tmpSurf->w, tmpSurf->h };
+
 #pragma endregion
 
-	//--- ANIMATED SPRITES ---
+//--- ANIMATED SPRITES ---
 #pragma region Players Ands Scoreboards
 
 			//Players
-		playerTexture = { IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png") };
-		if (playerTexture == nullptr) throw std::exception("Error: playerTexture init");
+		textures["playerTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png") };
+		if (textures["playerTexture"] == nullptr) throw std::exception("Error: playerTexture init");
 		textWidth = 0;
 		textHeight =  0;
-		SDL_QueryTexture(playerTexture, NULL, NULL, &textWidth, &textHeight);
+		SDL_QueryTexture(textures["playerTexture"], NULL, NULL, &textWidth, &textHeight);
 		player1Rect = { 0 };
 		player1Position = { 0 };
 		player2Rect = { 0 }; 
 		player2Position = { 0 };
 		
 		//ScoreBoard
-		scoreTexture = { IMG_LoadTexture(m_renderer, "../../res/img/num.png") };
-		if (scoreTexture == nullptr) throw std::exception("Error: scoreTexture init");
+		textures["scoreTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/num.png") };
+		if (textures["scoreTexture"] == nullptr) throw std::exception("Error: scoreTexture init");
 
-		SDL_QueryTexture(scoreTexture, NULL, NULL, &scoreWidth, &scoreHeight);
+		SDL_QueryTexture(textures["scoreTexture"], NULL, NULL, &scoreWidth, &scoreHeight);
 
 		//Players
 		playerClass1 = { textWidth, textHeight, PlayerType::P1 };
@@ -129,12 +138,13 @@ GameManager::GameManager(SDL_Window* _window, SDL_Renderer* _renderer)
 
 		//Puntuacion Player 2
 		boardP2 = {scoreWidth, scoreHeight, playerClass2};
+
 #pragma endregion
 
 #pragma region Coins
 
-		coinTexture = { IMG_LoadTexture(m_renderer, "../../res/img/gold.png") };
-		if (coinTexture == nullptr) throw std::exception("Error: coinTexture init");
+		textures["coinTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/gold.png") };
+		if (textures["coinTexture"] == nullptr) throw std::exception("Error: coinTexture init");
 		for (int i = 0; i < AMOUNT_OF_COINS; i++)
 			coinRect[i] = SDL_Rect{ (rand() % SCREEN_WIDTH) - 50, (rand() % 700) + 300, 100,100 };
 
@@ -154,11 +164,6 @@ GameManager::GameManager(SDL_Window* _window, SDL_Renderer* _renderer)
 
 #pragma endregion 
 
-	state = MENU;
-	isRunning = true;
-	mouseClicked = false;
-	playMenuMusic = false;
-	mouseAxis = { 0, 0 };
 }
 
 GameManager::~GameManager()
@@ -171,7 +176,7 @@ void GameManager::Update()
 
 #pragma region Menu Interactions
 
-				//Hide Mouse 
+	//Hide Mouse 
 	SDL_ShowCursor(SDL_DISABLE);
 
 	//Putting the Mouse at the center of the cursor 
@@ -181,7 +186,7 @@ void GameManager::Update()
 	//Changing Play Button Texture
 	if (pointCollision(mouseAxis, playButtonRect))
 	{
-		playAux = playHover;
+		textures["playAux"] = textures["playHover"];
 		if (mouseClicked)
 		{
 			mouseClicked = false;
@@ -194,7 +199,7 @@ void GameManager::Update()
 		}
 	}
 	else
-		playAux = playTexture;
+		textures["playAux"] = textures["playTexture"];
 
 	//Changing Sound Off Texture
 	if (pointCollision(mouseAxis, soundButtonRect))
@@ -207,22 +212,22 @@ void GameManager::Update()
 			else Mix_PlayMusic(menuMusic, 100);
 
 		}
-		if (playMenuMusic) soundOffAux = soundOnHover;
-		else soundOffAux = soundOffHover;
+		if (playMenuMusic) textures["soundOffAux"] = textures["soundOnHover"];
+		else textures["soundOffAux"] = textures["soundOffHover"];
 	}
 	else
 	{
-		if (playMenuMusic) soundOffAux = soundOnTexture;
-		else soundOffAux = soundOffTexture;
+		if (playMenuMusic) textures["soundOffAux"] = textures["soundOnTexture"];
+		else textures["soundOffAux"] = textures["soundOffTexture"];
 	}
 
 	//Changing Exit Button Texture
 	if (pointCollision(mouseAxis, exitButtonRect))
 	{
-		exitAux = exitHover;
+		textures["exitAux"] = textures["exitHover"];
 		if (mouseClicked) isRunning = false;
 	}
-	else exitAux = exitTexture;
+	else textures["exitAux"] = textures["exitTexture"];
 
 #pragma endregion
 
@@ -289,18 +294,15 @@ void GameManager::Update()
 
 	tmpSurf = { TTF_RenderText_Blended(inGameFont, exactTime, SDL_Color{ 255,0,0,0 }) };
 	if (tmpSurf == nullptr) throw std::exception("No es pot crear SDL surface");
-	timeTexture = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+	textures["timeTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 	timeRect = { 1750, 65, tmpSurf->w, tmpSurf->h };
-	SDL_FreeSurface(tmpSurf);
 
 #pragma endregion 
+
 }
 
 void GameManager::Draw()
 {
-	// --- DRAW ---
-
-#pragma region Game State Machine
 
 	SDL_RenderClear(m_renderer);
 
@@ -308,40 +310,40 @@ void GameManager::Draw()
 	{
 	case MENU:
 		//Background
-		SDL_RenderCopy(m_renderer, bgTexture, nullptr, &bgRect);
+		SDL_RenderCopy(m_renderer, textures["bgTexture"], nullptr, &rectangles["bgRect"]);
 		//Cursor
-		SDL_RenderCopy(m_renderer, cursorTexture, nullptr, &cursorRect);
+		SDL_RenderCopy(m_renderer, textures["cursorTexture"], nullptr, &cursorRect);
 		//Title
-		SDL_RenderCopy(m_renderer, titleTexture, nullptr, &titleRect);
+		SDL_RenderCopy(m_renderer, textures["titleTexture"], nullptr, &titleRect);
 		//Play Button
-		SDL_RenderCopy(m_renderer, playAux, nullptr, &playButtonRect);
+		SDL_RenderCopy(m_renderer, textures["playAux"], nullptr, &playButtonRect);
 		//Sound Botton
-		SDL_RenderCopy(m_renderer, soundOffAux, nullptr, &soundButtonRect);
+		SDL_RenderCopy(m_renderer, textures["soundOffAux"], nullptr, &soundButtonRect);
 		//Exit
-		SDL_RenderCopy(m_renderer, exitAux, nullptr, &exitButtonRect);
+		SDL_RenderCopy(m_renderer, textures["exitAux"], nullptr, &exitButtonRect);
 		break;
 	case IN_GAME:
 		//Background
-		SDL_RenderCopy(m_renderer, gameBgTexture, nullptr, &gameBgRect);
+		SDL_RenderCopy(m_renderer, textures["gameBgTexture"], nullptr, &rectangles["gameBgRect"]);
 		//Animated Player1 Sprite
-		SDL_RenderCopy(m_renderer, playerTexture, &player1Rect, &player1Position);
+		SDL_RenderCopy(m_renderer, textures["playerTexture"], &player1Rect, &player1Position);
 		//Animated Player2 Sprite
-		SDL_RenderCopy(m_renderer, playerTexture, &player2Rect, &player2Position);
+		SDL_RenderCopy(m_renderer, textures["playerTexture"], &player2Rect, &player2Position);
 		//Coins
 		for (int i = 0; i < AMOUNT_OF_COINS; i++) {
-			SDL_RenderCopy(m_renderer, coinTexture, nullptr, &coinRect[i]);
+			SDL_RenderCopy(m_renderer, textures["coinTexture"], nullptr, &coinRect[i]);
 		}
 		//Time
-		SDL_RenderCopy(m_renderer, timeTexture, nullptr, &timeRect);
+		SDL_RenderCopy(m_renderer, textures["timeTexture"], nullptr, &timeRect);
 		//Score Board
-		SDL_RenderCopy(m_renderer, player1ScoreTexture, nullptr, &player1ScoreRect);
-		SDL_RenderCopy(m_renderer, player2ScoreTexture, nullptr, &player2ScoreRect);
-		SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Right, &scorePositionPlayer1Right);
-		SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Center, &scorePositionPlayer1Center);
-		SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer1Left, &scorePositionPlayer1Left);
-		SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Right, &scorePositionPlayer2Right);
-		SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Center, &scorePositionPlayer2Center);
-		SDL_RenderCopy(m_renderer, scoreTexture, &scoreRectPlayer2Left, &scorePositionPlayer2Left);
+		SDL_RenderCopy(m_renderer, textures["player1ScoreTexture"], nullptr, &player1ScoreRect);
+		SDL_RenderCopy(m_renderer, textures["player2ScoreTexture"], nullptr, &player2ScoreRect);
+		SDL_RenderCopy(m_renderer, textures["scoreTexture"], &scoreRectPlayer1Right, &scorePositionPlayer1Right);
+		SDL_RenderCopy(m_renderer, textures["scoreTexture"], &scoreRectPlayer1Center, &scorePositionPlayer1Center);
+		SDL_RenderCopy(m_renderer, textures["scoreTexture"], &scoreRectPlayer1Left, &scorePositionPlayer1Left);
+		SDL_RenderCopy(m_renderer, textures["scoreTexture"], &scoreRectPlayer2Right, &scorePositionPlayer2Right);
+		SDL_RenderCopy(m_renderer, textures["scoreTexture"], &scoreRectPlayer2Center, &scorePositionPlayer2Center);
+		SDL_RenderCopy(m_renderer, textures["scoreTexture"], &scoreRectPlayer2Left, &scorePositionPlayer2Left);
 		break;
 	default:
 		break;
@@ -354,20 +356,18 @@ void GameManager::Draw()
 	frameTime = SDL_GetTicks() - frameStart;
 	if (frameTime < DELAY_TIME)
 		SDL_Delay((int)(DELAY_TIME - frameTime));
+
 }
 
 void GameManager::Destroy()
 {
-	SDL_DestroyTexture(bgTexture);
-	SDL_DestroyTexture(cursorTexture);
-	SDL_DestroyTexture(titleTexture);
-	SDL_DestroyTexture(soundOffTexture);
-	SDL_DestroyTexture(soundOnTexture);
-	SDL_DestroyTexture(exitTexture);
-	SDL_DestroyTexture(playerTexture);
-	SDL_DestroyTexture(player1ScoreTexture);
+	for (std::pair<std::string, SDL_Texture*> element : textures) {
+		SDL_DestroyTexture(textures[element.first]);
+	}
+
 	SDL_FreeSurface(tmpSurf);
 	TTF_CloseFont(font);
+	TTF_CloseFont(inGameFont);
 	Mix_CloseAudio();
 	IMG_Quit();
 	TTF_Quit();

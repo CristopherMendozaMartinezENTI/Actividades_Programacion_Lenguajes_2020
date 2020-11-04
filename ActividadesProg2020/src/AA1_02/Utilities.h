@@ -6,6 +6,8 @@
 #include <exception>
 #include <iostream>
 #include <string>
+#include <map>
+
 #define SCREEN_WIDTH 1980
 #define SCREEN_HEIGHT 1080
 #define FPS  60

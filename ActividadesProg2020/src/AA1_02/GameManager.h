@@ -6,39 +6,22 @@ class GameManager
 private:
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
-	float sec;
 
 	//Textures
-	SDL_Texture* bgTexture;
-	SDL_Texture* gameBgTexture;
-	SDL_Texture* cursorTexture;
-	SDL_Texture* titleTexture;
-	SDL_Texture* playTexture;
-	SDL_Texture* playHover;
-	SDL_Texture* playAux;
-	SDL_Texture* soundOffTexture;
-	SDL_Texture* soundOffHover;
-	SDL_Texture* soundOffAux;
-	SDL_Texture* soundOnTexture;
-	SDL_Texture* soundOnHover;
-	SDL_Texture* exitTexture;
-	SDL_Texture* exitHover;
-	SDL_Texture* exitAux;
-	SDL_Texture* player1ScoreTexture;
-	SDL_Texture* player2ScoreTexture;
-	SDL_Texture* playerTexture;
-	SDL_Texture* scoreTexture;
-	SDL_Texture* coinTexture;
-	SDL_Texture* timeTexture;
+	std::map<std::string, SDL_Texture*> textures;
 
-	//Variables para definir texturas
+	//Surfaces
+	SDL_Surface* tmpSurf;
+
+	//Texture variables
 	int textWidth, textHeight, scoreWidth, scoreHeight;
 
-	//Fuentes 
+	//Fonts 
 	TTF_Font* font;
 	TTF_Font* inGameFont;
 
-	//Rectangulos
+	//Rect
+	std::map<std::string, SDL_Rect> rectangles;
 	SDL_Rect bgRect;
 	SDL_Rect gameBgRect;
 	SDL_Rect cursorRect;
@@ -53,8 +36,8 @@ private:
 	SDL_Rect player1Position; 
 	SDL_Rect player2Rect; 
 	SDL_Rect player2Position;
-	SDL_Rect coinRect[AMOUNT_OF_COINS];
 	SDL_Rect timeRect;
+	SDL_Rect coinRect[AMOUNT_OF_COINS];
 
 	//Puntuacion Player 1
 	SDL_Rect scoreRectPlayer1Right, scorePositionPlayer1Right;
@@ -66,16 +49,13 @@ private:
 	SDL_Rect scoreRectPlayer2Center, scorePositionPlayer2Center;
 	SDL_Rect scoreRectPlayer2Left, scorePositionPlayer2Left;
 
-	//Surfaces
-	SDL_Surface* tmpSurf;
-
-	//Players 
 	ScoreBoard boardP1;
 	ScoreBoard boardP2;
 
 	Mix_Music* menuMusic;
 
 	char exactTime[5];
+	float sec;
 
 public:
 	Uint32 frameStart, frameTime;
@@ -90,7 +70,6 @@ public:
 	GameManager(SDL_Window* _window, SDL_Renderer* _renderer);
 	~GameManager();
 
-	void SDLInit();
 	void Update();
 	void Draw();
 	void Destroy();

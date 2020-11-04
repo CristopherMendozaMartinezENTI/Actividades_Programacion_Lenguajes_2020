@@ -30,7 +30,6 @@ int main(int, char* [])
 		if (!(Mix_Init(soundFlags) & soundFlags)) throw std::exception("Error: SDL_image init");
 
 		GameManager game(m_window, m_renderer);
-
 		SDL_Event event;
 
 		while (game.isRunning) {
