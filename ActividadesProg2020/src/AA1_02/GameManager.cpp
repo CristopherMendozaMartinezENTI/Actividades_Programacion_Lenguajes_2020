@@ -1,9 +1,32 @@
 #include "GameManager.h"
 
-GameManager::GameManager(SDL_Window* _window, SDL_Renderer* _renderer)
+GameManager::GameManager()
 {
-	m_window = _window;
-	m_renderer = _renderer;
+	// --- INIT SDL ---
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
+		throw std::exception("No es pot inicialitzar SDL subsystems");
+
+	// --- WINDOW ---
+	m_window = { SDL_CreateWindow("SDL...", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN) };
+	if (m_window == nullptr)
+		throw std::exception("No es pot inicialitzar SDL_Window");
+
+	// --- RENDERER ---
+	m_renderer = { SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) };
+	if (m_renderer == nullptr)
+		throw std::exception("No es pot inicialitzar SDL_Renderer");
+
+	//-->SDL_Image 
+	const Uint8 imgFlags{ IMG_INIT_PNG | IMG_INIT_JPG };
+	if (!(IMG_Init(imgFlags) & imgFlags)) throw std::exception("Error: SDL_image init");
+
+	//-->SDL_TTF
+	if (TTF_Init() != 0) throw std::exception("No es pot inicialitzar SDL_ttf");
+
+	//-->SDL_Mix
+	const Uint8 soundFlags{ MIX_INIT_MP3 };
+	if (!(Mix_Init(soundFlags) & soundFlags)) throw std::exception("Error: SDL_image init");
+
 	state = gameStates::MENU;
 	isRunning = true;
 	mouseClicked = false;
@@ -177,13 +200,13 @@ void GameManager::Update()
 	rectangles["cursorRect"].y += (((mouseAxis.y - (rectangles["cursorRect"].h / 2)) - rectangles["cursorRect"].y) / 10);
 
 	//Changing Play Button Texture
-	if (pointCollision(mouseAxis, rectangles["playButtonRect"]))
+	if (collisions::pointCollision(mouseAxis, rectangles["playButtonRect"]))
 	{
 		textures["playAux"] = textures["playHover"];
 		if (mouseClicked)
 		{
+			state = gameStates::IN_GAME;
 			mouseClicked = false;
-			state = IN_GAME;
 			sec = 0;
 			playerClass1.Reset();
 			playerClass2.Reset();
@@ -195,7 +218,7 @@ void GameManager::Update()
 		textures["playAux"] = textures["playTexture"];
 
 	//Changing Sound Off Texture
-	if (pointCollision(mouseAxis, rectangles["soundButtonRect"]))
+	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
 	{
 		if (mouseClicked)
 		{
@@ -215,7 +238,7 @@ void GameManager::Update()
 	}
 
 	//Changing Exit Button Texture
-	if (pointCollision(mouseAxis, rectangles["exitButtonRect"]))
+	if (collisions::pointCollision(mouseAxis, rectangles["exitButtonRect"]))
 	{
 		textures["exitAux"] = textures["exitHover"];
 		if (mouseClicked) isRunning = false;
@@ -227,7 +250,7 @@ void GameManager::Update()
 #pragma region Players Movement and Scores
 
 	//Player Movement
-	if (state == IN_GAME) {
+	if (state == gameStates::IN_GAME) {
 		playerClass1.Update();
 		rectangles["player1Rect"] = MyRect2SDL(&playerClass1.returnRect());
 		positions["player1Position"] = MyRect2SDL(&playerClass1.returnPos());
@@ -240,14 +263,14 @@ void GameManager::Update()
 	//If the two get the same item, P1 will always get it
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
-		if (rectCollision(playerClass1.returnPos(), coinRect[i])) {
+		if (collisions::rectCollision(playerClass1.returnPos(), coinRect[i])) {
 			coinRect[i].x = (rand() % SCREEN_WIDTH) - 50;
 			coinRect[i].y = (rand() % 700) + 300;
 			playerClass1.score++;
 			playerClass1.setGetCoinsToTrue();
 
 		}
-		else if (rectCollision(playerClass2.returnPos(), coinRect[i])) {
+		else if (collisions::rectCollision(playerClass2.returnPos(), coinRect[i])) {
 			coinRect[i].x = (rand() % SCREEN_WIDTH) - 50;
 			coinRect[i].y = (rand() % 700) + 300;
 			playerClass2.score++;
@@ -279,7 +302,7 @@ void GameManager::Update()
 
 	//Time 
 	sec += DELAY_TIME;
-	if (sec >= MAX_TIME) state = MENU;
+	if (sec >= MAX_TIME) state = gameStates::MENU;
 
 	int timeLeft = (MAX_TIME - sec) / 1000;
 	int size = sizeof(exactTime);
@@ -301,7 +324,7 @@ void GameManager::Draw()
 
 	switch (state)
 	{
-	case MENU:
+	case gameStates::MENU:
 		//Background
 		SDL_RenderCopy(m_renderer, textures["bgTexture"], nullptr, &rectangles["bgRect"]);
 		//Cursor
@@ -315,7 +338,7 @@ void GameManager::Draw()
 		//Exit
 		SDL_RenderCopy(m_renderer, textures["exitAux"], nullptr, &rectangles["exitButtonRect"]);
 		break;
-	case IN_GAME:
+	case gameStates::IN_GAME:
 		//Background
 		SDL_RenderCopy(m_renderer, textures["gameBgTexture"], nullptr, &rectangles["gameBgRect"]);
 		//Animated Player1 Sprite
@@ -350,6 +373,58 @@ void GameManager::Draw()
 	if (frameTime < DELAY_TIME)
 		SDL_Delay((int)(DELAY_TIME - frameTime));
 
+}
+
+void GameManager::Run()
+{
+	while (isRunning) {
+		frameStart = SDL_GetTicks();
+		// HANDLE EVENTS
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type) {
+			case SDL_QUIT:
+				isRunning = false;
+				break;
+			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false;
+				if (event.key.keysym.sym == SDLK_UP) playerClass1.dir.goUp = true;
+				if (event.key.keysym.sym == SDLK_DOWN) playerClass1.dir.goDown = true;
+				if (event.key.keysym.sym == SDLK_RIGHT) playerClass1.dir.goRight = true;
+				if (event.key.keysym.sym == SDLK_LEFT) playerClass1.dir.goLeft = true;
+				if (event.key.keysym.sym == SDLK_w) playerClass2.dir.goUp = true;
+				if (event.key.keysym.sym == SDLK_s) playerClass2.dir.goDown = true;
+				if (event.key.keysym.sym == SDLK_d) playerClass2.dir.goRight = true;
+				if (event.key.keysym.sym == SDLK_a) playerClass2.dir.goLeft = true;
+				break;
+			case SDL_KEYUP:
+				if (event.key.keysym.sym == SDLK_UP)  playerClass1.dir.goUp = false;
+				if (event.key.keysym.sym == SDLK_DOWN)  playerClass1.dir.goDown = false;
+				if (event.key.keysym.sym == SDLK_RIGHT) playerClass1.dir.goRight = false;
+				if (event.key.keysym.sym == SDLK_LEFT) playerClass1.dir.goLeft = false;
+				if (event.key.keysym.sym == SDLK_w) playerClass2.dir.goUp = false;
+				if (event.key.keysym.sym == SDLK_s) playerClass2.dir.goDown = false;
+				if (event.key.keysym.sym == SDLK_d)	playerClass2.dir.goRight = false;
+				if (event.key.keysym.sym == SDLK_a)	playerClass2.dir.goLeft = false;
+				break;
+			case SDL_MOUSEMOTION:
+				mouseAxis.x = event.motion.x;
+				mouseAxis.y = event.motion.y;
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if (event.button.button == SDL_BUTTON_LEFT)
+					mouseClicked = true;
+				break;
+			default:;
+			}
+		}
+
+		// --- UPDATE --
+		Update();
+
+		// --- DRAW ---
+		Draw();
+	}
 }
 
 void GameManager::Destroy()

@@ -1,11 +1,12 @@
 #pragma once
-#include "Utilities.h"
+#include "Types.h"
 #include "ScoreBoard.h"
 class GameManager
 {
 private:
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
+	SDL_Event event;
 
 	//Textures
 	std::map<std::string, SDL_Texture*> textures;
@@ -31,24 +32,26 @@ private:
 
 	Mix_Music* menuMusic;
 
+	gameStates state;
+	Uint32 frameTime;
 	char exactTime[5];
 	float sec;
+	bool playMenuMusic;
 
 public:
-	Uint32 frameStart, frameTime;
+	Uint32 frameStart;
 	PlayerClass playerClass1;
 	PlayerClass playerClass2;
-	gameStates state;
 	Vec2 mouseAxis;
 	bool isRunning;
-	bool playMenuMusic;
 	bool mouseClicked;
 
-	GameManager(SDL_Window* _window, SDL_Renderer* _renderer);
+	GameManager();
 	~GameManager();
 
 	void Update();
 	void Draw();
+	void Run();
 	void Destroy();
 };
 

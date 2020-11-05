@@ -1,5 +1,6 @@
 #pragma once
-#include "Utilities.h"
+#include "Types.h"
+#include "Collisions.h"
 class PlayerClass
 {
 
