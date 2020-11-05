@@ -288,7 +288,7 @@ void GameManager::Update()
 	tmpSurf = { TTF_RenderText_Blended(inGameFont, exactTime, SDL_Color{ 255,0,0,0 }) };
 	if (tmpSurf == nullptr) throw std::exception("No es pot crear SDL surface");
 	textures["timeTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	rectangles["timeRect"] = { 1750, 65, tmpSurf->w, tmpSurf->h };
+	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 65, tmpSurf->w, tmpSurf->h };
 
 #pragma endregion 
 
