@@ -20,35 +20,12 @@ private:
 	TTF_Font* font;
 	TTF_Font* inGameFont;
 
-	//Rect
+	//Rects
 	std::map<std::string, SDL_Rect> rectangles;
-	SDL_Rect bgRect;
-	SDL_Rect gameBgRect;
-	SDL_Rect cursorRect;
-	SDL_Rect cursorTarget;
-	SDL_Rect titleRect;
-	SDL_Rect playButtonRect;
-	SDL_Rect soundButtonRect;
-	SDL_Rect exitButtonRect;
-	SDL_Rect player1ScoreRect;
-	SDL_Rect player2ScoreRect; 
-	SDL_Rect player1Rect;  
-	SDL_Rect player1Position; 
-	SDL_Rect player2Rect; 
-	SDL_Rect player2Position;
-	SDL_Rect timeRect;
+	std::map<std::string, SDL_Rect> positions;
 	SDL_Rect coinRect[AMOUNT_OF_COINS];
 
-	//Puntuacion Player 1
-	SDL_Rect scoreRectPlayer1Right, scorePositionPlayer1Right;
-	SDL_Rect scoreRectPlayer1Center, scorePositionPlayer1Center;
-	SDL_Rect scoreRectPlayer1Left, scorePositionPlayer1Left;
-
-	//Puntuacion Player 2
-	SDL_Rect scoreRectPlayer2Right, scorePositionPlayer2Right;
-	SDL_Rect scoreRectPlayer2Center, scorePositionPlayer2Center;
-	SDL_Rect scoreRectPlayer2Left, scorePositionPlayer2Left;
-
+	//ScoreBoards
 	ScoreBoard boardP1;
 	ScoreBoard boardP2;
 
