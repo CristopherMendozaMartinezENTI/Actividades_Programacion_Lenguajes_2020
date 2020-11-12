@@ -38,22 +38,25 @@ struct Rect
 struct Color
 {
 	Uint8 r, g, b, a;
-	Color() :r{ 0 }, g{ 0 }, b{ 0 }, a{ 0 } {};
+	Color(Uint8 _r, Uint8 _g, Uint8 _b, Uint8 _a) :r{ _r }, g{ _g }, b{ _b }, a{ _a } {};
 };
 
 struct Font
 {
-	std::string path;
 	std::string id;
+	std::string path;
 	int size;
+	Font(std::string _id, std::string _path, int _size) : id{ _id }, path{ _path }, size{ _size } {};
 };
 
 struct Text
 {
-	std::string text;
 	std::string id;
+	std::string text;
 	Color color;
 	int x, y;
+	Text(std::string _id, std::string _text, Color _color, int _x, int _y) :
+		id{ _id }, text{ _text }, color{ _color }, x{ _x }, y{ _y } {};
 };
 
 

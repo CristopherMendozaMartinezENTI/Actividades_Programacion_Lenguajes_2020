@@ -6,9 +6,8 @@
 class GameManager
 {
 private:
-	Renderer _renderer;
-	SDL_Window* m_window;
-	SDL_Renderer* m_renderer;
+	Renderer renderer;
+
 	SDL_Event event;
 
 	//Textures

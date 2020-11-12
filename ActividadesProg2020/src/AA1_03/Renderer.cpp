@@ -105,5 +105,13 @@ void Renderer::SetRenderDrawColor(const Color& c)
 	SDL_SetRenderDrawColor(m_renderer, c.r, c.g, c.b, 255);
 }
 
+void Renderer::SetRect(const std::string& idRect, const Rect& rect)
+{
+	m_rects[idRect]->x = rect.x;
+	m_rects[idRect]->y = rect.y;
+	m_rects[idRect]->w = rect.w;
+	m_rects[idRect]->h = rect.h;
+}
+
 
 
