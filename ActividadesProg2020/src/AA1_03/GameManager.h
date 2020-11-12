@@ -1,9 +1,12 @@
 #pragma once
 #include "Types.h"
 #include "ScoreBoard.h"
+#include "Utils.h"
+#include "Renderer.h"
 class GameManager
 {
 private:
+	Renderer _renderer;
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
 	SDL_Event event;
@@ -23,7 +26,6 @@ private:
 
 	//Rects
 	std::map<std::string, SDL_Rect> rectangles;
-	std::map<std::string, SDL_Rect> positions;
 	SDL_Rect coinRect[AMOUNT_OF_COINS];
 
 	//ScoreBoards
@@ -38,15 +40,21 @@ private:
 
 	gameStates state;
 	Uint32 frameTime, frameStart;
-	
+
 	Vec2 mouseAxis;
 	bool isRunning, mouseClicked, playMenuMusic;
 	char exactTime[5];
 	float sec;
-;
+	;
 public:
 	GameManager();
 	~GameManager();
+
+	void UpdateMenu();
+	void DrawMenu();
+
+	void UpdateGame();
+	void DrawGame();
 
 	void Update();
 	void Draw();
