@@ -8,6 +8,7 @@ class GameManager
 private:
 	Renderer renderer;
 
+
 	SDL_Event event;
 
 	//Textures

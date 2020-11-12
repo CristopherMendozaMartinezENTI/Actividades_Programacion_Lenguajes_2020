@@ -63,9 +63,11 @@ GameManager::GameManager()
 
 	Color c{255,210,10,0};
 
-	renderer.LoadTextureText("FuenteMenu", Text({ "titleTexture", "My First SDL Game", c, 200, 200 }));
+	Text titulo{ "titleTexture", "My First SDL Game", c, 200, 200 };
+
+	renderer.LoadTextureText("FuenteMenu", titulo);
 	
-	renderer.LoadRect("titleRect", Rect({ 10, 10, renderer.GetTextureSize("titleTexture").x, renderer.GetTextureSize("titleTexture").y }));
+	renderer.LoadRect("titleRect", Rect({ 300, 200, renderer.GetTextureSize("titleTexture").x, renderer.GetTextureSize("titleTexture").y }));
 
 	//font = { TTF_OpenFont("../../res/ttf/saiyan.ttf", 200) };
 	//if (font == nullptr) throw std::exception("No es pot inicialitzar SDL_ttf");
