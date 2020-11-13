@@ -6,3 +6,4 @@
 #define AMOUNT_OF_COINS 5
 #define PLAYER_SIZE 2
 #define MOTION_SPEED 5
+

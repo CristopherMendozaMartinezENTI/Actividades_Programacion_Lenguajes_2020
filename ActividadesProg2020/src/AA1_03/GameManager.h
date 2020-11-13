@@ -25,9 +25,7 @@ private:
 	TTF_Font* inGameFont;
 
 	//Rects
-	std::map<std::string, SDL_Rect> rectangles;
-	std::map<std::string, Text> texts;
-
+	std::map<std::string, Rect> rectangles;
 	SDL_Rect coinRect[AMOUNT_OF_COINS];
 
 	//ScoreBoards
