@@ -57,6 +57,7 @@ struct Text
 	int x, y;
 	Text(std::string _id, std::string _text, Color _color, int _x, int _y) :
 		id{ _id }, text{ _text }, color{ _color }, x{ _x }, y{ _y } {};
+	void UpdateColor(Color _color) { color = _color; }
 };
 
 

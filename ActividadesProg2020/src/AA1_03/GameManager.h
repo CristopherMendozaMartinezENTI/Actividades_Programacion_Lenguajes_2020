@@ -50,9 +50,11 @@ public:
 	GameManager();
 	~GameManager();
 
+	void InitiateMenu();
 	void UpdateMenu();
 	void DrawMenu();
 
+	void InitiateGame();
 	void UpdateGame();
 	void DrawGame();
 

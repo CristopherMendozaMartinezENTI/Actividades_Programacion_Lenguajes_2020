@@ -35,23 +35,45 @@ GameManager::GameManager()
 	playMenuMusic = false;
 	mouseAxis = { 0, 0 };
 
+	/*
+#pragma region Audio
+
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+		throw std::exception("Unable to open SDL_Mixer sound systems");
+	}
+
+	//Title Music
+	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
+	menuMusic = Mix_LoadMUS("../../res/au/mainTheme.mp3");
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+	Mix_PlayMusic(menuMusic, -1);
+
+#pragma endregion 
+
+	*/
+}
+
+GameManager::~GameManager()
+{
+	Destroy();
+}
+
+void GameManager::InitiateMenu()
+{
 	// --- SPRITES ---
+
 #pragma region Backgrounds
 
 	//Main Menu Background
 	renderer.LoadTexture("bgTexture", "../../res/img/bg.jpg");
-	renderer.LoadRect("bgRect", Rect({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
-	
-	//Game Menu Background
-	renderer.LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
-	renderer.LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
+	renderer.LoadRect("bgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
 #pragma endregion
 
 #pragma region Cursor
 	//Cursor
 	renderer.LoadTexture("cursorTexture", "../../res/img/kintoun.png");
-	renderer.LoadRect("cursorRect", Rect({ 0, 0, 350, 190}));
+	renderer.LoadRect("cursorRect", Rect({ 0, 0, 350, 190 }));
 	rectangles["cursorRect"] = { 0, 0, 350, 190 };
 
 #pragma endregion
@@ -59,9 +81,9 @@ GameManager::GameManager()
 #pragma region Title Text
 
 	//Title Text
-	renderer.LoadFont(Font({"SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
-	
-	Color c{255,210,10,0};
+	renderer.LoadFont(Font({ "SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
+
+	Color c{ 255,210,10,0 };
 
 	Text titulo{ "titleTexture", "My First SDL Game", c, 200, 200 };
 	renderer.LoadTextureText("SaiyanFont", titulo);
@@ -78,13 +100,13 @@ GameManager::GameManager()
 
 #pragma region Play Button 
 	//Play Button (Menu)
-	
+
 	Color button_c{ 255, 128, 0, 0 };
 
-	Text playButtonText{ "playButtonTexture", "Play", button_c, SCREEN_WIDTH/2, 400};
+	Text playButtonText{ "playButtonTexture", "Play", button_c, SCREEN_WIDTH / 2, 400 };
 	renderer.LoadTextureText("SaiyanFont", playButtonText);
 	renderer.LoadRect("playButtonRect", Rect({ SCREEN_WIDTH / 2, 400, renderer.GetTextureSize("playButtonTexture").x, renderer.GetTextureSize("playButtonTexture").y }));
-	rectangles["playButtonRect"] = { SCREEN_WIDTH/2, 400, renderer.GetTextureSize("playButtonTexture").x, renderer.GetTextureSize("playButtonTexture").y };
+	rectangles["playButtonRect"] = { SCREEN_WIDTH / 2, 400, renderer.GetTextureSize("playButtonTexture").x, renderer.GetTextureSize("playButtonTexture").y };
 
 	//tmpSurf = { TTF_RenderText_Blended(font, "Play", SDL_Color{ 255,128,0,0 }) };
 	//textures["playTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
@@ -101,8 +123,8 @@ GameManager::GameManager()
 	Text soundOffButtonText{ "soundOffButtonTexture", "Sound Off", button_c, SCREEN_WIDTH / 2, 600 };
 	renderer.LoadTextureText("SaiyanFont", soundOffButtonText);
 	renderer.LoadRect("soundButtonRect", Rect({ SCREEN_WIDTH / 2, 600, renderer.GetTextureSize("soundOffButtonTexture").x, renderer.GetTextureSize("soundOffButtonTexture").y }));
-	rectangles["soundButtonRect"] = { SCREEN_WIDTH/ 2, 600, renderer.GetTextureSize("soundOffButtonTexture").x, renderer.GetTextureSize("soundOffButtonTexture").y };
-	
+	rectangles["soundButtonRect"] = { SCREEN_WIDTH / 2, 600, renderer.GetTextureSize("soundOffButtonTexture").x, renderer.GetTextureSize("soundOffButtonTexture").y };
+
 	//tmpSurf = { TTF_RenderText_Blended(font, "Sound Off", SDL_Color{ 255,128,0,0 }) };
 	//textures["soundOffTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 	//tmpSurf = { TTF_RenderText_Blended(font, "Sound Off", SDL_Color{ 255,0,0,0 }) };
@@ -127,96 +149,23 @@ GameManager::GameManager()
 #pragma region Exit Button
 
 	//Exit Button (Menu)
-	
+
 	Text exitButtonText{ "exitButtonTexture", "Exit", button_c, SCREEN_WIDTH / 2, 800 };
 	renderer.LoadTextureText("SaiyanFont", exitButtonText);
 	renderer.LoadRect("exitButtonRect", Rect({ SCREEN_WIDTH / 2, 800, renderer.GetTextureSize("exitButtonTexture").x, renderer.GetTextureSize("exitButtonTexture").y }));
 	rectangles["exitButtonRect"] = { SCREEN_WIDTH / 2, 800, renderer.GetTextureSize("exitButtonTexture").x, renderer.GetTextureSize("exitButtonTexture").y };
 
+	//tmpSurf = { TTF_RenderText_Blended(font, "Exit", SDL_Color{ 255,128,0,0 }) };
+	//textures["exitTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+	//rectangles["exitButtonRect"] = { (SCREEN_WIDTH - tmpSurf->w) / 2, 800, tmpSurf->w, tmpSurf->h };
+	//tmpSurf = { TTF_RenderText_Blended(font, "Exit", SDL_Color{ 255,0,0,0 }) };
+	//textures["exitHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+	//textures["exitAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+
 #pragma endregion
 
+}
 	
-	/*
-	tmpSurf = { TTF_RenderText_Blended(font, "Exit", SDL_Color{ 255,128,0,0 }) };
-	textures["exitTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	rectangles["exitButtonRect"] = { (SCREEN_WIDTH - tmpSurf->w) / 2, 800, tmpSurf->w, tmpSurf->h };
-	tmpSurf = { TTF_RenderText_Blended(font, "Exit", SDL_Color{ 255,0,0,0 }) };
-	textures["exitHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	textures["exitAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-
-
-#pragma region Score Boards
-
-	//Player 1 text
-	inGameFont = { TTF_OpenFont("../../res/ttf/Arial.ttf", 80) };
-	if (inGameFont == nullptr) throw std::exception("No es pot inicialitzar SDL_ttf");
-	tmpSurf = { TTF_RenderText_Blended(inGameFont, "PlayerOne: ", SDL_Color{ 0,0,0}) };
-	textures["player1ScoreTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	rectangles["player1ScoreRect"] = { 30, 30, tmpSurf->w, tmpSurf->h };
-
-	//Player 2 text
-	tmpSurf = { TTF_RenderText_Blended(inGameFont, "PlayerTwo: ", SDL_Color{ 0,0,0}) };
-	textures["player2ScoreTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	rectangles["player2ScoreRect"] = { 30, 120, tmpSurf->w, tmpSurf->h };
-
-#pragma endregion
-
-	//--- ANIMATED SPRITES ---
-#pragma region Players Ands Scoreboards
-
-			//Players
-	textures["playerTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png") };
-	if (textures["playerTexture"] == nullptr) throw std::exception("Error: playerTexture init");
-	SDL_QueryTexture(textures["playerTexture"], NULL, NULL, &textWidth, &textHeight);
-
-	//ScoreBoard
-	textures["scoreTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/num.png") };
-	if (textures["scoreTexture"] == nullptr) throw std::exception("Error: scoreTexture init");
-	SDL_QueryTexture(textures["scoreTexture"], NULL, NULL, &scoreWidth, &scoreHeight);
-
-	//Players
-	playerClass1 = { textWidth, textHeight, PlayerType::P1 };
-	playerClass2 = { textWidth, textHeight, PlayerType::P2 };
-
-	//ScoreBoard Player 1
-	boardP1 = { scoreWidth, scoreHeight, playerClass1 };
-
-	//Puntuacion Player 2
-	boardP2 = { scoreWidth, scoreHeight, playerClass2 };
-
-#pragma endregion
-
-#pragma region Coins
-
-	textures["coinTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/gold.png") };
-	if (textures["coinTexture"] == nullptr) throw std::exception("Error: coinTexture init");
-	for (int i = 0; i < AMOUNT_OF_COINS; i++)
-		coinRect[i] = SDL_Rect{ (rand() % SCREEN_WIDTH) - 50, (rand() % 700) + 300, 100,100 };
-
-#pragma endregion
-
-#pragma region Audio
-
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
-		throw std::exception("Unable to open SDL_Mixer sound systems");
-	}
-
-	//Title Music
-	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-	menuMusic = Mix_LoadMUS("../../res/au/mainTheme.mp3");
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-	Mix_PlayMusic(menuMusic, -1);
-
-#pragma endregion 
-
-	*/
-}
-
-GameManager::~GameManager()
-{
-	Destroy();
-}
-
 void GameManager::UpdateMenu()
 {
 	Color button_hovered_c{ 255,0,0,0 };
@@ -333,7 +282,6 @@ void GameManager::DrawMenu()
 
 	
 	renderer.Render();
-
 	/*
 	SDL_RenderClear(m_renderer);
 	//SDL_RenderCopy(m_renderer, textures["bgTexture"], nullptr, &rectangles["bgRect"]);
@@ -350,6 +298,75 @@ void GameManager::DrawMenu()
 	SDL_RenderPresent(m_renderer);
 	*/
 
+}
+
+
+void GameManager::InitiateGame()
+{
+	// --- SPRITES ---
+#pragma region Backgrounds
+
+	//Game Background
+	renderer.LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
+	renderer.LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
+
+#pragma endregion
+
+	//Text
+#pragma region Score Boards
+	//Player 1 text
+	 
+	/*
+	inGameFont = { TTF_OpenFont("../../res/ttf/Arial.ttf", 80) };
+	if (inGameFont == nullptr) throw std::exception("No es pot inicialitzar SDL_ttf");
+	tmpSurf = { TTF_RenderText_Blended(inGameFont, "PlayerOne: ", SDL_Color{ 0,0,0}) };
+	textures["player1ScoreTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+	rectangles["player1ScoreRect"] = { 30, 30, tmpSurf->w, tmpSurf->h };
+
+	//Player 2 text
+	tmpSurf = { TTF_RenderText_Blended(inGameFont, "PlayerTwo: ", SDL_Color{ 0,0,0}) };
+	textures["player2ScoreTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+	rectangles["player2ScoreRect"] = { 30, 120, tmpSurf->w, tmpSurf->h };
+	*/
+
+#pragma endregion
+
+	//--- ANIMATED SPRITES ---
+#pragma region Players Ands Scoreboards
+
+			//Players
+	renderer.LoadTexture("playerTexture", "../../res/img/spCastle.png");
+
+	//textures["playerTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png") };
+	//if (textures["playerTexture"] == nullptr) throw std::exception("Error: playerTexture init");
+	//SDL_QueryTexture(textures["playerTexture"], NULL, NULL, &textWidth, &textHeight);
+
+	//ScoreBoard
+	renderer.LoadTexture("scoreTexture", "../../res/img/num.png");
+	
+	//textures["scoreTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/num.png") };
+	//if (textures["scoreTexture"] == nullptr) throw std::exception("Error: scoreTexture init");
+	//SDL_QueryTexture(textures["scoreTexture"], NULL, NULL, &scoreWidth, &scoreHeight);
+
+	//Players
+	playerClass1 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P1 };
+	playerClass2 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P2 };
+
+	//Puntuacion Player 1 & Plyaer 2
+	boardP1 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").x, playerClass1 };
+	boardP2 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").x, playerClass2 };
+
+#pragma endregion
+
+#pragma region Coins
+
+	renderer.LoadTexture("coinTexture", "../../res/img/gold.png");
+	//textures["coinTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/gold.png") };
+	//if (textures["coinTexture"] == nullptr) throw std::exception("Error: coinTexture init");
+	for (int i = 0; i < AMOUNT_OF_COINS; i++)
+		coinRect[i] = SDL_Rect{ (rand() % SCREEN_WIDTH) - 50, (rand() % 700) + 300, 100,100 };
+
+#pragma endregion
 
 }
 
@@ -505,11 +522,13 @@ void GameManager::Run()
 		switch (state)
 		{
 		case gameStates::MENU:
+			InitiateMenu();
 			UpdateMenu();
 			DrawMenu();
 
 			break;
 		case gameStates::IN_GAME:
+			InitiateGame();
 			UpdateGame();
 			DrawGame();
 
