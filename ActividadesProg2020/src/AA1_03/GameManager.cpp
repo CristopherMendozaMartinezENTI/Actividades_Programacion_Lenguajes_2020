@@ -35,6 +35,7 @@ GameManager::GameManager()
 	playMenuMusic = false;
 	mouseAxis = { 0, 0 };
 
+
 	/*
 #pragma region Audio
 
@@ -80,9 +81,23 @@ void GameManager::InitiateMenu()
 
 #pragma region Title Text
 
-	//Title Text
-	renderer.LoadFont(Font({ "SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
+	/*
+	//All Colors
+	Color c{ 255,210,10,0 };
+	Color button_c{ 255, 128, 0, 0 };
+	
+	//All Texts
+	texts["titleTexture"] = { "titleTexture", "My first SDL Game", c, 200,200 };
+	texts["playButtonText"] = { "playButtonText", "Play", button_c, SCREEN_WIDTH / 2, 400 };
+	texts["soundOffButtonText"] = { "soundOffButtonText", "Sound Off", button_c, SCREEN_WIDTH / 2, 600 };
+	texts["soundOnButtonText"] = { "soundOnButtonText", "Sound On", button_c, SCREEN_WIDTH / 2, 600 };
+	texts["exitButtonText"] = { "exitButtonText", "Exit", button_c, SCREEN_WIDTH / 2, 800 };
 
+	*/
+
+	//Title Text
+	
+	renderer.LoadFont(Font({ "SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
 	Color c{ 255,210,10,0 };
 
 	Text titulo{ "titleTexture", "My First SDL Game", c, 200, 200 };
@@ -168,8 +183,13 @@ void GameManager::InitiateMenu()
 	
 void GameManager::UpdateMenu()
 {
-	Color button_hovered_c{ 255,0,0,0 };
+	Color button_hover_c{ 255,0,0,0 };
 	Color button_c{ 255, 128, 0, 0 };
+
+	Text playButtonText{ "playButtonTexture", "Play", button_c, SCREEN_WIDTH / 2, 400 };
+	Text soundOffButtonText{ "soundOffButtonTexture", "Sound Off", button_c, SCREEN_WIDTH / 2, 600 };
+	Text soundOnButtonText{ "soundOnButtonTexture", "Sound On", button_c, SCREEN_WIDTH / 2, 600 };
+	Text exitButtonText{ "exitButtonTexture", "Exit", button_c, SCREEN_WIDTH / 2, 800 };
 
 #pragma region Menu Interactions
 
@@ -184,10 +204,10 @@ void GameManager::UpdateMenu()
 	//Changing Play Button Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["playButtonRect"]))
 	{
-		Text hover_playButtonText{ "playButtonTexture", "Play", button_hovered_c, SCREEN_WIDTH / 2, 400 };
-		renderer.LoadTextureText("SaiyanFont", hover_playButtonText);
-		
+		playButtonText.UpdateColor(button_hover_c);
+		renderer.LoadTextureText("SaiyanFont", playButtonText);
 		//textures["playAux"] = textures["playHover"];
+
 		if (mouseClicked)
 		{
 			state = gameStates::IN_GAME;
@@ -201,12 +221,10 @@ void GameManager::UpdateMenu()
 	}
 	else
 	{
-		Text playBtnText{ "playButtonTexture", "Play", button_c, SCREEN_WIDTH / 2, 400 };
-		renderer.LoadTextureText("SaiyanFont", playBtnText);
-		
+		renderer.LoadTextureText("SaiyanFont", playButtonText);
 		//textures["playAux"] = textures["playTexture"];
 	}
-		
+
 	//Changing Sound Off/On Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
 	{
@@ -220,14 +238,15 @@ void GameManager::UpdateMenu()
 		}
 		if (playMenuMusic)
 		{
-			Text hover_soundOnButtonText{ "soundOnButtonTexture", "Sound On", button_hovered_c, SCREEN_WIDTH / 2, 600 };
-			renderer.LoadTextureText("SaiyanFont", hover_soundOnButtonText);
+
+			soundOnButtonText.UpdateColor(button_hover_c);
+			renderer.LoadTextureText("SaiyanFont", soundOnButtonText);
 			//textures["soundOffAux"] = textures["soundOnHover"];
 		}
 		else
 		{
-			Text hover_soundOffButtonText{ "soundOffButtonTexture", "Sound Off", button_hovered_c, SCREEN_WIDTH / 2, 600 };
-			renderer.LoadTextureText("SaiyanFont", hover_soundOffButtonText);
+			soundOffButtonText.UpdateColor(button_hover_c);
+			renderer.LoadTextureText("SaiyanFont", soundOffButtonText);
 			//textures["soundOffAux"] = textures["soundOffHover"];
 		}
 	}
@@ -235,13 +254,11 @@ void GameManager::UpdateMenu()
 	{
 		if (playMenuMusic)
 		{
-			Text soundOnButtonText{ "soundOnButtonTexture", "Sound On", button_c, SCREEN_WIDTH / 2, 600 };
 			renderer.LoadTextureText("SaiyanFont", soundOnButtonText);
 			//textures["soundOffAux"] = textures["soundOnTexture"];
 		}
 		else
 		{
-			Text soundOffButtonText{ "soundOffButtonTexture", "Sound Off", button_c, SCREEN_WIDTH / 2, 600 };
 			renderer.LoadTextureText("SaiyanFont", soundOffButtonText);
 			//textures["soundOffAux"] = textures["soundOffTexture"];
 		}
@@ -250,15 +267,14 @@ void GameManager::UpdateMenu()
 	//Changing Exit Button Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["exitButtonRect"]))
 	{
-		Text hover_exitButtonText{ "exitButtonTexture", "Exit", button_hovered_c, SCREEN_WIDTH / 2, 800 };
-		renderer.LoadTextureText("SaiyanFont", hover_exitButtonText);
+		exitButtonText.UpdateColor(button_hover_c);
+		renderer.LoadTextureText("SaiyanFont", exitButtonText);
 		//textures["exitAux"] = textures["exitHover"];
-		
+
 		if (mouseClicked) isRunning = false;
 	}
 	else
 	{
-		Text exitButtonText{ "exitButtonTexture", "Exit", button_c, SCREEN_WIDTH / 2, 800 };
 		renderer.LoadTextureText("SaiyanFont", exitButtonText);
 	}
 
@@ -299,7 +315,6 @@ void GameManager::DrawMenu()
 	*/
 
 }
-
 
 void GameManager::InitiateGame()
 {
@@ -353,16 +368,15 @@ void GameManager::InitiateGame()
 	playerClass2 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P2 };
 
 	//Puntuacion Player 1 & Plyaer 2
-	boardP1 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").x, playerClass1 };
-	boardP2 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").x, playerClass2 };
+	boardP1 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass1 };
+	boardP2 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass2 };
 
 #pragma endregion
 
 #pragma region Coins
 
-	renderer.LoadTexture("coinTexture", "../../res/img/gold.png");
 	//textures["coinTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/gold.png") };
-	//if (textures["coinTexture"] == nullptr) throw std::exception("Error: coinTexture init");
+	if (textures["coinTexture"] == nullptr) throw std::exception("Error: coinTexture init");
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 		coinRect[i] = SDL_Rect{ (rand() % SCREEN_WIDTH) - 50, (rand() % 700) + 300, 100,100 };
 
@@ -522,13 +536,11 @@ void GameManager::Run()
 		switch (state)
 		{
 		case gameStates::MENU:
-			InitiateMenu();
 			UpdateMenu();
 			DrawMenu();
 
 			break;
 		case gameStates::IN_GAME:
-			InitiateGame();
 			UpdateGame();
 			DrawGame();
 

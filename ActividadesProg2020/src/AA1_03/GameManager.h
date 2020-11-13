@@ -26,6 +26,8 @@ private:
 
 	//Rects
 	std::map<std::string, SDL_Rect> rectangles;
+	std::map<std::string, Text> texts;
+
 	SDL_Rect coinRect[AMOUNT_OF_COINS];
 
 	//ScoreBoards
