@@ -273,7 +273,9 @@ void GameManager::DrawMenu()
 
 	//Background
 	renderer.PushImage("bgTexture", "bgRect");
+	//Cursor
 	renderer.PushImage("cursorTexture", "cursorRect");
+	//Title
 	renderer.PushImage("titleTexture", "titleRect");
 	renderer.PushImage("playButtonTexture", "playButtonRect");
 	renderer.PushImage("exitButtonTexture", "exitButtonRect");
