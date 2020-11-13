@@ -59,13 +59,13 @@ GameManager::GameManager()
 #pragma region Title Text
 
 	//Title Text
-	renderer.LoadFont(Font({"FuenteMenu", "../../res/ttf/saiyan.ttf", 200 }));
+	renderer.LoadFont(Font({"SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
 
 	Color c{255,210,10,0};
 
 	Text titulo{ "titleTexture", "My First SDL Game", c, 200, 200 };
 
-	renderer.LoadTextureText("FuenteMenu", titulo);
+	renderer.LoadTextureText("SaiyanFont", titulo);
 	
 	renderer.LoadRect("titleRect", Rect({ 300, 200, renderer.GetTextureSize("titleTexture").x, renderer.GetTextureSize("titleTexture").y }));
 
@@ -79,8 +79,18 @@ GameManager::GameManager()
 #pragma endregion
 
 #pragma region Play Button 
-	/*
 	//Play Button (Menu)
+	
+	Color button_c{ 255, 128, 0, 0 };
+	Text playBtnText{ "playButtonTexture", "Play", button_c, SCREEN_WIDTH/2, 400};
+	
+	renderer.LoadTextureText("SaiyanFont", playBtnText);
+	renderer.LoadRect("playButtonRect", Rect({ SCREEN_WIDTH / 2, 400, renderer.GetTextureSize("playButtonTexture").x, renderer.GetTextureSize("playButtonTexture").y }));
+	rectangles["playButtonRect"] = { SCREEN_WIDTH/2, 400, renderer.GetTextureSize("playButtonTexture").x, renderer.GetTextureSize("playButtonTexture").y };
+
+#pragma endregion
+
+	/*
 	tmpSurf = { TTF_RenderText_Blended(font, "Play", SDL_Color{ 255,128,0,0 }) };
 	textures["playTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 	rectangles["playButtonRect"] = { (SCREEN_WIDTH - tmpSurf->w) / 2, 400, tmpSurf->w, tmpSurf->h };
@@ -88,7 +98,6 @@ GameManager::GameManager()
 	textures["playHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 	textures["playAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 
-#pragma endregion
 
 #pragma region Sound Off Button
 
@@ -212,7 +221,11 @@ void GameManager::UpdateMenu()
 	//Changing Play Button Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["playButtonRect"]))
 	{
-		textures["playAux"] = textures["playHover"];
+		Color button_hovered_c{ 255,0,0,0 };
+		Text hover_playBtnText{ "playButtonTexture", "Play", button_hovered_c, SCREEN_WIDTH / 2, 400 };
+		renderer.LoadTextureText("SaiyanFont", hover_playBtnText);
+		
+		//textures["playAux"] = textures["playHover"];
 		if (mouseClicked)
 		{
 			state = gameStates::IN_GAME;
@@ -225,7 +238,13 @@ void GameManager::UpdateMenu()
 		}
 	}
 	else
-		textures["playAux"] = textures["playTexture"];
+	{
+		Color button_c { 255, 128, 0, 0 };
+		Text playBtnText{ "playButtonTexture", "Play", button_c, SCREEN_WIDTH / 2, 400 };
+		renderer.LoadTextureText("SaiyanFont", playBtnText);
+	}
+		
+		//textures["playAux"] = textures["playTexture"];
 
 	//Changing Sound Off Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
@@ -268,6 +287,7 @@ void GameManager::DrawMenu()
 	renderer.PushImage("bgTexture", "bgRect");
 	renderer.PushImage("cursorTexture", "cursorRect");
 	renderer.PushImage("titleTexture", "titleRect");
+	renderer.PushImage("playButtonTexture", "playButtonRect");
 	renderer.Render();
 
 	/*
