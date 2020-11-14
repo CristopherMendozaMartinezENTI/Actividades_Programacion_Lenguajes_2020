@@ -1,8 +1,9 @@
 #pragma once
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
+//#include <SDL.h>
+//#include <SDL_mixer.h>
+//#include <SDL_image.h>
+//#include <SDL_ttf.h>
+#include <stdint.h>
 #include <exception>
 #include <iostream>
 #include <string>
@@ -33,13 +34,13 @@ struct Rect
 {
 	int x, y, w, h;
 	Rect() :x{ 0 }, y{ 0 }, w{ 0 }, h{ 0 } {};
-	Rect(SDL_Rect rect) :x{ rect.x }, y{ rect.y }, w{ rect.w }, h{ rect.h } {};
+	Rect(int _x, int _y, int _w, int _h) :x{ _x }, y{ _y }, w{ _w }, h{ _h } {};
 };
 
 struct Color
 {
-	Uint8 r, g, b, a;
-	Color(Uint8 _r, Uint8 _g, Uint8 _b, Uint8 _a) :r{ _r }, g{ _g }, b{ _b }, a{ _a } {};
+	uint8_t r, g, b, a;
+	Color(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a) :r{ _r }, g{ _g }, b{ _b }, a{ _a } {};
 };
 
 struct Font

@@ -337,6 +337,7 @@ void GameManager::UpdateGame()
 		renderer.SetRect("player2Position", playerClass2.returnPos());
 	}
 
+	/*
 	//If the two get the same item, P1 will always get it
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
@@ -357,6 +358,7 @@ void GameManager::UpdateGame()
 			playerClass2.setGetCoinsToTrue();
 		}
 	}
+	*/
 
 	//Scoreboards Update
 	boardP1.Update(playerClass1);
