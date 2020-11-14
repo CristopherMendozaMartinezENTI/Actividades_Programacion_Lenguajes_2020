@@ -57,7 +57,22 @@ GameManager::GameManager()
 		// --- TEXT --- 
 #pragma region Title Text
 
+	/*
+	//All Colors
+	Color c{ 255,210,10,0 };
+	Color button_c{ 255, 128, 0, 0 };
+	
+	//All Texts
+	texts["titleTexture"] = { "titleTexture", "My first SDL Game", c, 200,200 };
+	texts["playButtonText"] = { "playButtonText", "Play", button_c, SCREEN_WIDTH / 2, 400 };
+	texts["soundOffButtonText"] = { "soundOffButtonText", "Sound Off", button_c, SCREEN_WIDTH / 2, 600 };
+	texts["soundOnButtonText"] = { "soundOnButtonText", "Sound On", button_c, SCREEN_WIDTH / 2, 600 };
+	texts["exitButtonText"] = { "exitButtonText", "Exit", button_c, SCREEN_WIDTH / 2, 800 };
+
+	*/
+
 	//Title Text
+	
 	renderer.LoadFont(Font({ "SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
 	Color c{ 255,210,10,0 };
 	Text titulo{ "titleTexture", "My First SDL Game", c, 200, 200 };
@@ -247,8 +262,13 @@ void GameManager::InitiateMenu()
 
 void GameManager::UpdateMenu()
 {
-	Color button_hovered_c{ 255,0,0,0 };
+	Color button_hover_c{ 255,0,0,0 };
 	Color button_c{ 255, 128, 0, 0 };
+
+	Text playButtonText{ "playButtonTexture", "Play", button_c, SCREEN_WIDTH / 2, 400 };
+	Text soundOffButtonText{ "soundOffButtonTexture", "Sound Off", button_c, SCREEN_WIDTH / 2, 600 };
+	Text soundOnButtonText{ "soundOnButtonTexture", "Sound On", button_c, SCREEN_WIDTH / 2, 600 };
+	Text exitButtonText{ "exitButtonTexture", "Exit", button_c, SCREEN_WIDTH / 2, 800 };
 
 #pragma region Menu Interactions
 
@@ -263,10 +283,10 @@ void GameManager::UpdateMenu()
 	//Changing Play Button Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["playButtonRect"]))
 	{
-		Text hover_playButtonText{ "playButtonTexture", "Play", button_hovered_c, SCREEN_WIDTH / 2, 400 };
-		renderer.LoadTextureText("SaiyanFont", hover_playButtonText);
-
+		playButtonText.UpdateColor(button_hover_c);
+		renderer.LoadTextureText("SaiyanFont", playButtonText);
 		//textures["playAux"] = textures["playHover"];
+
 		if (mouseClicked)
 		{
 			state = gameStates::IN_GAME;
@@ -280,12 +300,10 @@ void GameManager::UpdateMenu()
 	}
 	else
 	{
-		Text playBtnText{ "playButtonTexture", "Play", button_c, SCREEN_WIDTH / 2, 400 };
-		renderer.LoadTextureText("SaiyanFont", playBtnText);
-
+		renderer.LoadTextureText("SaiyanFont", playButtonText);
 		//textures["playAux"] = textures["playTexture"];
 	}
-
+		
 	//Changing Sound Off/On Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
 	{
@@ -299,14 +317,15 @@ void GameManager::UpdateMenu()
 		}
 		if (playMenuMusic)
 		{
-			Text hover_soundOnButtonText{ "soundOnButtonTexture", "Sound On", button_hovered_c, SCREEN_WIDTH / 2, 600 };
-			renderer.LoadTextureText("SaiyanFont", hover_soundOnButtonText);
+
+			soundOnButtonText.UpdateColor(button_hover_c);
+			renderer.LoadTextureText("SaiyanFont", soundOnButtonText);
 			//textures["soundOffAux"] = textures["soundOnHover"];
 		}
 		else
 		{
-			Text hover_soundOffButtonText{ "soundOffButtonTexture", "Sound Off", button_hovered_c, SCREEN_WIDTH / 2, 600 };
-			renderer.LoadTextureText("SaiyanFont", hover_soundOffButtonText);
+			soundOffButtonText.UpdateColor(button_hover_c);
+			renderer.LoadTextureText("SaiyanFont", soundOffButtonText);
 			//textures["soundOffAux"] = textures["soundOffHover"];
 		}
 	}
@@ -314,13 +333,11 @@ void GameManager::UpdateMenu()
 	{
 		if (playMenuMusic)
 		{
-			Text soundOnButtonText{ "soundOnButtonTexture", "Sound On", button_c, SCREEN_WIDTH / 2, 600 };
 			renderer.LoadTextureText("SaiyanFont", soundOnButtonText);
 			//textures["soundOffAux"] = textures["soundOnTexture"];
 		}
 		else
 		{
-			Text soundOffButtonText{ "soundOffButtonTexture", "Sound Off", button_c, SCREEN_WIDTH / 2, 600 };
 			renderer.LoadTextureText("SaiyanFont", soundOffButtonText);
 			//textures["soundOffAux"] = textures["soundOffTexture"];
 		}
@@ -329,15 +346,14 @@ void GameManager::UpdateMenu()
 	//Changing Exit Button Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["exitButtonRect"]))
 	{
-		Text hover_exitButtonText{ "exitButtonTexture", "Exit", button_hovered_c, SCREEN_WIDTH / 2, 800 };
-		renderer.LoadTextureText("SaiyanFont", hover_exitButtonText);
+		exitButtonText.UpdateColor(button_hover_c);
+		renderer.LoadTextureText("SaiyanFont", exitButtonText);
 		//textures["exitAux"] = textures["exitHover"];
-
+		
 		if (mouseClicked) isRunning = false;
 	}
 	else
 	{
-		Text exitButtonText{ "exitButtonTexture", "Exit", button_c, SCREEN_WIDTH / 2, 800 };
 		renderer.LoadTextureText("SaiyanFont", exitButtonText);
 	}
 
@@ -556,13 +572,11 @@ void GameManager::Run()
 		switch (state)
 		{
 		case gameStates::MENU:
-			InitiateMenu();
 			UpdateMenu();
 			DrawMenu();
 
 			break;
 		case gameStates::IN_GAME:
-			InitiateGame();
 			UpdateGame();
 			DrawGame();
 
