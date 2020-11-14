@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <random>
 #include "Constants.h"
 
 enum class gameStates {

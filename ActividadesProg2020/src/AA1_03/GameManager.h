@@ -26,7 +26,7 @@ private:
 
 	//Rects
 	std::map<std::string, Rect> rectangles;
-	SDL_Rect coinRect[AMOUNT_OF_COINS];
+	Rect coinRect[AMOUNT_OF_COINS];
 
 	//ScoreBoards
 	ScoreBoard boardP1;
