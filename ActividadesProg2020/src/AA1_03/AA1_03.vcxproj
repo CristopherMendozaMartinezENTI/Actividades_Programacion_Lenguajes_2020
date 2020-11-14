@@ -149,7 +149,6 @@
     <ClCompile Include="PlayerClass.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
-    <ClCompile Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h" />

@@ -415,14 +415,15 @@ void GameManager::UpdateGame()
 	//Player Movement
 	if (state == gameStates::IN_GAME) {
 		playerClass1.Update();
-		renderer.SetRect("player1Rect", MyRect2SDL(&playerClass1.returnRect()));
-		renderer.SetRect("player1Position", MyRect2SDL(&playerClass1.returnPos()));
+		renderer.SetRect("player1Rect", playerClass1.returnRect());
+		renderer.SetRect("player1Position", playerClass1.returnPos());
 
 		playerClass2.Update();
-		renderer.SetRect("player2Rect", MyRect2SDL(&playerClass2.returnRect()));
-		renderer.SetRect("player2Position", MyRect2SDL(&playerClass2.returnPos()));
+		renderer.SetRect("player2Rect", playerClass2.returnRect());
+		renderer.SetRect("player2Position", playerClass2.returnPos());
 	}
 
+	/*
 	//If the two get the same item, P1 will always get it
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
@@ -441,23 +442,24 @@ void GameManager::UpdateGame()
 
 		}
 	}
+	*/
 
 	//Scoreboards Update
 	boardP1.Update(playerClass1);
-	rectangles["scoreRectPlayer1Right"] = MyRect2SDL(&boardP1.returnScoreRectRight());
-	rectangles["scorePositionPlayer1Right"] = MyRect2SDL(&boardP1.returnScorePositionRight());
-	rectangles["scoreRectPlayer1Center"] = MyRect2SDL(&boardP1.returnScoreRectCenter());
-	rectangles["scorePositionPlayer1Center"] = MyRect2SDL(&boardP1.returnScorePositionCenter());
-	rectangles["scoreRectPlayer1Left"] = MyRect2SDL(&boardP1.returnScoreRectLeft());
-	rectangles["scorePositionPlayer1Left"] = MyRect2SDL(&boardP1.returnScorePositionLeft());
+	rectangles["scoreRectPlayer1Right"] = boardP1.returnScoreRectRight();
+	rectangles["scorePositionPlayer1Right"] = boardP1.returnScorePositionRight();
+	rectangles["scoreRectPlayer1Center"] = boardP1.returnScoreRectCenter();
+	rectangles["scorePositionPlayer1Center"] = boardP1.returnScorePositionCenter();
+	rectangles["scoreRectPlayer1Left"] = boardP1.returnScoreRectLeft();
+	rectangles["scorePositionPlayer1Left"] = boardP1.returnScorePositionLeft();
 
 	boardP2.Update(playerClass2);
-	rectangles["scoreRectPlayer2Right"] = MyRect2SDL(&boardP2.returnScoreRectRight());
-	rectangles["scorePositionPlayer2Right"] = MyRect2SDL(&boardP2.returnScorePositionRight());
-	rectangles["scoreRectPlayer2Center"] = MyRect2SDL(&boardP2.returnScoreRectCenter());
-	rectangles["scorePositionPlayer2Center"] = MyRect2SDL(&boardP2.returnScorePositionCenter());
-	rectangles["scoreRectPlayer2Left"] = MyRect2SDL(&boardP2.returnScoreRectLeft());
-	rectangles["scorePositionPlayer2Left"] = MyRect2SDL(&boardP2.returnScorePositionLeft());
+	rectangles["scoreRectPlayer2Right"] = boardP2.returnScoreRectRight();
+	rectangles["scorePositionPlayer2Right"] = boardP2.returnScorePositionRight();
+	rectangles["scoreRectPlayer2Center"] = boardP2.returnScoreRectCenter();
+	rectangles["scorePositionPlayer2Center"] = boardP2.returnScorePositionCenter();
+	rectangles["scoreRectPlayer2Left"] = boardP2.returnScoreRectLeft();
+	rectangles["scorePositionPlayer2Left"] = boardP2.returnScorePositionLeft();
 
 #pragma endregion
 
