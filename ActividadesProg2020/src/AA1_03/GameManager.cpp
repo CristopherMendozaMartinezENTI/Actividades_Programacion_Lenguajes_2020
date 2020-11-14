@@ -8,8 +8,8 @@ GameManager::GameManager()
 	playMenuMusic = false;
 	mouseAxis = { 0, 0 };
 
-//------------- MENU ---------------
-		// --- SPRITES ---
+	//------------- MENU ---------------
+			// --- SPRITES ---
 #pragma region Backgrounds
 
 	//Main Menu Background
@@ -27,14 +27,14 @@ GameManager::GameManager()
 
 #pragma endregion
 
-		// --- TEXT --- 
+	// --- TEXT --- 
 #pragma region Title Text
 
 	/*
 	//All Colors
 	Color c{ 255,210,10,0 };
 	Color button_c{ 255, 128, 0, 0 };
-	
+
 	//All Texts
 	texts["titleTexture"] = { "titleTexture", "My first SDL Game", c, 200,200 };
 	texts["playButtonText"] = { "playButtonText", "Play", button_c, SCREEN_WIDTH / 2, 400 };
@@ -45,7 +45,7 @@ GameManager::GameManager()
 	*/
 
 	//Title Text
-	
+
 	renderer.LoadFont(Font({ "SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
 	Color c{ 255,210,10,0 };
 	Text titulo{ "titleTexture", "My First SDL Game", c, 200, 200 };
@@ -95,8 +95,8 @@ GameManager::GameManager()
 
 #pragma endregion
 
-//------------- INGAME ---------------
-		// --- SPRITES ---
+	//------------- INGAME ---------------
+			// --- SPRITES ---
 #pragma region Backgrounds
 
 	//Game Background
@@ -105,7 +105,7 @@ GameManager::GameManager()
 
 #pragma endregion
 
-		// --- TEXT --- 
+	// --- TEXT --- 
 #pragma region Score Boards
 
 	//Player 1 text
@@ -166,7 +166,7 @@ GameManager::GameManager()
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
 		coinRect[i] = Rect({ (rand() % SCREEN_WIDTH) - 10, (rand() % 700) + 300, 100,100 });
-		renderer.LoadRect(std::to_string(i), Rect()); 
+		renderer.LoadRect(std::to_string(i), Rect());
 	}
 
 #pragma endregion
@@ -241,7 +241,7 @@ void GameManager::UpdateMenu()
 	{
 		renderer.LoadTextureText("SaiyanFont", playButtonText);
 	}
-		
+
 	//Changing Sound Off/On Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
 	{
@@ -282,7 +282,7 @@ void GameManager::UpdateMenu()
 	{
 		exitButtonText.UpdateColor(button_hover_c);
 		renderer.LoadTextureText("SaiyanFont", exitButtonText);
-		
+
 		if (mouseClicked) isRunning = false;
 	}
 	else
@@ -337,7 +337,6 @@ void GameManager::UpdateGame()
 		renderer.SetRect("player2Position", playerClass2.returnPos());
 	}
 
-	/*
 	//If the two get the same item, P1 will always get it
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
@@ -358,7 +357,6 @@ void GameManager::UpdateGame()
 			playerClass2.setGetCoinsToTrue();
 		}
 	}
-	*/
 
 	//Scoreboards Update
 	boardP1.Update(playerClass1);
@@ -367,13 +365,13 @@ void GameManager::UpdateGame()
 	renderer.SetRect("scoreRectPlayer1Center", boardP1.returnScoreRectCenter());
 	renderer.SetRect("scorePositionPlayer1Center", boardP1.returnScorePositionCenter());
 	renderer.SetRect("scoreRectPlayer1Left", boardP1.returnScoreRectLeft());
-	renderer.SetRect("scorePositionPlayer1Left",  boardP1.returnScorePositionLeft());
+	renderer.SetRect("scorePositionPlayer1Left", boardP1.returnScorePositionLeft());
 
 	boardP2.Update(playerClass2);
-	renderer.SetRect("scoreRectPlayer2Right" , boardP2.returnScoreRectRight());
-	renderer.SetRect("scorePositionPlayer2Right" , boardP2.returnScorePositionRight());
-	renderer.SetRect("scoreRectPlayer2Center" , boardP2.returnScoreRectCenter());
-	renderer.SetRect("scorePositionPlayer2Center" , boardP2.returnScorePositionCenter());
+	renderer.SetRect("scoreRectPlayer2Right", boardP2.returnScoreRectRight());
+	renderer.SetRect("scorePositionPlayer2Right", boardP2.returnScorePositionRight());
+	renderer.SetRect("scoreRectPlayer2Center", boardP2.returnScoreRectCenter());
+	renderer.SetRect("scorePositionPlayer2Center", boardP2.returnScorePositionCenter());
 	renderer.SetRect("scoreRectPlayer2Left", boardP2.returnScoreRectLeft());
 	renderer.SetRect("scorePositionPlayer2Left", boardP2.returnScorePositionLeft());
 
@@ -396,7 +394,7 @@ void GameManager::UpdateGame()
 	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 65, tmpSurf->w, tmpSurf->h };
 	*/
 #pragma endregion
-	
+
 }
 
 void GameManager::DrawGame()
@@ -409,7 +407,7 @@ void GameManager::DrawGame()
 	//Player Sprites
 	renderer.PushSprite("playerTexture", "player1Rect", "player1Position");
 	renderer.PushSprite("playerTexture", "player2Rect", "player2Position");
-	
+
 	//Scoreboard Text
 	renderer.PushImage("player1ScoreTexture", "player1ScoreRect");
 	renderer.PushImage("player2ScoreTexture", "player2ScoreRect");
@@ -493,7 +491,6 @@ void GameManager::Run()
 		frameTime = SDL_GetTicks() - frameStart;
 		if (frameTime < DELAY_TIME)
 			SDL_Delay((int)(DELAY_TIME - frameTime));
-
 	}
 }
 

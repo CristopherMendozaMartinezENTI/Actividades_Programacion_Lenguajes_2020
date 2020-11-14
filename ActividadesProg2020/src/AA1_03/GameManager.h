@@ -8,9 +8,23 @@ class GameManager
 private:
 	Renderer renderer;
 
+
 	SDL_Event event;
 
- 	//Rects
+	//Textures
+	std::map<std::string, SDL_Texture*> textures;
+
+	//Surfaces
+	SDL_Surface* tmpSurf;
+
+	//Texture variables
+	int textWidth, textHeight, scoreWidth, scoreHeight;
+
+	//Fonts 
+	TTF_Font* font;
+	TTF_Font* inGameFont;
+
+	//Rects
 	std::map<std::string, Rect> rectangles;
 	Rect coinRect[AMOUNT_OF_COINS];
 
