@@ -20,6 +20,12 @@ private:
 	//Texture variables
 	int textWidth, textHeight, scoreWidth, scoreHeight;
 
+	//Colors
+	std::map<std::string, Color> colors;
+
+	//Texts
+	std::map<std::string, Text> texts;
+			
 	//Fonts 
 	TTF_Font* font;
 	TTF_Font* inGameFont;

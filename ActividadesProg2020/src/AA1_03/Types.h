@@ -38,6 +38,7 @@ struct Rect
 struct Color
 {
 	Uint8 r, g, b, a;
+	Color(): r{ 0 }, g{ 0 }, b{ 0 }, a{ 0 } {};
 	Color(Uint8 _r, Uint8 _g, Uint8 _b, Uint8 _a) :r{ _r }, g{ _g }, b{ _b }, a{ _a } {};
 };
 
@@ -55,6 +56,7 @@ struct Text
 	std::string text;
 	Color color;
 	int x, y;
+	Text() : id{ "0" }, text{ "#" }, color{ Color(0,0,0,0) }, x{ 0 }, y{ 0 } {};
 	Text(std::string _id, std::string _text, Color _color, int _x, int _y) :
 		id{ _id }, text{ _text }, color{ _color }, x{ _x }, y{ _y } {};
 	void UpdateColor(Color _color) { color = _color; }
