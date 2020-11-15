@@ -2,41 +2,14 @@
 
 GameManager::GameManager()
 {
-	/*
-	// --- INIT SDL ---
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-		throw std::exception("No es pot inicialitzar SDL subsystems");
-
-	// --- WINDOW ---
-	m_window = { SDL_CreateWindow("SDL...", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN) };
-	if (m_window == nullptr)
-		throw std::exception("No es pot inicialitzar SDL_Window");
-
-	// --- RENDERER ---
-	m_renderer = { SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC) };
-	if (m_renderer == nullptr)
-		throw std::exception("No es pot inicialitzar SDL_Renderer");
-
-	//-->SDL_Image
-	const Uint8 imgFlags{ IMG_INIT_PNG | IMG_INIT_JPG };
-	if (!(IMG_Init(imgFlags) & imgFlags)) throw std::exception("Error: SDL_image init");
-
-	//-->SDL_TTF
-	if (TTF_Init() != 0) throw std::exception("No es pot inicialitzar SDL_ttf");
-
-	//-->SDL_Mix
-	const Uint8 soundFlags{ MIX_INIT_MP3 };
-	if (!(Mix_Init(soundFlags) & soundFlags)) throw std::exception("Error: SDL_image init");
-	*/
-
 	state = gameStates::MENU;
 	isRunning = true;
 	mouseClicked = false;
 	playMenuMusic = false;
 	mouseAxis = { 0, 0 };
 
-		// --- SPRITES ---
-
+	//------------- MENU ---------------
+			// --- SPRITES ---
 #pragma region Backgrounds
 
 	//Main Menu Background
@@ -46,6 +19,7 @@ GameManager::GameManager()
 #pragma endregion
 
 #pragma region Cursor
+
 	//Cursor
 	renderer.LoadTexture("cursorTexture", "../../res/img/kintoun.png");
 	renderer.LoadRect("cursorRect", Rect({ 0, 0, 350, 190 }));
@@ -53,6 +27,7 @@ GameManager::GameManager()
 
 #pragma endregion
 
+	// --- TEXT --- 
 #pragma region Title Text
 
 	//All Colors
@@ -69,7 +44,7 @@ GameManager::GameManager()
 	texts["exitButtonText"] = { "exitButtonText", "Exit", colors["button_c"], SCREEN_WIDTH / 2, 800 };
 
 	//Title Text
-	
+
 	renderer.LoadFont(Font({ "SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
 	renderer.LoadTextureText("SaiyanFont", texts["titleTexture"]);
 	renderer.LoadRect("titleRect", Rect({ 300, 200, renderer.GetTextureSize("titleTexture").x, renderer.GetTextureSize("titleTexture").y }));
@@ -134,17 +109,86 @@ GameManager::GameManager()
 	renderer.LoadRect("exitButtonRect", Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("exitButtonText").x) / 2, 800, renderer.GetTextureSize("exitButtonText").x, renderer.GetTextureSize("exitButtonText").y }));
 	rectangles["exitButtonRect"] = Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("exitButtonText").x) / 2, 800, renderer.GetTextureSize("exitButtonText").x, renderer.GetTextureSize("exitButtonText").y });
 
-	//tmpSurf = { TTF_RenderText_Blended(font, "Exit", SDL_Color{ 255,128,0,0 }) };
-	//textures["exitTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	//rectangles["exitButtonRect"] = { (SCREEN_WIDTH - tmpSurf->w) / 2, 800, tmpSurf->w, tmpSurf->h };
-	//tmpSurf = { TTF_RenderText_Blended(font, "Exit", SDL_Color{ 255,0,0,0 }) };
-	//textures["exitHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	//textures["exitAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
+#pragma endregion
+
+	//------------- INGAME ---------------
+			// --- SPRITES ---
+#pragma region Backgrounds
+
+	//Game Background
+	renderer.LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
+	renderer.LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
 #pragma endregion
 
-	/*
+	// --- TEXT --- 
+#pragma region Score Boards
+
+	//Player 1 text
+
+	renderer.LoadFont(Font({ "Arial", "../../res/ttf/Arial.ttf", 80 }));
+	Color black{ 0,0,0,0 };
+	Text playerOneScoreBoard{ "player1ScoreTexture", "PlayerOne:", black, 30, 30 };
+	renderer.LoadTextureText("Arial", playerOneScoreBoard);
+	renderer.LoadRect("player1ScoreRect", Rect({ 30,30,  renderer.GetTextureSize("player1ScoreTexture").x, renderer.GetTextureSize("player1ScoreTexture").y }));
+
+	Text playerTwoScoreBoard{ "player2ScoreTexture", "PlayerTwo:", black, 30, 120 };
+	renderer.LoadTextureText("Arial", playerTwoScoreBoard);
+	renderer.LoadRect("player2ScoreRect", Rect({ 30, 120,  renderer.GetTextureSize("player2ScoreTexture").x, renderer.GetTextureSize("player2ScoreTexture").y }));
+
+#pragma endregion
+
+	//--- ANIMATED SPRITES ---
+#pragma region Players Ands Scoreboards
+
+			//Players
+	renderer.LoadTexture("playerTexture", "../../res/img/spCastle.png");
+	renderer.LoadRect("player1Rect", Rect());
+	renderer.LoadRect("player1Position", Rect());
+	renderer.LoadRect("player2Rect", Rect());
+	renderer.LoadRect("player2Position", Rect());
+
+	//ScoreBoard
+	renderer.LoadTexture("scoreTexture", "../../res/img/num.png");
+
+	//Players
+	playerClass1 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P1 };
+	playerClass2 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P2 };
+
+	//Puntuacion Player 1 & Plyaer 2
+	boardP1 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass1 };
+	boardP2 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass2 };
+
+	renderer.LoadRect("scoreRectPlayer1Right", Rect());
+	renderer.LoadRect("scorePositionPlayer1Right", Rect());
+	renderer.LoadRect("scoreRectPlayer1Center", Rect());
+	renderer.LoadRect("scorePositionPlayer1Center", Rect());
+	renderer.LoadRect("scoreRectPlayer1Left", Rect());
+	renderer.LoadRect("scorePositionPlayer1Left", Rect());
+
+	renderer.LoadRect("scoreRectPlayer2Right", Rect());
+	renderer.LoadRect("scorePositionPlayer2Right", Rect());
+	renderer.LoadRect("scoreRectPlayer2Center", Rect());
+	renderer.LoadRect("scorePositionPlayer2Center", Rect());
+	renderer.LoadRect("scoreRectPlayer2Left", Rect());
+	renderer.LoadRect("scorePositionPlayer2Left", Rect());
+
+#pragma endregion
+
+#pragma region Coins
+
+	renderer.LoadTexture("coinTexture", "../../res/img/gold.png");
+
+	for (int i = 0; i < AMOUNT_OF_COINS; i++)
+	{
+		coinRect[i] = Rect({ (rand() % SCREEN_WIDTH) - 10, (rand() % 700) + 300, 100,100 });
+		renderer.LoadRect(std::to_string(i), Rect());
+	}
+
+#pragma endregion
+
 #pragma region Audio
+	/*
 
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
 		throw std::exception("Unable to open SDL_Mixer sound systems");
@@ -156,9 +200,9 @@ GameManager::GameManager()
 	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 	Mix_PlayMusic(menuMusic, -1);
 
+	*/
 #pragma endregion
 
-	*/
 }
 
 GameManager::~GameManager()
@@ -209,7 +253,7 @@ void GameManager::UpdateMenu()
 		texts["playButtonText"].UpdateColor(colors["button_c"]);
 		renderer.LoadTextureText("SaiyanFont", texts["playButtonText"]);
 	}
-		
+
 	//Changing Sound Off/On Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
 	{
@@ -272,7 +316,6 @@ void GameManager::UpdateMenu()
 
 void GameManager::DrawMenu()
 {
-
 	renderer.Clear();
 
 	//Background
@@ -291,145 +334,66 @@ void GameManager::DrawMenu()
 
 	renderer.Render();
 
-	/*
-	* 
-	SDL_RenderClear(m_renderer);
-	//SDL_RenderCopy(m_renderer, textures["bgTexture"], nullptr, &rectangles["bgRect"]);
-	//Cursor
-	SDL_RenderCopy(m_renderer, textures["cursorTexture"], nullptr, &rectangles["cursorRect"]);
-	//Title
-	SDL_RenderCopy(m_renderer, textures["titleTexture"], nullptr, &rectangles["titleRect"]);
-	//Play Button
-	SDL_RenderCopy(m_renderer, textures["playAux"], nullptr, &rectangles["playButtonRect"]);
-	//Sound Botton
-	SDL_RenderCopy(m_renderer, textures["soundOffAux"], nullptr, &rectangles["soundButtonRect"]);
-	//Exit
-	SDL_RenderCopy(m_renderer, textures["exitAux"], nullptr, &rectangles["exitButtonRect"]);
-	SDL_RenderPresent(m_renderer);
-	*/
-
 }
 
 void GameManager::InitiateGame()
 {
-	// --- SPRITES ---
-#pragma region Backgrounds
-
-	//Game Background
-	renderer.LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
-	renderer.LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
-
-#pragma endregion
-
-	//Text
-#pragma region Score Boards
-	//Player 1 text
-
-	/*
-	inGameFont = { TTF_OpenFont("../../res/ttf/Arial.ttf", 80) };
-	if (inGameFont == nullptr) throw std::exception("No es pot inicialitzar SDL_ttf");
-	tmpSurf = { TTF_RenderText_Blended(inGameFont, "PlayerOne: ", SDL_Color{ 0,0,0}) };
-	textures["player1ScoreTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	rectangles["player1ScoreRect"] = { 30, 30, tmpSurf->w, tmpSurf->h };
-
-	//Player 2 text
-	tmpSurf = { TTF_RenderText_Blended(inGameFont, "PlayerTwo: ", SDL_Color{ 0,0,0}) };
-	textures["player2ScoreTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	rectangles["player2ScoreRect"] = { 30, 120, tmpSurf->w, tmpSurf->h };
-	*/
-
-#pragma endregion
-
-	//--- ANIMATED SPRITES ---
-#pragma region Players Ands Scoreboards
-
-			//Players
-	renderer.LoadTexture("playerTexture", "../../res/img/spCastle.png");
-
-	//textures["playerTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png") };
-	//if (textures["playerTexture"] == nullptr) throw std::exception("Error: playerTexture init");
-	//SDL_QueryTexture(textures["playerTexture"], NULL, NULL, &textWidth, &textHeight);
-
-	//ScoreBoard
-	renderer.LoadTexture("scoreTexture", "../../res/img/num.png");
-
-	//textures["scoreTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/num.png") };
-	//if (textures["scoreTexture"] == nullptr) throw std::exception("Error: scoreTexture init");
-	//SDL_QueryTexture(textures["scoreTexture"], NULL, NULL, &scoreWidth, &scoreHeight);
-
-	//Players
-	playerClass1 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P1 };
-	playerClass2 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P2 };
-
-	//Puntuacion Player 1 & Plyaer 2
-	boardP1 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass1 };
-	boardP2 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass2 };
-
-#pragma endregion
-
-#pragma region Coins
-
-	renderer.LoadTexture("coinTexture", "../../res/img/gold.png");
-	//textures["coinTexture"] = { IMG_LoadTexture(m_renderer, "../../res/img/gold.png") };
-	//if (textures["coinTexture"] == nullptr) throw std::exception("Error: coinTexture init");
-	for (int i = 0; i < AMOUNT_OF_COINS; i++)
-		coinRect[i] = SDL_Rect{ (rand() % SCREEN_WIDTH) - 50, (rand() % 700) + 300, 100,100 };
-
-#pragma endregion
 
 }
 
 void GameManager::UpdateGame()
 {
-	/*
+
 #pragma region Players Movement and Scores
 
 	//Player Movement
 	if (state == gameStates::IN_GAME) {
 		playerClass1.Update();
-		rectangles["player1Rect"] = MyRect2SDL(&playerClass1.returnRect());
-		rectangles["player1Position"] = MyRect2SDL(&playerClass1.returnPos());
+		renderer.SetRect("player1Rect", playerClass1.returnRect());
+		renderer.SetRect("player1Position", playerClass1.returnPos());
 
 		playerClass2.Update();
-		rectangles["player2Rect"] = MyRect2SDL(&playerClass2.returnRect());
-		rectangles["player2Position"] = MyRect2SDL(&playerClass2.returnPos());
+		renderer.SetRect("player2Rect", playerClass2.returnRect());
+		renderer.SetRect("player2Position", playerClass2.returnPos());
 	}
 
 	//If the two get the same item, P1 will always get it
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
+		renderer.SetRect(std::to_string(i), coinRect[i]);
 		if (collisions::rectCollision(playerClass1.returnPos(), coinRect[i])) {
-			coinRect[i].x = (rand() % SCREEN_WIDTH) - 50;
+			coinRect[i].x = (rand() % SCREEN_WIDTH) - 10;
 			coinRect[i].y = (rand() % 700) + 300;
+			renderer.SetRect(std::to_string(i), coinRect[i]);
 			playerClass1.score++;
 			playerClass1.setGetCoinsToTrue();
 
 		}
 		else if (collisions::rectCollision(playerClass2.returnPos(), coinRect[i])) {
-			coinRect[i].x = (rand() % SCREEN_WIDTH) - 50;
+			coinRect[i].x = (rand() % SCREEN_WIDTH) - 10;
 			coinRect[i].y = (rand() % 700) + 300;
+			renderer.SetRect(std::to_string(i), coinRect[i]);
 			playerClass2.score++;
 			playerClass2.setGetCoinsToTrue();
-
 		}
 	}
 
 	//Scoreboards Update
 	boardP1.Update(playerClass1);
-	rectangles["scoreRectPlayer1Right"] = MyRect2SDL(&boardP1.returnScoreRectRight());
-	rectangles["scorePositionPlayer1Right"] = MyRect2SDL(&boardP1.returnScorePositionRight());
-	rectangles["scoreRectPlayer1Center"] = MyRect2SDL(&boardP1.returnScoreRectCenter());
-	rectangles["scorePositionPlayer1Center"] = MyRect2SDL(&boardP1.returnScorePositionCenter());
-	rectangles["scoreRectPlayer1Left"] = MyRect2SDL(&boardP1.returnScoreRectLeft());
-	rectangles["scorePositionPlayer1Left"] = MyRect2SDL(&boardP1.returnScorePositionLeft());
+	renderer.SetRect("scoreRectPlayer1Right", boardP1.returnScoreRectRight());
+	renderer.SetRect("scorePositionPlayer1Right", boardP1.returnScorePositionRight());
+	renderer.SetRect("scoreRectPlayer1Center", boardP1.returnScoreRectCenter());
+	renderer.SetRect("scorePositionPlayer1Center", boardP1.returnScorePositionCenter());
+	renderer.SetRect("scoreRectPlayer1Left", boardP1.returnScoreRectLeft());
+	renderer.SetRect("scorePositionPlayer1Left", boardP1.returnScorePositionLeft());
 
 	boardP2.Update(playerClass2);
-	rectangles["scoreRectPlayer2Right"] = MyRect2SDL(&boardP2.returnScoreRectRight());
-	rectangles["scorePositionPlayer2Right"] = MyRect2SDL(&boardP2.returnScorePositionRight());
-	rectangles["scoreRectPlayer2Center"] = MyRect2SDL(&boardP2.returnScoreRectCenter());
-	rectangles["scorePositionPlayer2Center"] = MyRect2SDL(&boardP2.returnScorePositionCenter());
-	rectangles["scoreRectPlayer2Left"] = MyRect2SDL(&boardP2.returnScoreRectLeft());
-	rectangles["scorePositionPlayer2Left"] = MyRect2SDL(&boardP2.returnScorePositionLeft());
+	renderer.SetRect("scoreRectPlayer2Right", boardP2.returnScoreRectRight());
+	renderer.SetRect("scorePositionPlayer2Right", boardP2.returnScorePositionRight());
+	renderer.SetRect("scoreRectPlayer2Center", boardP2.returnScoreRectCenter());
+	renderer.SetRect("scorePositionPlayer2Center", boardP2.returnScorePositionCenter());
+	renderer.SetRect("scoreRectPlayer2Left", boardP2.returnScoreRectLeft());
+	renderer.SetRect("scorePositionPlayer2Left", boardP2.returnScorePositionLeft());
 
 #pragma endregion
 
@@ -439,6 +403,7 @@ void GameManager::UpdateGame()
 	sec += DELAY_TIME;
 	if (sec >= MAX_TIME) state = gameStates::MENU;
 
+	/*
 	int timeLeft = (MAX_TIME - sec) / 1000;
 	int size = sizeof(exactTime);
 	SDL_snprintf(exactTime, size, "%i", timeLeft);
@@ -447,41 +412,39 @@ void GameManager::UpdateGame()
 	if (tmpSurf == nullptr) throw std::exception("No es pot crear SDL surface");
 	textures["timeTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 65, tmpSurf->w, tmpSurf->h };
-
-#pragma endregion
 	*/
+#pragma endregion
 
 }
 
 void GameManager::DrawGame()
 {
-	/*
-	SDL_RenderClear(m_renderer);
+	renderer.Clear();
 
 	//Background
-	SDL_RenderCopy(m_renderer, textures["gameBgTexture"], nullptr, &rectangles["gameBgRect"]);
-	//Animated Player1 Sprite
-	SDL_RenderCopy(m_renderer, textures["playerTexture"], &rectangles["player1Rect"], &rectangles["player1Position"]);
-	//Animated Player2 Sprite
-	SDL_RenderCopy(m_renderer, textures["playerTexture"], &rectangles["player2Rect"], &rectangles["player2Position"]);
-	//Coins
-	for (int i = 0; i < AMOUNT_OF_COINS; i++) {
-		SDL_RenderCopy(m_renderer, textures["coinTexture"], nullptr, &coinRect[i]);
-	}
-	//Time
-	SDL_RenderCopy(m_renderer, textures["timeTexture"], nullptr, &rectangles["timeRect"]);
-	//Score Board
-	SDL_RenderCopy(m_renderer, textures["player1ScoreTexture"], nullptr, &rectangles["player1ScoreRect"]);
-	SDL_RenderCopy(m_renderer, textures["player2ScoreTexture"], nullptr, &rectangles["player2ScoreRect"]);
-	SDL_RenderCopy(m_renderer, textures["scoreTexture"], &rectangles["scoreRectPlayer1Right"], &rectangles["scorePositionPlayer1Right"]);
-	SDL_RenderCopy(m_renderer, textures["scoreTexture"], &rectangles["scoreRectPlayer1Center"], &rectangles["scorePositionPlayer1Center"]);
-	SDL_RenderCopy(m_renderer, textures["scoreTexture"], &rectangles["scoreRectPlayer1Left"], &rectangles["scorePositionPlayer1Left"]);
-	SDL_RenderCopy(m_renderer, textures["scoreTexture"], &rectangles["scoreRectPlayer2Right"], &rectangles["scorePositionPlayer2Right"]);
-	SDL_RenderCopy(m_renderer, textures["scoreTexture"], &rectangles["scoreRectPlayer2Center"], &rectangles["scorePositionPlayer2Center"]);
-	SDL_RenderCopy(m_renderer, textures["scoreTexture"], &rectangles["scoreRectPlayer2Left"], &rectangles["scorePositionPlayer2Left"]);
+	renderer.PushImage("gameBgTexture", "gameBgRect");
 
-	SDL_RenderPresent(m_renderer);
-	*/
+	//Player Sprites
+	renderer.PushSprite("playerTexture", "player1Rect", "player1Position");
+	renderer.PushSprite("playerTexture", "player2Rect", "player2Position");
+
+	//Scoreboard Text
+	renderer.PushImage("player1ScoreTexture", "player1ScoreRect");
+	renderer.PushImage("player2ScoreTexture", "player2ScoreRect");
+
+	//Scoreboard Sprites
+	renderer.PushSprite("scoreTexture", "scoreRectPlayer1Right", "scorePositionPlayer1Right");
+	renderer.PushSprite("scoreTexture", "scoreRectPlayer1Left", "scorePositionPlayer1Left");
+	renderer.PushSprite("scoreTexture", "scoreRectPlayer1Center", "scorePositionPlayer1Center");
+	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Right", "scorePositionPlayer2Right");
+	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Left", "scorePositionPlayer2Left");
+	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Center", "scorePositionPlayer2Center");
+
+	//Coin bags
+	for (int i = 0; i < AMOUNT_OF_COINS; i++)
+		renderer.PushImage("coinTexture", std::to_string(i));
+
+	renderer.Render();
 }
 
 void GameManager::Run()
@@ -548,7 +511,6 @@ void GameManager::Run()
 		frameTime = SDL_GetTicks() - frameStart;
 		if (frameTime < DELAY_TIME)
 			SDL_Delay((int)(DELAY_TIME - frameTime));
-
 	}
 }
 

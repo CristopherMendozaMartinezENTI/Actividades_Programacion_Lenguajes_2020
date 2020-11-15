@@ -1,12 +1,14 @@
 #pragma once
 #include <SDL.h>
+#include <SDL_mixer.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <SDL_mixer.h>
+#include <stdint.h>
 #include <exception>
 #include <iostream>
 #include <string>
 #include <map>
+#include <random>
 #include "Constants.h"
 
 enum class gameStates {
@@ -32,7 +34,7 @@ struct Rect
 {
 	int x, y, w, h;
 	Rect() :x{ 0 }, y{ 0 }, w{ 0 }, h{ 0 } {};
-	Rect(SDL_Rect rect) :x{ rect.x }, y{ rect.y }, w{ rect.w }, h{ rect.h } {};
+	Rect(int _x, int _y, int _w, int _h) :x{ _x }, y{ _y }, w{ _w }, h{ _h } {};
 };
 
 struct Color
