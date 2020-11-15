@@ -7,6 +7,17 @@ GameManager::GameManager()
 	mouseClicked = false;
 	playMenuMusic = false;
 	mouseAxis = { 0, 0 };
+	playTime = 10.f;
+
+}
+
+GameManager::~GameManager()
+{
+	Destroy();
+}
+
+void GameManager::InitiateMenu()
+{
 
 	//------------- MENU ---------------
 			// --- SPRITES ---
@@ -35,7 +46,7 @@ GameManager::GameManager()
 	colors["title_c"] = Color(250, 135, 20, 0);
 	colors["button_c"] = Color(255, 188, 0, 0);
 	colors["button_hover_c"] = Color(255, 0, 0, 0);
-	
+
 	//All Texts
 	texts["titleTexture"] = { "titleTexture", "My first SDL Game", colors["title_c"], 200,200 };
 	texts["playButtonText"] = { "playButtonText", "Play", colors["button_c"], SCREEN_WIDTH / 2, 400 };
@@ -111,109 +122,6 @@ GameManager::GameManager()
 
 #pragma endregion
 
-	//------------- INGAME ---------------
-			// --- SPRITES ---
-#pragma region Backgrounds
-
-	//Game Background
-	renderer.LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
-	renderer.LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
-
-#pragma endregion
-
-	// --- TEXT --- 
-#pragma region Score Boards
-
-	//Player 1 text
-
-	renderer.LoadFont(Font({ "Arial", "../../res/ttf/Arial.ttf", 80 }));
-	Color black{ 0,0,0,0 };
-	Text playerOneScoreBoard{ "player1ScoreTexture", "PlayerOne:", black, 30, 30 };
-	renderer.LoadTextureText("Arial", playerOneScoreBoard);
-	renderer.LoadRect("player1ScoreRect", Rect({ 30,30,  renderer.GetTextureSize("player1ScoreTexture").x, renderer.GetTextureSize("player1ScoreTexture").y }));
-
-	Text playerTwoScoreBoard{ "player2ScoreTexture", "PlayerTwo:", black, 30, 120 };
-	renderer.LoadTextureText("Arial", playerTwoScoreBoard);
-	renderer.LoadRect("player2ScoreRect", Rect({ 30, 120,  renderer.GetTextureSize("player2ScoreTexture").x, renderer.GetTextureSize("player2ScoreTexture").y }));
-
-#pragma endregion
-
-	//--- ANIMATED SPRITES ---
-#pragma region Players Ands Scoreboards
-
-			//Players
-	renderer.LoadTexture("playerTexture", "../../res/img/spCastle.png");
-	renderer.LoadRect("player1Rect", Rect());
-	renderer.LoadRect("player1Position", Rect());
-	renderer.LoadRect("player2Rect", Rect());
-	renderer.LoadRect("player2Position", Rect());
-
-	//ScoreBoard
-	renderer.LoadTexture("scoreTexture", "../../res/img/num.png");
-
-	//Players
-	playerClass1 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P1 };
-	playerClass2 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P2 };
-
-	//Puntuacion Player 1 & Plyaer 2
-	boardP1 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass1 };
-	boardP2 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass2 };
-
-	renderer.LoadRect("scoreRectPlayer1Right", Rect());
-	renderer.LoadRect("scorePositionPlayer1Right", Rect());
-	renderer.LoadRect("scoreRectPlayer1Center", Rect());
-	renderer.LoadRect("scorePositionPlayer1Center", Rect());
-	renderer.LoadRect("scoreRectPlayer1Left", Rect());
-	renderer.LoadRect("scorePositionPlayer1Left", Rect());
-
-	renderer.LoadRect("scoreRectPlayer2Right", Rect());
-	renderer.LoadRect("scorePositionPlayer2Right", Rect());
-	renderer.LoadRect("scoreRectPlayer2Center", Rect());
-	renderer.LoadRect("scorePositionPlayer2Center", Rect());
-	renderer.LoadRect("scoreRectPlayer2Left", Rect());
-	renderer.LoadRect("scorePositionPlayer2Left", Rect());
-
-#pragma endregion
-
-#pragma region Coins
-
-	renderer.LoadTexture("coinTexture", "../../res/img/gold.png");
-
-	for (int i = 0; i < AMOUNT_OF_COINS; i++)
-	{
-		coinRect[i] = Rect({ (rand() % SCREEN_WIDTH) - 10, (rand() % 700) + 300, 100,100 });
-		renderer.LoadRect(std::to_string(i), Rect());
-	}
-
-#pragma endregion
-
-#pragma region Audio
-	/*
-
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
-		throw std::exception("Unable to open SDL_Mixer sound systems");
-	}
-
-	//Title Music
-	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-	menuMusic = Mix_LoadMUS("../../res/au/mainTheme.mp3");
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-	Mix_PlayMusic(menuMusic, -1);
-
-	*/
-#pragma endregion
-
-}
-
-GameManager::~GameManager()
-{
-	Destroy();
-}
-
-void GameManager::InitiateMenu()
-{
-
-
 }
 
 void GameManager::UpdateMenu()
@@ -240,7 +148,7 @@ void GameManager::UpdateMenu()
 		{
 			state = gameStates::IN_GAME;
 			mouseClicked = false;
-			sec = 0;
+			timeDown = playTime;
 			playerClass1.Reset();
 			playerClass2.Reset();
 			boardP1.Reset();
@@ -339,10 +247,115 @@ void GameManager::DrawMenu()
 void GameManager::InitiateGame()
 {
 
+	//------------- INGAME ---------------
+			// --- SPRITES ---
+#pragma region Backgrounds
+
+	//Game Background
+	renderer.LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
+	renderer.LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
+
+#pragma endregion
+
+	// --- TEXT --- 
+#pragma region Score Boards
+
+	//Player 1 text
+
+	renderer.LoadFont(Font({ "Arial", "../../res/ttf/Arial.ttf", 80 }));
+	colors["black"] = { 0,0,0,0 };
+	texts["playerOneScoreBoardText"] = { "playerOneScoreBoardText", "PlayerOne:", colors["black"], 30, 30 };
+	renderer.LoadTextureText("Arial", texts["playerOneScoreBoardText"]);
+	renderer.LoadRect("player1ScoreRect", Rect({ 30,30,  renderer.GetTextureSize("playerOneScoreBoardText").x, renderer.GetTextureSize("playerOneScoreBoardText").y }));
+
+	texts["playerTwoScoreBoardText"] = { "playerTwoScoreBoardText", "PlayerTwo:", colors["black"], 30, 120 };
+	renderer.LoadTextureText("Arial", texts["playerTwoScoreBoardText"]);
+	renderer.LoadRect("player2ScoreRect", Rect({ 30, 120,  renderer.GetTextureSize("playerTwoScoreBoardText").x, renderer.GetTextureSize("playerTwoScoreBoardText").y }));
+
+#pragma endregion
+
+	//--- ANIMATED SPRITES ---
+#pragma region Players Ands Scoreboards
+
+			//Players
+	renderer.LoadTexture("playerTexture", "../../res/img/spCastle.png");
+	renderer.LoadRect("player1Rect", Rect());
+	renderer.LoadRect("player1Position", Rect());
+	renderer.LoadRect("player2Rect", Rect());
+	renderer.LoadRect("player2Position", Rect());
+
+	//ScoreBoard
+	renderer.LoadTexture("scoreTexture", "../../res/img/num.png");
+
+	//Players
+	playerClass1 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P1 };
+	playerClass2 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P2 };
+
+	//Puntuacion Player 1 & Plyaer 2
+	boardP1 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass1 };
+	boardP2 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass2 };
+
+	renderer.LoadRect("scoreRectPlayer1Right", Rect());
+	renderer.LoadRect("scorePositionPlayer1Right", Rect());
+	renderer.LoadRect("scoreRectPlayer1Center", Rect());
+	renderer.LoadRect("scorePositionPlayer1Center", Rect());
+	renderer.LoadRect("scoreRectPlayer1Left", Rect());
+	renderer.LoadRect("scorePositionPlayer1Left", Rect());
+
+	renderer.LoadRect("scoreRectPlayer2Right", Rect());
+	renderer.LoadRect("scorePositionPlayer2Right", Rect());
+	renderer.LoadRect("scoreRectPlayer2Center", Rect());
+	renderer.LoadRect("scorePositionPlayer2Center", Rect());
+	renderer.LoadRect("scoreRectPlayer2Left", Rect());
+	renderer.LoadRect("scorePositionPlayer2Left", Rect());
+
+	//TIME
+	texts["timeText"] = { "timeText", "Time: ", colors["black"], SCREEN_WIDTH - 300 , 20 };
+	renderer.LoadTextureText("Arial", texts["timeText"]);
+	renderer.LoadRect("timeRect", Rect({ SCREEN_WIDTH - 300 , 20,  renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y }));
+	rectangles["timeRect"] = Rect({ SCREEN_WIDTH - 300 , 20,  renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y });
+
+#pragma endregion
+
+#pragma region Coins
+
+	renderer.LoadTexture("coinTexture", "../../res/img/gold.png");
+
+	for (int i = 0; i < AMOUNT_OF_COINS; i++)
+	{
+		coinRect[i] = Rect({ (rand() % SCREEN_WIDTH) - 10, (rand() % 700) + 300, 100,100 });
+		renderer.LoadRect(std::to_string(i), Rect());
+	}
+
+#pragma endregion
+
+#pragma region Audio
+	/*
+
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+		throw std::exception("Unable to open SDL_Mixer sound systems");
+	}
+
+	//Title Music
+	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
+	menuMusic = Mix_LoadMUS("../../res/au/mainTheme.mp3");
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+	Mix_PlayMusic(menuMusic, -1);
+
+	*/
+#pragma endregion
+
 }
 
 void GameManager::UpdateGame()
 {
+	//Timer Update
+	//std::string s = FloatToString(timeDown, 2);
+	texts["timeText"].UpdateText(std::to_string(timeDown));
+	renderer.LoadTextureText("Arial", texts["timeText"]);
+	rectangles["timeRect"] = { SCREEN_WIDTH - 300, 20, renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y };
+	renderer.SetRect("timeRect", rectangles["timeRect"]);
+
 
 #pragma region Players Movement and Scores
 
@@ -399,20 +412,17 @@ void GameManager::UpdateGame()
 
 #pragma region Time
 
-	//Time
-	sec += DELAY_TIME;
-	if (sec >= MAX_TIME) state = gameStates::MENU;
 
-	/*
-	int timeLeft = (MAX_TIME - sec) / 1000;
-	int size = sizeof(exactTime);
-	SDL_snprintf(exactTime, size, "%i", timeLeft);
+	input.UpdateDeltaTime();
+	timeDown -= *input.GetDeltaTime();
 
-	tmpSurf = { TTF_RenderText_Blended(inGameFont, exactTime, SDL_Color{ 255,0,0,0 }) };
-	if (tmpSurf == nullptr) throw std::exception("No es pot crear SDL surface");
-	textures["timeTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 65, tmpSurf->w, tmpSurf->h };
-	*/
+	if (timeDown <= 0)
+	{
+		state = gameStates::MENU;
+		timeDown = playTime;
+	}
+
+
 #pragma endregion
 
 }
@@ -429,8 +439,8 @@ void GameManager::DrawGame()
 	renderer.PushSprite("playerTexture", "player2Rect", "player2Position");
 
 	//Scoreboard Text
-	renderer.PushImage("player1ScoreTexture", "player1ScoreRect");
-	renderer.PushImage("player2ScoreTexture", "player2ScoreRect");
+	renderer.PushImage("playerOneScoreBoardText", "player1ScoreRect");
+	renderer.PushImage("playerTwoScoreBoardText", "player2ScoreRect");
 
 	//Scoreboard Sprites
 	renderer.PushSprite("scoreTexture", "scoreRectPlayer1Right", "scorePositionPlayer1Right");
@@ -439,6 +449,9 @@ void GameManager::DrawGame()
 	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Right", "scorePositionPlayer2Right");
 	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Left", "scorePositionPlayer2Left");
 	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Center", "scorePositionPlayer2Center");
+
+	//Time
+	renderer.PushImage("timeText", "timeRect");
 
 	//Coin bags
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
@@ -449,6 +462,9 @@ void GameManager::DrawGame()
 
 void GameManager::Run()
 {
+	InitiateMenu();
+	InitiateGame();
+	
 	while (isRunning) {
 		frameStart = SDL_GetTicks();
 		// HANDLE EVENTS
@@ -506,11 +522,6 @@ void GameManager::Run()
 		default:
 			break;
 		}
-
-		//Frame Control
-		frameTime = SDL_GetTicks() - frameStart;
-		if (frameTime < DELAY_TIME)
-			SDL_Delay((int)(DELAY_TIME - frameTime));
 	}
 }
 

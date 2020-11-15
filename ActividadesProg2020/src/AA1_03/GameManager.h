@@ -1,13 +1,15 @@
 #pragma once
-#include "Types.h"
 #include "ScoreBoard.h"
-#include "Utils.h"
+#include "Input.h"
 #include "Renderer.h"
+
+
 class GameManager
 {
 private:
 	Renderer renderer;
 
+	InputInfo input;
 
 	SDL_Event event;
 
@@ -50,8 +52,8 @@ private:
 	Vec2 mouseAxis;
 	bool isRunning, mouseClicked, playMenuMusic;
 	char exactTime[5];
-	float sec;
-	;
+	float timeDown, playTime;
+
 public:
 	GameManager();
 	~GameManager();
@@ -64,7 +66,7 @@ public:
 	void UpdateGame();
 	void DrawGame();
 
-	void Update();
+	void UpdateInputs();
 	void Draw();
 	void Run();
 	void Destroy();

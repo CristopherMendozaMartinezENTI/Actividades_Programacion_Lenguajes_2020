@@ -6,7 +6,6 @@ int main(int, char* [])
 	try {
 
 		GameManager game;
-		game.InitiateMenu();
 		game.Run();
 
 	}

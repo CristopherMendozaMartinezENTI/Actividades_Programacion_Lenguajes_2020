@@ -6,9 +6,9 @@
 #include <stdint.h>
 #include <exception>
 #include <iostream>
-#include <string>
 #include <map>
 #include <random>
+#include <string>
 #include "Constants.h"
 
 enum class gameStates {
@@ -61,7 +61,14 @@ struct Text
 	Text() : id{ "0" }, text{ "#" }, color{ Color(0,0,0,0) }, x{ 0 }, y{ 0 } {};
 	Text(std::string _id, std::string _text, Color _color, int _x, int _y) :
 		id{ _id }, text{ _text }, color{ _color }, x{ _x }, y{ _y } {};
-	void UpdateColor(Color _color) { color = _color; }
+	void UpdateColor(Color _color) 
+	{ 
+		color = _color; 
+	}
+	void UpdateText(std::string _text)
+	{
+		text = _text;
+	}
 };
 
 

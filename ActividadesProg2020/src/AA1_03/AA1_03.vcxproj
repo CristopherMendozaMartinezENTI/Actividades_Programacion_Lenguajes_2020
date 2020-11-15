@@ -153,10 +153,12 @@
   <ItemGroup>
     <ClInclude Include="Constants.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="PlayerClass.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
