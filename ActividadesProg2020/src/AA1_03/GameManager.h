@@ -2,6 +2,7 @@
 #include "ScoreBoard.h"
 #include "Input.h"
 #include "Renderer.h"
+#include "AudioManager.h"
 
 
 class GameManager
@@ -40,11 +41,12 @@ private:
 	ScoreBoard boardP1;
 	ScoreBoard boardP2;
 
+	//Music
+	AudioManager music;
+
 	//Players
 	PlayerClass playerClass1;
 	PlayerClass playerClass2;
-
-	Mix_Music* menuMusic;
 
 	gameStates state;
 	Uint32 frameTime, frameStart;
@@ -52,7 +54,7 @@ private:
 	Vec2 mouseAxis;
 	bool isRunning, mouseClicked, playMenuMusic;
 	char exactTime[5];
-	float timeDown, playTime;
+	int timeDown, playTime;
 
 public:
 	GameManager();

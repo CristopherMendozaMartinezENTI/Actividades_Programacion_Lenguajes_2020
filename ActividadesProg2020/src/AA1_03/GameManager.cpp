@@ -7,13 +7,13 @@ GameManager::GameManager()
 	mouseClicked = false;
 	playMenuMusic = false;
 	mouseAxis = { 0, 0 };
-	playTime = 10.f;
-
+	playTime = MAX_TIME;
 }
 
 GameManager::~GameManager()
 {
-	Destroy();
+	//music.~AudioManager();
+	//renderer.~Renderer();
 }
 
 void GameManager::InitiateMenu()
@@ -60,13 +60,6 @@ void GameManager::InitiateMenu()
 	renderer.LoadTextureText("SaiyanFont", texts["titleTexture"]);
 	renderer.LoadRect("titleRect", Rect({ 300, 200, renderer.GetTextureSize("titleTexture").x, renderer.GetTextureSize("titleTexture").y }));
 
-	//font = { TTF_OpenFont("../../res/ttf/saiyan.ttf", 200) };
-	//if (font == nullptr) throw std::exception("No es pot inicialitzar SDL_ttf");
-	//tmpSurf = { TTF_RenderText_Blended(font, "My First SDL Game", SDL_Color{255,210,10,0}) };
-	//if (tmpSurf == nullptr) throw std::exception("No es pot crear SDL surface");
-	//rectangles["titleRect"] = { (SCREEN_WIDTH - tmpSurf->w) / 2, 200, tmpSurf->w, tmpSurf->h };
-	//textures["titleTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-
 #pragma endregion
 
 #pragma region Play Button 
@@ -75,13 +68,6 @@ void GameManager::InitiateMenu()
 	renderer.LoadTextureText("SaiyanFont", texts["playButtonText"]);
 	renderer.LoadRect("playButtonRect", Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("playButtonText").x) / 2, 400, renderer.GetTextureSize("playButtonText").x, renderer.GetTextureSize("playButtonText").y }));
 	rectangles["playButtonRect"] = Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("playButtonText").x) / 2, 400, renderer.GetTextureSize("playButtonText").x, renderer.GetTextureSize("playButtonText").y });
-
-	//tmpSurf = { TTF_RenderText_Blended(font, "Play", SDL_Color{ 255,128,0,0 }) };
-	//textures["playTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	//rectangles["playButtonRect"] = { (SCREEN_WIDTH - tmpSurf->w) / 2, 400, tmpSurf->w, tmpSurf->h };
-	//tmpSurf = { TTF_RenderText_Blended(font, "Play", SDL_Color{ 255,0,0,0 }) };
-	//textures["playHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	//textures["playAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 
 #pragma endregion
 
@@ -92,23 +78,12 @@ void GameManager::InitiateMenu()
 	renderer.LoadRect("soundButtonRect", Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("soundOffButtonText").x) / 2, 600, renderer.GetTextureSize("soundOffButtonText").x, renderer.GetTextureSize("soundOffButtonText").y }));
 	rectangles["soundButtonRect"] = Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("soundOffButtonText").x) / 2, 600, renderer.GetTextureSize("soundOffButtonText").x, renderer.GetTextureSize("soundOffButtonText").y });
 
-	//tmpSurf = { TTF_RenderText_Blended(font, "Sound Off", SDL_Color{ 255,128,0,0 }) };
-	//textures["soundOffTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	//tmpSurf = { TTF_RenderText_Blended(font, "Sound Off", SDL_Color{ 255,0,0,0 }) };
-	//textures["soundOffHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	//textures["soundOffAux"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-
 #pragma endregion
 
 #pragma region Sound On Button
 
 	//Sound On Button (Menu)
 	renderer.LoadTextureText("SaiyanFont", texts["soundOnButtonText"]);
-
-	//tmpSurf = { TTF_RenderText_Blended(font, "Sound On", SDL_Color{ 255,128,0,0 }) };
-	//textures["soundOnTexture"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
-	//tmpSurf = { TTF_RenderText_Blended(font, "Sound On", SDL_Color{ 255,0,0,0 }) };
-	//textures["soundOnHover"] = { SDL_CreateTextureFromSurface(m_renderer, tmpSurf) };
 
 #pragma endregion
 
@@ -169,8 +144,8 @@ void GameManager::UpdateMenu()
 		{
 			mouseClicked = false;
 			playMenuMusic = !playMenuMusic;
-			if (playMenuMusic) Mix_PauseMusic();
-			else Mix_PlayMusic(menuMusic, 100);
+			if (playMenuMusic) music.PauseMenuMusic();
+			else music.PlayMenuMusic();
 
 		}
 		if (playMenuMusic)
@@ -329,31 +304,15 @@ void GameManager::InitiateGame()
 
 #pragma endregion
 
-#pragma region Audio
-	/*
-
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
-		throw std::exception("Unable to open SDL_Mixer sound systems");
-	}
-
-	//Title Music
-	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-	menuMusic = Mix_LoadMUS("../../res/au/mainTheme.mp3");
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-	Mix_PlayMusic(menuMusic, -1);
-
-	*/
-#pragma endregion
-
 }
 
 void GameManager::UpdateGame()
 {
 	//Timer Update
 	//std::string s = FloatToString(timeDown, 2);
-	texts["timeText"].UpdateText(std::to_string(timeDown));
+	texts["timeText"].UpdateText(std::to_string(timeDown/100));
 	renderer.LoadTextureText("Arial", texts["timeText"]);
-	rectangles["timeRect"] = { SCREEN_WIDTH - 300, 20, renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y };
+	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 20, renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y };
 	renderer.SetRect("timeRect", rectangles["timeRect"]);
 
 
@@ -421,7 +380,6 @@ void GameManager::UpdateGame()
 		state = gameStates::MENU;
 		timeDown = playTime;
 	}
-
 
 #pragma endregion
 
@@ -525,24 +483,3 @@ void GameManager::Run()
 	}
 }
 
-void GameManager::Destroy()
-{
-	//renderer.~Renderer();
-
-	/*
-	for (std::pair<std::string, SDL_Texture*> element : textures) {
-		SDL_DestroyTexture(textures[element.first]);
-	}
-
-	SDL_FreeSurface(tmpSurf);
-	TTF_CloseFont(font);
-	TTF_CloseFont(inGameFont);
-	Mix_CloseAudio();
-	IMG_Quit();
-	TTF_Quit();
-	SDL_DestroyRenderer(m_renderer);
-	SDL_DestroyWindow(m_window);
-	SDL_Quit();
-	Mix_Quit();
-	*/
-}
