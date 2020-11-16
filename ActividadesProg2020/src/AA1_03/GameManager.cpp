@@ -18,7 +18,7 @@ GameManager::~GameManager()
 
 void GameManager::InitiateMenu()
 {
-
+	music.PlayMenuMusic();
 	//------------- MENU ---------------
 			// --- SPRITES ---
 #pragma region Backgrounds
