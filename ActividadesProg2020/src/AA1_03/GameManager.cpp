@@ -148,9 +148,9 @@ void GameManager::UpdateMenu()
 	//Changing Sound Off/On Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
 	{
-		if (mouseClicked)
+		if (inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT])
 		{
-			mouseClicked = false;
+			inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT] = false;
 			playMenuMusic = !playMenuMusic;
 			if (playMenuMusic) music.PauseMenuMusic();
 			else music.PlayMenuMusic();
@@ -243,7 +243,7 @@ void GameManager::InitiateGame()
 	// --- TEXT --- 
 #pragma region Score Boards
 
-	//Player 1 text
+	//Text
 
 	renderer.LoadFont(Font({ "Arial", "../../res/ttf/Arial.ttf", 80 }));
 	colors["black"] = { 0,0,0,0 };
@@ -385,7 +385,6 @@ void GameManager::UpdateGame()
 	{
 		state = gameStates::MENU;
 		timeDown = playTime;
-		timeDown = playTime;
 	}
 
 #pragma endregion
@@ -450,6 +449,7 @@ void GameManager::Run()
 		if (inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = true;
 
 		//Key Release
+		if (!inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = false;
 		if (!inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = false;
 		if (!inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = false;
 		if (!inputs.returnKeyIsDown()[(int)EKeys::RIGHT]) playerClass1.dir.goRight = false;
