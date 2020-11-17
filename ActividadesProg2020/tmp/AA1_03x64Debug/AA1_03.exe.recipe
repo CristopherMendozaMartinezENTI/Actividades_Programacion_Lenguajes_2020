@@ -1,7 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
-  <ProjectOutputs>C:\Users\Roger\Source\Repos\CristopherMendozaMartinezENTI\Actividades_Programacion_Lenguajes_2020\ActividadesProg2020\bin\x64Debug\AA1_03.exe</ProjectOutputs>
-  <ContentFiles></ContentFiles>
-  <SatelliteDlls></SatelliteDlls>
-  <NonRecipeFileRefs></NonRecipeFileRefs>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\Roger\Source\Repos\CristopherMendozaMartinezENTI\Actividades_Programacion_Lenguajes_2020\ActividadesProg2020\bin\x64Debug\AA1_03.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
 </Project>

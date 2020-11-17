@@ -113,5 +113,23 @@ void Renderer::SetRect(const std::string& idRect, const Rect& rect)
 	m_rects[idRect]->h = rect.h;
 }
 
+void Renderer::StartFrameControl()
+{
+	frameStart = SDL_GetTicks();
+}
+
+void Renderer::EndFrameControl()
+{
+	frameTime = SDL_GetTicks() - frameStart;
+	if (frameTime < DELAY_TIME)
+	{
+		SDL_Delay((int)(DELAY_TIME - frameTime));
+	}
+}
+
+void Renderer::HideCursor()
+{
+	SDL_ShowCursor(SDL_DISABLE);
+}
 
 

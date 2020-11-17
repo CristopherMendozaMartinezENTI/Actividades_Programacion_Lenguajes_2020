@@ -12,5 +12,6 @@ public:
 	~AudioManager();
 	void PlayMenuMusic();
 	void PauseMenuMusic();
+	void ResumeMenuMusic();
 };
 

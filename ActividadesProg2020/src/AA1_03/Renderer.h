@@ -8,6 +8,7 @@
 class Renderer {
 
 private:
+	Uint32 frameStart, frameTime;
 	SDL_Renderer* m_renderer = nullptr;
 	SDL_Window* m_window = nullptr;
 	std::unordered_map<std::string, SDL_Texture*> m_textureData;
@@ -31,6 +32,9 @@ public:
 	void SetRenderDrawColor(int r, int g, int b);
 	void SetRenderDrawColor(const Color& c);
 	void SetRect(const std::string& idRect, const Rect& rect);
+	void StartFrameControl();
+	void EndFrameControl();
+	void HideCursor();
 };
 
 

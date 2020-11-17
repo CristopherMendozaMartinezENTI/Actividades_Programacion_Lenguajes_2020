@@ -14,6 +14,7 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
+
 }
 
 void GameManager::UpdateDeltaTime()
@@ -113,7 +114,7 @@ void GameManager::UpdateMenu()
 #pragma region Menu Interactions
 
 	//Hide Mouse 
-	SDL_ShowCursor(SDL_DISABLE);
+	renderer.HideCursor();
 
 	//Putting the Mouse at the center of the cursor 
 	rectangles["cursorRect"].x += (((mouseAxis.x - (rectangles["cursorRect"].w / 2)) - rectangles["cursorRect"].x) / 10);
@@ -153,7 +154,7 @@ void GameManager::UpdateMenu()
 			inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT] = false;
 			playMenuMusic = !playMenuMusic;
 			if (playMenuMusic) music.PauseMenuMusic();
-			else music.PlayMenuMusic();
+			else music.ResumeMenuMusic();
 
 		}
 		if (playMenuMusic)
@@ -378,9 +379,6 @@ void GameManager::UpdateGame()
 
 #pragma region Time
 
-	UpdateDeltaTime();
-	timeDown -= deltaTime;
-
 	if (timeDown <= 0)
 	{
 		state = gameStates::MENU;
@@ -431,6 +429,7 @@ void GameManager::Run()
 	
 	while (isRunning) {
 
+		renderer.StartFrameControl();
 		//Realizamos el update de los inputs y los mapeamos
 		inputs.Update();
 		mouseAxis = inputs.returnMouseAxis();
@@ -474,6 +473,11 @@ void GameManager::Run()
 		default:
 			break;
 		}
+
+		UpdateDeltaTime();
+		timeDown -= deltaTime;
+		renderer.EndFrameControl();
+
 	}
 }
 
