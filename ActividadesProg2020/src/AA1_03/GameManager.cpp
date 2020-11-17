@@ -431,47 +431,33 @@ void GameManager::Run()
 	InitiateGame();
 	
 	while (isRunning) {
-		// HANDLE EVENTS ---> SE HA DE LLAMAR AQUI AL UPDATE DEL INPUTMANAGER
-		//Hacer una serie de if en los que leemos el contenido de KeyIsDown y KeyIsUp
-		// Y modificamos la variable de tipo Directions (dir) de los 2 players 
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type) {
-			case SDL_QUIT:
-				isRunning = false;
-				break;
-			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false;
-				if (event.key.keysym.sym == SDLK_UP) playerClass1.dir.goUp = true;
-				if (event.key.keysym.sym == SDLK_DOWN) playerClass1.dir.goDown = true;
-				if (event.key.keysym.sym == SDLK_RIGHT) playerClass1.dir.goRight = true;
-				if (event.key.keysym.sym == SDLK_LEFT) playerClass1.dir.goLeft = true;
-				if (event.key.keysym.sym == SDLK_w) playerClass2.dir.goUp = true;
-				if (event.key.keysym.sym == SDLK_s) playerClass2.dir.goDown = true;
-				if (event.key.keysym.sym == SDLK_d) playerClass2.dir.goRight = true;
-				if (event.key.keysym.sym == SDLK_a) playerClass2.dir.goLeft = true;
-				break;
-			case SDL_KEYUP:
-				if (event.key.keysym.sym == SDLK_UP)  playerClass1.dir.goUp = false;
-				if (event.key.keysym.sym == SDLK_DOWN)  playerClass1.dir.goDown = false;
-				if (event.key.keysym.sym == SDLK_RIGHT) playerClass1.dir.goRight = false;
-				if (event.key.keysym.sym == SDLK_LEFT) playerClass1.dir.goLeft = false;
-				if (event.key.keysym.sym == SDLK_w) playerClass2.dir.goUp = false;
-				if (event.key.keysym.sym == SDLK_s) playerClass2.dir.goDown = false;
-				if (event.key.keysym.sym == SDLK_d)	playerClass2.dir.goRight = false;
-				if (event.key.keysym.sym == SDLK_a)	playerClass2.dir.goLeft = false;
-				break;
-			case SDL_MOUSEMOTION:
-				mouseAxis.x = event.motion.x;
-				mouseAxis.y = event.motion.y;
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-				if (event.button.button == SDL_BUTTON_LEFT)
-					mouseClicked = true;
-				break;
-			default:;
-			}
-		}
+
+		//Realizamos el update de los inputs y los mapeamos
+		inputs.Update();
+		mouseAxis = inputs.returnMouseAxis();
+
+		//Key Press
+		if (inputs.returnKeyIsDown()[(int)EKeys::QUIT]) isRunning = false;
+		if (inputs.returnKeyIsDown()[(int)EKeys::ESC])  isRunning = false;
+		if (inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = true;
+		if (inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = true;
+		if (inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = true;
+		if (inputs.returnKeyIsDown()[(int)EKeys::RIGHT]) playerClass1.dir.goRight = true;
+		if (inputs.returnKeyIsDown()[(int)EKeys::LEFT]) playerClass1.dir.goLeft = true;
+		if (inputs.returnKeyIsDown()[(int)EKeys::W]) playerClass2.dir.goUp = true;
+		if (inputs.returnKeyIsDown()[(int)EKeys::S]) playerClass2.dir.goDown = true;
+		if (inputs.returnKeyIsDown()[(int)EKeys::D]) playerClass2.dir.goRight = true;
+		if (inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = true;
+
+		//Key Release
+		if (!inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = false;
+		if (!inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = false;
+		if (!inputs.returnKeyIsDown()[(int)EKeys::RIGHT]) playerClass1.dir.goRight = false;
+		if (!inputs.returnKeyIsDown()[(int)EKeys::LEFT]) playerClass1.dir.goLeft = false;
+		if (!inputs.returnKeyIsDown()[(int)EKeys::W]) playerClass2.dir.goUp = false;
+		if (!inputs.returnKeyIsDown()[(int)EKeys::S]) playerClass2.dir.goDown = false;
+		if (!inputs.returnKeyIsDown()[(int)EKeys::D]) playerClass2.dir.goRight = false;
+		if (!inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = false;
 
 		switch (state)
 		{

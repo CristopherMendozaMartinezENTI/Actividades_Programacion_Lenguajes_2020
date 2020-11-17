@@ -22,7 +22,7 @@ enum class PlayerType {
 enum class EKeys {
 	DEFAULT, ESC, UP, DOWN, LEFT, RIGHT, 
 	W, A, S, D, MOUSE_LEFT, MOUSE_RIGHT, 
-	SPACE, P, TOTAL 
+	SPACE, P, QUIT, TOTAL 
 };
 
 struct Directions
