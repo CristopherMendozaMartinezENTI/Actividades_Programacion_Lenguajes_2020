@@ -1,27 +1,17 @@
 #pragma once
 #include "ScoreBoard.h"
-#include "Input.h"
 #include "Renderer.h"
 #include "AudioManager.h"
-
+#include "InputManager.h"
 
 class GameManager
 {
 private:
 	Renderer renderer;
 
-	InputInfo input;
+	InputManager inputs;
 
 	SDL_Event event;
-
-	//Textures
-	std::map<std::string, SDL_Texture*> textures;
-
-	//Surfaces
-	SDL_Surface* tmpSurf;
-
-	//Texture variables
-	int textWidth, textHeight, scoreWidth, scoreHeight;
 
 	//Colors
 	std::map<std::string, Color> colors;
@@ -29,10 +19,6 @@ private:
 	//Texts
 	std::map<std::string, Text> texts;
 			
-	//Fonts 
-	TTF_Font* font;
-	TTF_Font* inGameFont;
-
 	//Rects
 	std::map<std::string, Rect> rectangles;
 	Rect coinRect[AMOUNT_OF_COINS];
@@ -49,16 +35,18 @@ private:
 	PlayerClass playerClass2;
 
 	gameStates state;
-	Uint32 frameTime, frameStart;
-
 	Vec2 mouseAxis;
 	bool isRunning, mouseClicked, playMenuMusic;
-	char exactTime[5];
 	int timeDown, playTime;
+
+	clock_t lastTime;
+	float deltaTime;
 
 public:
 	GameManager();
 	~GameManager();
+
+	void UpdateDeltaTime();
 
 	void InitiateMenu();
 	void UpdateMenu();
@@ -68,9 +56,6 @@ public:
 	void UpdateGame();
 	void DrawGame();
 
-	void UpdateInputs();
-	void Draw();
 	void Run();
-	void Destroy();
 };
 

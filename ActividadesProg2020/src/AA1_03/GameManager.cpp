@@ -8,19 +8,27 @@ GameManager::GameManager()
 	playMenuMusic = false;
 	mouseAxis = { 0, 0 };
 	playTime = MAX_TIME;
+	lastTime = clock();
+	deltaTime = 0.f;
 }
 
 GameManager::~GameManager()
 {
-	//music.~AudioManager();
-	//renderer.~Renderer();
+}
+
+void GameManager::UpdateDeltaTime()
+{
+	deltaTime = (clock() - lastTime);
+	lastTime = clock();
+	deltaTime /= CLOCKS_PER_SEC;
 }
 
 void GameManager::InitiateMenu()
 {
 	music.PlayMenuMusic();
+
 	//------------- MENU ---------------
-			// --- SPRITES ---
+	// --- SPRITES ---
 #pragma region Backgrounds
 
 	//Main Menu Background
@@ -223,7 +231,7 @@ void GameManager::InitiateGame()
 {
 
 	//------------- INGAME ---------------
-			// --- SPRITES ---
+	// --- SPRITES ---
 #pragma region Backgrounds
 
 	//Game Background
@@ -315,7 +323,6 @@ void GameManager::UpdateGame()
 	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 20, renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y };
 	renderer.SetRect("timeRect", rectangles["timeRect"]);
 
-
 #pragma region Players Movement and Scores
 
 	//Player Movement
@@ -371,13 +378,13 @@ void GameManager::UpdateGame()
 
 #pragma region Time
 
-
-	input.UpdateDeltaTime();
-	timeDown -= *input.GetDeltaTime();
+	UpdateDeltaTime();
+	timeDown -= deltaTime;
 
 	if (timeDown <= 0)
 	{
 		state = gameStates::MENU;
+		timeDown = playTime;
 		timeDown = playTime;
 	}
 
@@ -424,8 +431,9 @@ void GameManager::Run()
 	InitiateGame();
 	
 	while (isRunning) {
-		frameStart = SDL_GetTicks();
-		// HANDLE EVENTS
+		// HANDLE EVENTS ---> SE HA DE LLAMAR AQUI AL UPDATE DEL INPUTMANAGER
+		//Hacer una serie de if en los que leemos el contenido de KeyIsDown y KeyIsUp
+		// Y modificamos la variable de tipo Directions (dir) de los 2 players 
 		while (SDL_PollEvent(&event))
 		{
 			switch (event.type) {

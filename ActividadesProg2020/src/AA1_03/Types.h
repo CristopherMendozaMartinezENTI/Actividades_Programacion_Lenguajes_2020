@@ -9,6 +9,7 @@
 #include <map>
 #include <random>
 #include <string>
+#include <time.h>
 #include "Constants.h"
 
 enum class gameStates {
@@ -17,6 +18,11 @@ enum class gameStates {
 
 enum class PlayerType {
 	P1, P2
+};
+enum class EKeys {
+	DEFAULT, ESC, UP, DOWN, LEFT, RIGHT, 
+	W, A, S, D, MOUSE_LEFT, MOUSE_RIGHT, 
+	SPACE, P, TOTAL 
 };
 
 struct Directions

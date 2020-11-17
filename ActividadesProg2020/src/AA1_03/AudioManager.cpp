@@ -18,7 +18,7 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager()
 {
-	//Mix_CloseAudio();
+	Mix_CloseAudio();
 	//Mix_Quit();
 }
 
