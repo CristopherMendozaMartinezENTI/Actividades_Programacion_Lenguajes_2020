@@ -7,11 +7,13 @@
 class GameManager
 {
 private:
+	//Music
+	AudioManager music;
+
+	//Renderer
 	Renderer renderer;
 
 	InputManager inputs;
-
-	SDL_Event event;
 
 	//Colors
 	std::map<std::string, Color> colors;
@@ -27,8 +29,6 @@ private:
 	ScoreBoard boardP1;
 	ScoreBoard boardP2;
 
-	//Music
-	AudioManager music;
 
 	//Players
 	PlayerClass playerClass1;
@@ -37,6 +37,8 @@ private:
 	gameStates state;
 	Vec2 mouseAxis;
 	bool isRunning, mouseClicked, playMenuMusic;
+	bool playHover, sondOffHover, sondOnHover, exitHover;
+
 	int timeDown, playTime;
 
 	clock_t lastTime;
