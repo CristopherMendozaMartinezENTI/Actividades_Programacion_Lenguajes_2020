@@ -29,7 +29,6 @@ private:
 	ScoreBoard boardP1;
 	ScoreBoard boardP2;
 
-
 	//Players
 	PlayerClass playerClass1;
 	PlayerClass playerClass2;

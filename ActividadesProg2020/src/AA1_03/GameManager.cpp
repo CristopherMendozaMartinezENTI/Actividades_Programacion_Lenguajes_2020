@@ -183,7 +183,6 @@ void GameManager::UpdateMenu()
 		{
 			//Sound Off HOVER color.
 			sondOffHover = true;
-
 		}
 	}
 	else

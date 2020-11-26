@@ -1,5 +1,5 @@
-#define SCREEN_WIDTH 900
-#define SCREEN_HEIGHT 600
+#define SCREEN_WIDTH 1920
+#define SCREEN_HEIGHT 1080
 #define FPS  60
 #define DELAY_TIME 1000.0f / FPS
 #define MAX_TIME 8000
