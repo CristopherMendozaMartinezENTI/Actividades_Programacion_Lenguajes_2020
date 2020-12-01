@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Casilla.h" />
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Coordenada.h" />
     <ClInclude Include="Movimiento.h" />
     <ClInclude Include="Partida.h" />

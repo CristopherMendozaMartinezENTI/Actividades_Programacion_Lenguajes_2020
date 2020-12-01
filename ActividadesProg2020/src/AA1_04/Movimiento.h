@@ -3,7 +3,7 @@
 class Movimiento
 {
 public:
-	int numMovs;
+	static int numMovs;
 	Coordenada* x;
 	Coordenada* y;
 };

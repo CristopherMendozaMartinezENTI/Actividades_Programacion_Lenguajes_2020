@@ -3,15 +3,13 @@
 #include "Pieza.h"
 #include "Tablero.h"
 #include "Movimiento.h"
-
-#define K_MAX_PIEZAS 32
-#define K_MAX_MOV 10
+#include "Constants.h"
 
 class Partida
 {
 public:
 	Tablero* tablero;
 	Pieza* piezas[K_MAX_PIEZAS];
-	std::vector<Movimiento*> movimientos;
+	std::vector<Movimiento*> *movimientos;
 };
 

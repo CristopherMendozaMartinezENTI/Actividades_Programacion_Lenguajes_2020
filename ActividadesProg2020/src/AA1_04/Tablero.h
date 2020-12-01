@@ -4,6 +4,7 @@
 #include "Coordenada.h"
 class Tablero
 {
-	std::vector<Casilla*> casillas;
+	std::vector<Casilla*> *casillas;
+
 };
 
