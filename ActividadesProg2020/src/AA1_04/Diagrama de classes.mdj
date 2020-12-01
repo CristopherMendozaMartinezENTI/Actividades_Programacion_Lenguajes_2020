@@ -872,13 +872,47 @@
 											"height": 13,
 											"text": "+~Scene()",
 											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF2HBjh+Cya8Sw=",
+											"_parent": {
+												"$ref": "AAAAAAFnXUySq2AK5s0="
+											},
+											"model": {
+												"$ref": "AAAAAAF2HBjh6yyXX1s="
+											},
+											"font": "Arial;13;0",
+											"left": 1069,
+											"top": 338,
+											"width": 164.404296875,
+											"height": 13,
+											"text": "+Update(): void",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF2HBj6NS5FqSA=",
+											"_parent": {
+												"$ref": "AAAAAAFnXUySq2AK5s0="
+											},
+											"model": {
+												"$ref": "AAAAAAF2HBj6Ly5CbDI="
+											},
+											"font": "Arial;13;0",
+											"left": 1069,
+											"top": 353,
+											"width": 164.404296875,
+											"height": 13,
+											"text": "+Draw(): void",
+											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 1064,
 									"top": 303,
 									"width": 174.404296875,
-									"height": 38
+									"height": 68
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -918,7 +952,7 @@
 							"left": 1064,
 							"top": 240,
 							"width": 174.404296875,
-							"height": 116,
+							"height": 131,
 							"nameCompartment": {
 								"$ref": "AAAAAAFnXUySq2AE/W0="
 							},
@@ -10148,6 +10182,44 @@
 								"$ref": "AAAAAAFnXUySqmABypA="
 							},
 							"name": "~Scene"
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF2HBjh6yyXX1s=",
+							"_parent": {
+								"$ref": "AAAAAAFnXUySqmABypA="
+							},
+							"name": "Update",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF2HBk7GT1iWVg=",
+									"_parent": {
+										"$ref": "AAAAAAF2HBjh6yyXX1s="
+									},
+									"type": "void",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF2HBj6Ly5CbDI=",
+							"_parent": {
+								"$ref": "AAAAAAFnXUySqmABypA="
+							},
+							"name": "Draw",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF2HBlOkj61anc=",
+									"_parent": {
+										"$ref": "AAAAAAF2HBj6Ly5CbDI="
+									},
+									"type": "void",
+									"direction": "return"
+								}
+							]
 						}
 					],
 					"isAbstract": true
