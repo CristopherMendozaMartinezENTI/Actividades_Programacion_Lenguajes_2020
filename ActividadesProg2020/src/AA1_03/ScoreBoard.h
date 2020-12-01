@@ -18,8 +18,6 @@ private:
 		scoreRectCenter, scorePositionCenter,
 		scoreRectLeft, scorePositionLeft;
 
-	PlayerClass _player;
-
 public:
 	ScoreBoard();
 	ScoreBoard(int _scoreWidth, int _scoreHeight, PlayerClass _player);
