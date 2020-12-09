@@ -33,16 +33,16 @@ void GameManager::InitiateMenu()
 #pragma region Backgrounds
 
 	//Main Menu Background
-	renderer.LoadTexture("bgTexture", "../../res/img/bg.jpg");
-	renderer.LoadRect("bgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
+	Renderer::Instance()->LoadTexture("bgTexture", "../../res/img/bg.jpg");
+	Renderer::Instance()->LoadRect("bgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
 #pragma endregion
 
 #pragma region Cursor
 
 	//Cursor
-	renderer.LoadTexture("cursorTexture", "../../res/img/kintoun.png");
-	renderer.LoadRect("cursorRect", Rect({ 0, 0, 350, 190 }));
+	Renderer::Instance()->LoadTexture("cursorTexture", "../../res/img/kintoun.png");
+	Renderer::Instance()->LoadRect("cursorRect", Rect({ 0, 0, 350, 190 }));
 	rectangles["cursorRect"] = Rect({ 0, 0, 350, 190 });
 
 #pragma endregion
@@ -73,20 +73,20 @@ void GameManager::InitiateMenu()
 	 exitHover = false;
 
 	//Title Text
-	renderer.LoadFont(Font({ "SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
-	renderer.LoadTextureText("SaiyanFont", texts["titleTexture"]);
-	renderer.LoadRect("titleRect", Rect({ 300, 200, renderer.GetTextureSize("titleTexture").x, renderer.GetTextureSize("titleTexture").y }));
+	Renderer::Instance()->LoadFont(Font({ "SaiyanFont", "../../res/ttf/saiyan.ttf", 200 }));
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["titleTexture"]);
+	Renderer::Instance()->LoadRect("titleRect", Rect({ 300, 200, Renderer::Instance()->GetTextureSize("titleTexture").x, Renderer::Instance()->GetTextureSize("titleTexture").y }));
 
 #pragma endregion
 
 #pragma region Play Button 
 	//Play Button (Menu)
 	//normal surface
-	renderer.LoadTextureText("SaiyanFont", texts["playButtonText"]);
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["playButtonText"]);
 	//hover surface
-	renderer.LoadTextureText("SaiyanFont", texts["playButtonText_hover"]);
-	renderer.LoadRect("playButtonRect", Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("playButtonText").x) / 2, 400, renderer.GetTextureSize("playButtonText").x, renderer.GetTextureSize("playButtonText").y }));
-	rectangles["playButtonRect"] = Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("playButtonText").x) / 2, 400, renderer.GetTextureSize("playButtonText").x, renderer.GetTextureSize("playButtonText").y });
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["playButtonText_hover"]);
+	Renderer::Instance()->LoadRect("playButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText").x) / 2, 400, Renderer::Instance()->GetTextureSize("playButtonText").x, Renderer::Instance()->GetTextureSize("playButtonText").y }));
+	rectangles["playButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText").x) / 2, 400, Renderer::Instance()->GetTextureSize("playButtonText").x, Renderer::Instance()->GetTextureSize("playButtonText").y });
 
 #pragma endregion
 
@@ -94,11 +94,11 @@ void GameManager::InitiateMenu()
 
 	//Sound Off Button (Menu)
 	//normal surface
-	renderer.LoadTextureText("SaiyanFont", texts["soundOffButtonText"]);		
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["soundOffButtonText"]);
 	//hover surface
-	renderer.LoadTextureText("SaiyanFont", texts["soundOffButtonText_hover"]);	
-	renderer.LoadRect("soundButtonRect", Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("soundOffButtonText").x) / 2, 600, renderer.GetTextureSize("soundOffButtonText").x, renderer.GetTextureSize("soundOffButtonText").y }));
-	rectangles["soundButtonRect"] = Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("soundOffButtonText").x) / 2, 600, renderer.GetTextureSize("soundOffButtonText").x, renderer.GetTextureSize("soundOffButtonText").y });
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["soundOffButtonText_hover"]);
+	Renderer::Instance()->LoadRect("soundButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("soundOffButtonText").x) / 2, 600, Renderer::Instance()->GetTextureSize("soundOffButtonText").x, Renderer::Instance()->GetTextureSize("soundOffButtonText").y }));
+	rectangles["soundButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("soundOffButtonText").x) / 2, 600, Renderer::Instance()->GetTextureSize("soundOffButtonText").x, Renderer::Instance()->GetTextureSize("soundOffButtonText").y });
 
 #pragma endregion
 
@@ -106,9 +106,9 @@ void GameManager::InitiateMenu()
 
 	//Sound On Button (Menu)
 	//normal surface
-	renderer.LoadTextureText("SaiyanFont", texts["soundOnButtonText"]);
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["soundOnButtonText"]);
 	//hover surface
-	renderer.LoadTextureText("SaiyanFont", texts["soundOnButtonText_hover"]);
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["soundOnButtonText_hover"]);
 
 #pragma endregion
 
@@ -116,11 +116,11 @@ void GameManager::InitiateMenu()
 
 	//Exit Button (Menu)
 	//normal surface
-	renderer.LoadTextureText("SaiyanFont", texts["exitButtonText"]);
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["exitButtonText"]);
 	//hover surface
-	renderer.LoadTextureText("SaiyanFont", texts["exitButtonText_hover"]);
-	renderer.LoadRect("exitButtonRect", Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("exitButtonText").x) / 2, 800, renderer.GetTextureSize("exitButtonText").x, renderer.GetTextureSize("exitButtonText").y }));
-	rectangles["exitButtonRect"] = Rect({ (SCREEN_WIDTH - renderer.GetTextureSize("exitButtonText").x) / 2, 800, renderer.GetTextureSize("exitButtonText").x, renderer.GetTextureSize("exitButtonText").y });
+	Renderer::Instance()->LoadTextureText("SaiyanFont", texts["exitButtonText_hover"]);
+	Renderer::Instance()->LoadRect("exitButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("exitButtonText").x) / 2, 800, Renderer::Instance()->GetTextureSize("exitButtonText").x, Renderer::Instance()->GetTextureSize("exitButtonText").y }));
+	rectangles["exitButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("exitButtonText").x) / 2, 800, Renderer::Instance()->GetTextureSize("exitButtonText").x, Renderer::Instance()->GetTextureSize("exitButtonText").y });
 
 #pragma endregion
 
@@ -132,13 +132,13 @@ void GameManager::UpdateMenu()
 #pragma region Menu Interactions
 
 	//Hide Mouse 
-	renderer.HideCursor();
+	Renderer::Instance()->HideCursor();
 
 	//Putting the Mouse at the center of the cursor 
 	rectangles["cursorRect"].x += (((mouseAxis.x - (rectangles["cursorRect"].w / 2)) - rectangles["cursorRect"].x) / 10);
 	rectangles["cursorRect"].y += (((mouseAxis.y - (rectangles["cursorRect"].h / 2)) - rectangles["cursorRect"].y) / 10);
 	
-	renderer.SetRect("cursorRect", rectangles["cursorRect"]);
+	Renderer::Instance()->SetRect("cursorRect", rectangles["cursorRect"]);
 
 	//Changing Play Button Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["playButtonRect"]))
@@ -219,31 +219,31 @@ void GameManager::UpdateMenu()
 
 void GameManager::DrawMenu()
 {
-	renderer.Clear();
+	Renderer::Instance()->Clear();
 
 	//Background
-	renderer.PushImage("bgTexture", "bgRect");
+	Renderer::Instance()->PushImage("bgTexture", "bgRect");
 	//Cursor
-	renderer.PushImage("cursorTexture", "cursorRect");
+	Renderer::Instance()->PushImage("cursorTexture", "cursorRect");
 	//Title
-	renderer.PushImage("titleTexture", "titleRect");
-	renderer.PushImage("titleTexture_hover", "titleRect");
+	Renderer::Instance()->PushImage("titleTexture", "titleRect");
+	Renderer::Instance()->PushImage("titleTexture_hover", "titleRect");
 	//Pay Button
-	// renderer.PushImage(playHover, "playButtonRect")
-	if (playHover)	renderer.PushImage("playButtonText_hover", "playButtonRect");
-	else renderer.PushImage("playButtonText", "playButtonRect");
+	// Renderer::Instance()->PushImage(playHover, "playButtonRect")
+	if (playHover)	Renderer::Instance()->PushImage("playButtonText_hover", "playButtonRect");
+	else Renderer::Instance()->PushImage("playButtonText", "playButtonRect");
 	//Exit Button
-	if(exitHover)	renderer.PushImage("exitButtonText_hover", "exitButtonRect");
-	else	renderer.PushImage("exitButtonText", "exitButtonRect");
+	if(exitHover) Renderer::Instance()->PushImage("exitButtonText_hover", "exitButtonRect");
+	else Renderer::Instance()->PushImage("exitButtonText", "exitButtonRect");
 	//Sound Button
 	if (playMenuMusic) 
-		if (sondOnHover) renderer.PushImage("soundOnButtonText_hover", "soundButtonRect");
-		else renderer.PushImage("soundOnButtonText", "soundButtonRect");
+		if (sondOnHover) Renderer::Instance()->PushImage("soundOnButtonText_hover", "soundButtonRect");
+		else Renderer::Instance()->PushImage("soundOnButtonText", "soundButtonRect");
 	else 
-		if (sondOffHover)  renderer.PushImage("soundOffButtonText_hover", "soundButtonRect");
-		else renderer.PushImage("soundOnButtonText", "soundButtonRect");
+		if (sondOffHover) Renderer::Instance()->PushImage("soundOffButtonText_hover", "soundButtonRect");
+		else Renderer::Instance()->PushImage("soundOnButtonText", "soundButtonRect");
 
-	renderer.Render();
+	Renderer::Instance()->Render();
 
 }
 
@@ -255,8 +255,8 @@ void GameManager::InitiateGame()
 #pragma region Backgrounds
 
 	//Game Background
-	renderer.LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
-	renderer.LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
+	Renderer::Instance()->LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
+	Renderer::Instance()->LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
 #pragma endregion
 
@@ -265,15 +265,15 @@ void GameManager::InitiateGame()
 
 	//Text
 
-	renderer.LoadFont(Font({ "Arial", "../../res/ttf/Arial.ttf", 80 }));
+	Renderer::Instance()->LoadFont(Font({ "Arial", "../../res/ttf/Arial.ttf", 80 }));
 	colors["black"] = { 0,0,0,0 };
 	texts["playerOneScoreBoardText"] = { "playerOneScoreBoardText", "PlayerOne:", colors["black"], 30, 30 };
-	renderer.LoadTextureText("Arial", texts["playerOneScoreBoardText"]);
-	renderer.LoadRect("player1ScoreRect", Rect({ 30,30,  renderer.GetTextureSize("playerOneScoreBoardText").x, renderer.GetTextureSize("playerOneScoreBoardText").y }));
+	Renderer::Instance()->LoadTextureText("Arial", texts["playerOneScoreBoardText"]);
+	Renderer::Instance()->LoadRect("player1ScoreRect", Rect({ 30,30,  Renderer::Instance()->GetTextureSize("playerOneScoreBoardText").x, Renderer::Instance()->GetTextureSize("playerOneScoreBoardText").y }));
 
 	texts["playerTwoScoreBoardText"] = { "playerTwoScoreBoardText", "PlayerTwo:", colors["black"], 30, 120 };
-	renderer.LoadTextureText("Arial", texts["playerTwoScoreBoardText"]);
-	renderer.LoadRect("player2ScoreRect", Rect({ 30, 120,  renderer.GetTextureSize("playerTwoScoreBoardText").x, renderer.GetTextureSize("playerTwoScoreBoardText").y }));
+	Renderer::Instance()->LoadTextureText("Arial", texts["playerTwoScoreBoardText"]);
+	Renderer::Instance()->LoadRect("player2ScoreRect", Rect({ 30, 120,  Renderer::Instance()->GetTextureSize("playerTwoScoreBoardText").x, Renderer::Instance()->GetTextureSize("playerTwoScoreBoardText").y }));
 
 #pragma endregion
 
@@ -281,53 +281,53 @@ void GameManager::InitiateGame()
 #pragma region Players Ands Scoreboards
 
 			//Players
-	renderer.LoadTexture("playerTexture", "../../res/img/spCastle.png");
-	renderer.LoadRect("player1Rect", Rect());
-	renderer.LoadRect("player1Position", Rect());
-	renderer.LoadRect("player2Rect", Rect());
-	renderer.LoadRect("player2Position", Rect());
+	Renderer::Instance()->LoadTexture("playerTexture", "../../res/img/spCastle.png");
+	Renderer::Instance()->LoadRect("player1Rect", Rect());
+	Renderer::Instance()->LoadRect("player1Position", Rect());
+	Renderer::Instance()->LoadRect("player2Rect", Rect());
+	Renderer::Instance()->LoadRect("player2Position", Rect());
 
 	//ScoreBoard
-	renderer.LoadTexture("scoreTexture", "../../res/img/num.png");
+	Renderer::Instance()->LoadTexture("scoreTexture", "../../res/img/num.png");
 
 	//Players
-	playerClass1 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P1 };
-	playerClass2 = { renderer.GetTextureSize("playerTexture").x, renderer.GetTextureSize("playerTexture").y, PlayerType::P2 };
+	playerClass1 = { Renderer::Instance()->GetTextureSize("playerTexture").x, Renderer::Instance()->GetTextureSize("playerTexture").y, PlayerType::P1 };
+	playerClass2 = { Renderer::Instance()->GetTextureSize("playerTexture").x, Renderer::Instance()->GetTextureSize("playerTexture").y, PlayerType::P2 };
 
 	//Puntuacion Player 1 & Plyaer 2
-	boardP1 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass1 };
-	boardP2 = { renderer.GetTextureSize("scoreTexture").x, renderer.GetTextureSize("scoreTexture").y, playerClass2 };
+	boardP1 = { Renderer::Instance()->GetTextureSize("scoreTexture").x, Renderer::Instance()->GetTextureSize("scoreTexture").y, playerClass1 };
+	boardP2 = { Renderer::Instance()->GetTextureSize("scoreTexture").x, Renderer::Instance()->GetTextureSize("scoreTexture").y, playerClass2 };
 
-	renderer.LoadRect("scoreRectPlayer1Right", Rect());
-	renderer.LoadRect("scorePositionPlayer1Right", Rect());
-	renderer.LoadRect("scoreRectPlayer1Center", Rect());
-	renderer.LoadRect("scorePositionPlayer1Center", Rect());
-	renderer.LoadRect("scoreRectPlayer1Left", Rect());
-	renderer.LoadRect("scorePositionPlayer1Left", Rect());
+	Renderer::Instance()->LoadRect("scoreRectPlayer1Right", Rect());
+	Renderer::Instance()->LoadRect("scorePositionPlayer1Right", Rect());
+	Renderer::Instance()->LoadRect("scoreRectPlayer1Center", Rect());
+	Renderer::Instance()->LoadRect("scorePositionPlayer1Center", Rect());
+	Renderer::Instance()->LoadRect("scoreRectPlayer1Left", Rect());
+	Renderer::Instance()->LoadRect("scorePositionPlayer1Left", Rect());
 
-	renderer.LoadRect("scoreRectPlayer2Right", Rect());
-	renderer.LoadRect("scorePositionPlayer2Right", Rect());
-	renderer.LoadRect("scoreRectPlayer2Center", Rect());
-	renderer.LoadRect("scorePositionPlayer2Center", Rect());
-	renderer.LoadRect("scoreRectPlayer2Left", Rect());
-	renderer.LoadRect("scorePositionPlayer2Left", Rect());
+	Renderer::Instance()->LoadRect("scoreRectPlayer2Right", Rect());
+	Renderer::Instance()->LoadRect("scorePositionPlayer2Right", Rect());
+	Renderer::Instance()->LoadRect("scoreRectPlayer2Center", Rect());
+	Renderer::Instance()->LoadRect("scorePositionPlayer2Center", Rect());
+	Renderer::Instance()->LoadRect("scoreRectPlayer2Left", Rect());
+	Renderer::Instance()->LoadRect("scorePositionPlayer2Left", Rect());
 
 	//TIME
 	texts["timeText"] = { "timeText", "Time: ", colors["black"], SCREEN_WIDTH - 300 , 20 };
-	renderer.LoadTextureText("Arial", texts["timeText"]);
-	renderer.LoadRect("timeRect", Rect({ SCREEN_WIDTH - 300 , 20,  renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y }));
-	rectangles["timeRect"] = Rect({ SCREEN_WIDTH - 300 , 20,  renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y });
+	Renderer::Instance()->LoadTextureText("Arial", texts["timeText"]);
+	Renderer::Instance()->LoadRect("timeRect", Rect({ SCREEN_WIDTH - 300 , 20,  Renderer::Instance()->GetTextureSize("timeText").x, Renderer::Instance()->GetTextureSize("timeText").y }));
+	rectangles["timeRect"] = Rect({ SCREEN_WIDTH - 300 , 20,  Renderer::Instance()->GetTextureSize("timeText").x, Renderer::Instance()->GetTextureSize("timeText").y });
 
 #pragma endregion
 
 #pragma region Coins
 
-	renderer.LoadTexture("coinTexture", "../../res/img/gold.png");
+	Renderer::Instance()->LoadTexture("coinTexture", "../../res/img/gold.png");
 
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
 		coinRect[i] = Rect({ (rand() % SCREEN_WIDTH) - 10, (rand() % 700) + 300, 100,100 });
-		renderer.LoadRect(std::to_string(i), Rect());
+		Renderer::Instance()->LoadRect(std::to_string(i), Rect());
 	}
 
 #pragma endregion
@@ -339,32 +339,32 @@ void GameManager::UpdateGame()
 	//Timer Update
 	//std::string s = FloatToString(timeDown, 2);
 	texts["timeText"].UpdateText(std::to_string(timeDown/100));
-	renderer.LoadTextureText("Arial", texts["timeText"]);
+	Renderer::Instance()->LoadTextureText("Arial", texts["timeText"]);
 	
-	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 20, renderer.GetTextureSize("timeText").x, renderer.GetTextureSize("timeText").y };
-	renderer.SetRect("timeRect", rectangles["timeRect"]);
+	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 20, Renderer::Instance()->GetTextureSize("timeText").x, Renderer::Instance()->GetTextureSize("timeText").y };
+	Renderer::Instance()->SetRect("timeRect", rectangles["timeRect"]);
 
 #pragma region Players Movement and Scores
 
 	//Player Movement
 	if (state == gameStates::IN_GAME) {
 		playerClass1.Update();
-		renderer.SetRect("player1Rect", playerClass1.returnRect());
-		renderer.SetRect("player1Position", playerClass1.returnPos());
+		Renderer::Instance()->SetRect("player1Rect", playerClass1.returnRect());
+		Renderer::Instance()->SetRect("player1Position", playerClass1.returnPos());
 
 		playerClass2.Update();
-		renderer.SetRect("player2Rect", playerClass2.returnRect());
-		renderer.SetRect("player2Position", playerClass2.returnPos());
+		Renderer::Instance()->SetRect("player2Rect", playerClass2.returnRect());
+		Renderer::Instance()->SetRect("player2Position", playerClass2.returnPos());
 	}
 
 	//If the two get the same item, P1 will always get it
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
-		renderer.SetRect(std::to_string(i), coinRect[i]);
+		Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
 		if (collisions::rectCollision(playerClass1.returnPos(), coinRect[i])) {
 			coinRect[i].x = (rand() % SCREEN_WIDTH) - 10;
 			coinRect[i].y = (rand() % 700) + 300;
-			renderer.SetRect(std::to_string(i), coinRect[i]);
+			Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
 			playerClass1.score++;
 			playerClass1.setGetCoinsToTrue();
 
@@ -372,7 +372,7 @@ void GameManager::UpdateGame()
 		else if (collisions::rectCollision(playerClass2.returnPos(), coinRect[i])) {
 			coinRect[i].x = (rand() % SCREEN_WIDTH) - 10;
 			coinRect[i].y = (rand() % 700) + 300;
-			renderer.SetRect(std::to_string(i), coinRect[i]);
+			Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
 			playerClass2.score++;
 			playerClass2.setGetCoinsToTrue();
 		}
@@ -380,20 +380,20 @@ void GameManager::UpdateGame()
 
 	//Scoreboards Update
 	boardP1.Update(playerClass1);
-	renderer.SetRect("scoreRectPlayer1Right", boardP1.returnScoreRectRight());
-	renderer.SetRect("scorePositionPlayer1Right", boardP1.returnScorePositionRight());
-	renderer.SetRect("scoreRectPlayer1Center", boardP1.returnScoreRectCenter());
-	renderer.SetRect("scorePositionPlayer1Center", boardP1.returnScorePositionCenter());
-	renderer.SetRect("scoreRectPlayer1Left", boardP1.returnScoreRectLeft());
-	renderer.SetRect("scorePositionPlayer1Left", boardP1.returnScorePositionLeft());
+	Renderer::Instance()->SetRect("scoreRectPlayer1Right", boardP1.returnScoreRectRight());
+	Renderer::Instance()->SetRect("scorePositionPlayer1Right", boardP1.returnScorePositionRight());
+	Renderer::Instance()->SetRect("scoreRectPlayer1Center", boardP1.returnScoreRectCenter());
+	Renderer::Instance()->SetRect("scorePositionPlayer1Center", boardP1.returnScorePositionCenter());
+	Renderer::Instance()->SetRect("scoreRectPlayer1Left", boardP1.returnScoreRectLeft());
+	Renderer::Instance()->SetRect("scorePositionPlayer1Left", boardP1.returnScorePositionLeft());
 
 	boardP2.Update(playerClass2);
-	renderer.SetRect("scoreRectPlayer2Right", boardP2.returnScoreRectRight());
-	renderer.SetRect("scorePositionPlayer2Right", boardP2.returnScorePositionRight());
-	renderer.SetRect("scoreRectPlayer2Center", boardP2.returnScoreRectCenter());
-	renderer.SetRect("scorePositionPlayer2Center", boardP2.returnScorePositionCenter());
-	renderer.SetRect("scoreRectPlayer2Left", boardP2.returnScoreRectLeft());
-	renderer.SetRect("scorePositionPlayer2Left", boardP2.returnScorePositionLeft());
+	Renderer::Instance()->SetRect("scoreRectPlayer2Right", boardP2.returnScoreRectRight());
+	Renderer::Instance()->SetRect("scorePositionPlayer2Right", boardP2.returnScorePositionRight());
+	Renderer::Instance()->SetRect("scoreRectPlayer2Center", boardP2.returnScoreRectCenter());
+	Renderer::Instance()->SetRect("scorePositionPlayer2Center", boardP2.returnScorePositionCenter());
+	Renderer::Instance()->SetRect("scoreRectPlayer2Left", boardP2.returnScoreRectLeft());
+	Renderer::Instance()->SetRect("scorePositionPlayer2Left", boardP2.returnScorePositionLeft());
 
 #pragma endregion
 
@@ -411,35 +411,35 @@ void GameManager::UpdateGame()
 
 void GameManager::DrawGame()
 {
-	renderer.Clear();
+	Renderer::Instance()->Clear();
 
 	//Background
-	renderer.PushImage("gameBgTexture", "gameBgRect");
+	Renderer::Instance()->PushImage("gameBgTexture", "gameBgRect");
 
 	//Player Sprites
-	renderer.PushSprite("playerTexture", "player1Rect", "player1Position");
-	renderer.PushSprite("playerTexture", "player2Rect", "player2Position");
+	Renderer::Instance()->PushSprite("playerTexture", "player1Rect", "player1Position");
+	Renderer::Instance()->PushSprite("playerTexture", "player2Rect", "player2Position");
 
 	//Scoreboard Text
-	renderer.PushImage("playerOneScoreBoardText", "player1ScoreRect");
-	renderer.PushImage("playerTwoScoreBoardText", "player2ScoreRect");
+	Renderer::Instance()->PushImage("playerOneScoreBoardText", "player1ScoreRect");
+	Renderer::Instance()->PushImage("playerTwoScoreBoardText", "player2ScoreRect");
 
 	//Scoreboard Sprites
-	renderer.PushSprite("scoreTexture", "scoreRectPlayer1Right", "scorePositionPlayer1Right");
-	renderer.PushSprite("scoreTexture", "scoreRectPlayer1Left", "scorePositionPlayer1Left");
-	renderer.PushSprite("scoreTexture", "scoreRectPlayer1Center", "scorePositionPlayer1Center");
-	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Right", "scorePositionPlayer2Right");
-	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Left", "scorePositionPlayer2Left");
-	renderer.PushSprite("scoreTexture", "scoreRectPlayer2Center", "scorePositionPlayer2Center");
+	Renderer::Instance()->PushSprite("scoreTexture", "scoreRectPlayer1Right", "scorePositionPlayer1Right");
+	Renderer::Instance()->PushSprite("scoreTexture", "scoreRectPlayer1Left", "scorePositionPlayer1Left");
+	Renderer::Instance()->PushSprite("scoreTexture", "scoreRectPlayer1Center", "scorePositionPlayer1Center");
+	Renderer::Instance()->PushSprite("scoreTexture", "scoreRectPlayer2Right", "scorePositionPlayer2Right");
+	Renderer::Instance()->PushSprite("scoreTexture", "scoreRectPlayer2Left", "scorePositionPlayer2Left");
+	Renderer::Instance()->PushSprite("scoreTexture", "scoreRectPlayer2Center", "scorePositionPlayer2Center");
 
 	//Time
-	renderer.PushImage("timeText", "timeRect");
+	Renderer::Instance()->PushImage("timeText", "timeRect");
 
 	//Coin bags
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
-		renderer.PushImage("coinTexture", std::to_string(i));
+		Renderer::Instance()->PushImage("coinTexture", std::to_string(i));
 
-	renderer.Render();
+	Renderer::Instance()->Render();
 }
 
 void GameManager::Run()
@@ -449,7 +449,7 @@ void GameManager::Run()
 	
 	while (isRunning) {
 
-		renderer.StartFrameControl();
+		Renderer::Instance()->StartFrameControl();
 		//Realizamos el update de los inputs y los mapeamos
 		inputs.Update();
 		mouseAxis = inputs.returnMouseAxis();
@@ -496,7 +496,7 @@ void GameManager::Run()
 
 		UpdateDeltaTime();
 		timeDown -= deltaTime;
-		renderer.EndFrameControl();
+		Renderer::Instance()->EndFrameControl();
 
 	}
 }

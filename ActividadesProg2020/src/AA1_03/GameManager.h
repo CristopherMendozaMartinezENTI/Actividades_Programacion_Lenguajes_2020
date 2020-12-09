@@ -10,9 +10,6 @@ private:
 	//Music
 	AudioManager music;
 
-	//Renderer
-	Renderer renderer;
-
 	InputManager inputs;
 
 	//Colors

@@ -132,4 +132,5 @@ void Renderer::HideCursor()
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
+Renderer* Renderer::renderer = nullptr;
 

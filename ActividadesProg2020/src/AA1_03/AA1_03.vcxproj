@@ -150,6 +150,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PlayerClass.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneGame.cpp" />
+    <ClCompile Include="SceneMenu.cpp" />
     <ClCompile Include="ScoreBoard.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +162,9 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="PlayerClass.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneGame.h" />
+    <ClInclude Include="SceneMenu.h" />
     <ClInclude Include="ScoreBoard.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Utils.h" />

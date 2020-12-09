@@ -14,6 +14,7 @@ private:
 	std::unordered_map<std::string, SDL_Texture*> m_textureData;
 	std::unordered_map<std::string, TTF_Font*> m_fontData;
 	std::unordered_map<std::string, SDL_Rect*> m_rects;
+	static Renderer* renderer;
 
 public:
 	Renderer();
@@ -35,6 +36,11 @@ public:
 	void StartFrameControl();
 	void EndFrameControl();
 	void HideCursor();
+	static Renderer* Instance()
+	{
+		if (renderer == nullptr) { renderer = new Renderer; }
+		return renderer;
+	};
 };
 
 
