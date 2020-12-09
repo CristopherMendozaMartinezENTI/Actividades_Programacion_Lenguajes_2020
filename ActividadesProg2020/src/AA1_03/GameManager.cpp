@@ -26,6 +26,7 @@ void GameManager::UpdateDeltaTime()
 
 void GameManager::InitiateMenu()
 {
+	
 	music.PlayMenuMusic();
 
 	//------------- MENU ---------------
@@ -444,15 +445,18 @@ void GameManager::DrawGame()
 
 void GameManager::Run()
 {
-	InitiateMenu();
-	InitiateGame();
+	//InitiateMenu();
+	//InitiateGame();
+
+	currentScene = new SceneGame;
 	
 	while (isRunning) {
 
 		Renderer::Instance()->StartFrameControl();
 		//Realizamos el update de los inputs y los mapeamos
-		inputs.Update();
-		mouseAxis = inputs.returnMouseAxis();
+		
+		//inputs.Update();
+		//mouseAxis = inputs.returnMouseAxis();
 
 		//Key Press
 		if (inputs.returnKeyIsDown()[(int)EKeys::QUIT]) isRunning = false;
@@ -477,22 +481,26 @@ void GameManager::Run()
 		if (!inputs.returnKeyIsDown()[(int)EKeys::S]) playerClass2.dir.goDown = false;
 		if (!inputs.returnKeyIsDown()[(int)EKeys::D]) playerClass2.dir.goRight = false;
 		if (!inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = false;
+		
 
 		switch (state)
 		{
 		case gameStates::MENU:
-			UpdateMenu();
-			DrawMenu();
+			//UpdateMenu();
+			//DrawMenu();
 
 			break;
 		case gameStates::IN_GAME:
-			UpdateGame();
-			DrawGame();
+			//UpdateGame();
+			//DrawGame();
 
 			break;
 		default:
 			break;
 		}
+
+		currentScene->Update();
+		currentScene->Draw();
 
 		UpdateDeltaTime();
 		timeDown -= deltaTime;

@@ -10,6 +10,8 @@
 #include <random>
 #include <string>
 #include <time.h>
+#include <string.h>
+#include <unordered_map>
 #include "Constants.h"
 
 enum class gameStates {

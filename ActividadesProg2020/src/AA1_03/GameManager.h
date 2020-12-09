@@ -3,10 +3,14 @@
 #include "Renderer.h"
 #include "AudioManager.h"
 #include "InputManager.h"
+#include "SceneMenu.h"
+#include "SceneGame.h"
 
 class GameManager
 {
 private:
+	Scene* currentScene;
+
 	//Music
 	AudioManager music;
 

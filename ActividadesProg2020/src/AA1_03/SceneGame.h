@@ -1,7 +1,34 @@
 #pragma once
 #include "Scene.h"
+#include "ScoreBoard.h"
 class SceneGame :
     public Scene
 {
+private:
+	//ScoreBoards
+	ScoreBoard boardP1;
+	ScoreBoard boardP2;
+
+	//Players
+	PlayerClass playerClass1;
+	PlayerClass playerClass2;
+
+	Rect coinRect[AMOUNT_OF_COINS];
+
+	gameStates state;
+	Vec2 mouseAxis;
+
+	bool isRunning;
+
+	int timeDown, playTime;
+
+	clock_t lastTime;
+	float deltaTime;
+
+public:
+    SceneGame();
+    ~SceneGame();
+    void Update();
+    void Draw();
 };
 
