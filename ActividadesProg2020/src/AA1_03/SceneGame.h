@@ -10,7 +10,6 @@ private:
 	//ScoreBoards
 	ScoreBoard boardP1;
 	ScoreBoard boardP2;
-
 	//Players
 	PlayerClass playerClass1;
 	PlayerClass playerClass2;
@@ -20,6 +19,7 @@ private:
 	int timeDown;
 
 	clock_t lastTime;
+	int timeDown;
 	float deltaTime;
 
 public:
