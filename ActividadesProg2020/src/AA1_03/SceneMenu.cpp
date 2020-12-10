@@ -107,12 +107,13 @@ SceneMenu::~SceneMenu()
 
 }
 
-void SceneMenu::Update()
+void SceneMenu::Update(InputManager _inputs)
 {
-	inputs.Update();
-	mouseAxis = inputs.returnMouseAxis();
-	if (inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = true;
-	if (!inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = false;
+	mouseAxis = _inputs.returnMouseAxis();
+	if (_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = true;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = false;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state = gameStates::QUIT;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::ESC])  state = gameStates::QUIT;
 
 #pragma region Menu Interactions
 
@@ -134,12 +135,6 @@ void SceneMenu::Update()
 		if (mouseClicked) //Start the game
 		{
 			state = gameStates::IN_GAME;
-			mouseClicked = false;
-			//timeDown = playTime;
-			//playerClass1.Reset();
-			//playerClass2.Reset();
-			//boardP1.Reset();
-			//boardP2.Reset();
 		}
 	}
 	else
@@ -151,9 +146,9 @@ void SceneMenu::Update()
 	//Changing Sound Off/On Texture
 	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
 	{
-		if (inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT])
+		if (_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT])
 		{
-			inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT] = false;
+			_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT] = false;
 			playMenuMusic = !playMenuMusic;
 			if (playMenuMusic) music.PauseMenuMusic();
 			else music.ResumeMenuMusic();
@@ -190,7 +185,7 @@ void SceneMenu::Update()
 		//Exit button HOVER color
 		exitHover = true;
 
-		if (mouseClicked) isRunning = false;
+		if (mouseClicked) state = gameStates::QUIT;
 	}
 	else
 	{

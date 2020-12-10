@@ -2,7 +2,11 @@
 
 SceneGame::SceneGame()
 {
-	state = gameStates::IN_GAME;
+	playTime = MAX_TIME;
+	lastTime = clock();
+	deltaTime = 0.f;
+	timeDown = playTime;
+
 	//------------- INGAME ---------------
 // --- SPRITES ---
 #pragma region Backgrounds
@@ -17,7 +21,6 @@ SceneGame::SceneGame()
 #pragma region Score Boards
 
 	//Text
-
 	Renderer::Instance()->LoadFont(Font({ "Arial", "../../res/ttf/Arial.ttf", 80 }));
 	colors["black"] = { 0,0,0,0 };
 	texts["playerOneScoreBoardText"] = { "playerOneScoreBoardText", "PlayerOne:", colors["black"], 30, 30 };
@@ -90,36 +93,40 @@ SceneGame::~SceneGame()
 {
 }
 
-void SceneGame::Update()
+void SceneGame::UpdateDeltaTime()
 {
-	inputs.Update();
-	mouseAxis = inputs.returnMouseAxis();
+	deltaTime = (clock() - lastTime);
+	lastTime = clock();
+	deltaTime /= CLOCKS_PER_SEC;
+}
 
+
+void SceneGame::Update(InputManager _inputs)
+{
 	//Key Press
-	if (inputs.returnKeyIsDown()[(int)EKeys::QUIT]) isRunning = false;
-	if (inputs.returnKeyIsDown()[(int)EKeys::ESC])  isRunning = false;
-	if (inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = true;
-	if (inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = true;
-	if (inputs.returnKeyIsDown()[(int)EKeys::RIGHT]) playerClass1.dir.goRight = true;
-	if (inputs.returnKeyIsDown()[(int)EKeys::LEFT]) playerClass1.dir.goLeft = true;
-	if (inputs.returnKeyIsDown()[(int)EKeys::W]) playerClass2.dir.goUp = true;
-	if (inputs.returnKeyIsDown()[(int)EKeys::S]) playerClass2.dir.goDown = true;
-	if (inputs.returnKeyIsDown()[(int)EKeys::D]) playerClass2.dir.goRight = true;
-	if (inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = true;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state =gameStates::QUIT;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::ESC])  state = gameStates::QUIT;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = true;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = true;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::RIGHT]) playerClass1.dir.goRight = true;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::LEFT]) playerClass1.dir.goLeft = true;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::W]) playerClass2.dir.goUp = true;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::S]) playerClass2.dir.goDown = true;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::D]) playerClass2.dir.goRight = true;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = true;
 
 	//Key Release
-	if (!inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = false;
-	if (!inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = false;
-	if (!inputs.returnKeyIsDown()[(int)EKeys::RIGHT]) playerClass1.dir.goRight = false;
-	if (!inputs.returnKeyIsDown()[(int)EKeys::LEFT]) playerClass1.dir.goLeft = false;
-	if (!inputs.returnKeyIsDown()[(int)EKeys::W]) playerClass2.dir.goUp = false;
-	if (!inputs.returnKeyIsDown()[(int)EKeys::S]) playerClass2.dir.goDown = false;
-	if (!inputs.returnKeyIsDown()[(int)EKeys::D]) playerClass2.dir.goRight = false;
-	if (!inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = false;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = false;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = false;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::RIGHT]) playerClass1.dir.goRight = false;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::LEFT]) playerClass1.dir.goLeft = false;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::W]) playerClass2.dir.goUp = false;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::S]) playerClass2.dir.goDown = false;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::D]) playerClass2.dir.goRight = false;
+	if (!_inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = false;
 
 
 	//Timer Update
-	//std::string s = FloatToString(timeDown, 2);
 	texts["timeText"].UpdateText(std::to_string(timeDown / 100));
 	Renderer::Instance()->LoadTextureText("Arial", texts["timeText"]);
 
@@ -183,11 +190,13 @@ void SceneGame::Update()
 
 	if (timeDown <= 0)
 	{
-		//state = gameStates::MENU;
+		state = gameStates::MENU;
 		timeDown = playTime;
 	}
 
 #pragma endregion
+	UpdateDeltaTime();
+	timeDown -= deltaTime;
 }
 
 void SceneGame::Draw()

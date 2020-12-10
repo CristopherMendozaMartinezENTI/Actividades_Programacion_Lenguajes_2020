@@ -132,5 +132,10 @@ void Renderer::HideCursor()
 	SDL_ShowCursor(SDL_DISABLE);
 }
 
+void Renderer::ClearScene()
+{
+	for (auto& t : m_textureData) SDL_DestroyTexture(t.second), t.second = nullptr;
+}
+
 Renderer* Renderer::renderer = nullptr;
 

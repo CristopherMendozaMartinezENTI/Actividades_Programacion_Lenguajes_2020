@@ -34,6 +34,7 @@ public:
 	void StartFrameControl();
 	void EndFrameControl();
 	void HideCursor();
+	void ClearScene();
 	static Renderer* Instance()
 	{
 		if (renderer == nullptr) { renderer = new Renderer; }

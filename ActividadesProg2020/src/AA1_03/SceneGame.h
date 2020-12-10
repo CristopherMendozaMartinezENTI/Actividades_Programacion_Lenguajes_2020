@@ -15,10 +15,7 @@ private:
 
 	Rect coinRect[AMOUNT_OF_COINS];
 
-	gameStates state;
 	Vec2 mouseAxis;
-
-	bool isRunning;
 
 	int timeDown, playTime;
 
@@ -28,7 +25,8 @@ private:
 public:
     SceneGame();
     ~SceneGame();
-    void Update();
+	void UpdateDeltaTime();
+    void Update(InputManager _inputs);
     void Draw();
 };
 

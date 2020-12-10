@@ -18,14 +18,13 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager()
 {
-	std::cout << "Closing Audio" << std::endl;
 	Mix_CloseAudio();
-	//Mix_Quit();
+	Mix_Quit();
 }
 
 void AudioManager::PlayMenuMusic()
 {
-	//Mix_PlayMusic(menuMusic, 100);
+	Mix_PlayMusic(menuMusic, 100);
 }
 
 void AudioManager::PauseMenuMusic()

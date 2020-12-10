@@ -7,18 +7,14 @@ class Scene
 private:
 public:
 	AudioManager music;
-	InputManager inputs;
-
 	//Colors
 	std::map<std::string, Color> colors;
-
 	//Texts
 	std::map<std::string, Text> texts;
-
 	//Rects
 	std::map<std::string, Rect> rectangles;
-
-	virtual void Update() = 0;
+	gameStates state;
+	virtual void Update(InputManager _inputs) = 0;
 	virtual void Draw() = 0;
 };
 

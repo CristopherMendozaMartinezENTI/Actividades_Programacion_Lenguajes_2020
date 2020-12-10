@@ -15,7 +15,7 @@
 #include "Constants.h"
 
 enum class gameStates {
-	MENU, IN_GAME
+	MENU, IN_GAME, QUIT
 };
 
 enum class PlayerType {

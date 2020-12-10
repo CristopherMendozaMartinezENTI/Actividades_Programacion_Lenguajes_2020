@@ -10,6 +10,7 @@ class GameManager
 {
 private:
 	Scene* currentScene;
+	Scene* LastScene;
 
 	//Music
 	AudioManager music;
@@ -47,17 +48,6 @@ private:
 public:
 	GameManager();
 	~GameManager();
-
-	void UpdateDeltaTime();
-
-	void InitiateMenu();
-	void UpdateMenu();
-	void DrawMenu();
-
-	void InitiateGame();
-	void UpdateGame();
-	void DrawGame();
-
 	void Run();
 };
 
