@@ -17,7 +17,7 @@ private:
 
 	Vec2 mouseAxis;
 
-	int timeDown, playTime;
+	int timeDown;
 
 	clock_t lastTime;
 	float deltaTime;

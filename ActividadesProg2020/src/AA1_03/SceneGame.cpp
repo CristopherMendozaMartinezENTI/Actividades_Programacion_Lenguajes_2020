@@ -2,10 +2,9 @@
 
 SceneGame::SceneGame()
 {
-	playTime = MAX_TIME;
 	lastTime = clock();
 	deltaTime = 0.f;
-	timeDown = playTime;
+	timeDown = MAX_TIME;
 
 	//------------- INGAME ---------------
 // --- SPRITES ---
@@ -82,7 +81,7 @@ SceneGame::SceneGame()
 
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
-		coinRect[i] = Rect({ (rand() % SCREEN_WIDTH) - 10, (rand() % 700) + 300, 100,100 });
+		coinRect[i] = Rect({ (rand() % SCREEN_WIDTH) - 60, (rand() % 700) + 300, 100,100 });
 		Renderer::Instance()->LoadRect(std::to_string(i), Rect());
 	}
 
@@ -91,6 +90,7 @@ SceneGame::SceneGame()
 
 SceneGame::~SceneGame()
 {
+
 }
 
 void SceneGame::UpdateDeltaTime()
@@ -125,7 +125,6 @@ void SceneGame::Update(InputManager _inputs)
 	if (!_inputs.returnKeyIsDown()[(int)EKeys::D]) playerClass2.dir.goRight = false;
 	if (!_inputs.returnKeyIsDown()[(int)EKeys::A]) playerClass2.dir.goLeft = false;
 
-
 	//Timer Update
 	texts["timeText"].UpdateText(std::to_string(timeDown / 100));
 	Renderer::Instance()->LoadTextureText("Arial", texts["timeText"]);
@@ -151,7 +150,7 @@ void SceneGame::Update(InputManager _inputs)
 	{
 		Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
 		if (collisions::rectCollision(playerClass1.returnPos(), coinRect[i])) {
-			coinRect[i].x = (rand() % SCREEN_WIDTH) - 10;
+			coinRect[i].x = (rand() % SCREEN_WIDTH) - 60;
 			coinRect[i].y = (rand() % 700) + 300;
 			Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
 			playerClass1.score++;
@@ -159,7 +158,7 @@ void SceneGame::Update(InputManager _inputs)
 
 		}
 		else if (collisions::rectCollision(playerClass2.returnPos(), coinRect[i])) {
-			coinRect[i].x = (rand() % SCREEN_WIDTH) - 10;
+			coinRect[i].x = (rand() % SCREEN_WIDTH) - 60;
 			coinRect[i].y = (rand() % 700) + 300;
 			Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
 			playerClass2.score++;
@@ -191,7 +190,7 @@ void SceneGame::Update(InputManager _inputs)
 	if (timeDown <= 0)
 	{
 		state = gameStates::MENU;
-		timeDown = playTime;
+		timeDown = MAX_TIME;
 	}
 
 #pragma endregion

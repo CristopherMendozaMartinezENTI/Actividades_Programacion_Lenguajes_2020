@@ -5,13 +5,12 @@ GameManager::GameManager()
 	currentScene = new SceneMenu();
 	currentScene->state = gameStates::MENU;
 	state = currentScene->state;
-
 	isRunning = true;
 }
 
 GameManager::~GameManager()
 {
-
+	delete currentScene;
 }
 
 void GameManager::Run()
