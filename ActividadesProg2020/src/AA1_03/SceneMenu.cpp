@@ -19,7 +19,8 @@ SceneMenu::SceneMenu()
 	//Cursor
 	Renderer::Instance()->LoadTexture("cursorTexture", "../../res/img/kintoun.png");
 	Renderer::Instance()->LoadRect("cursorRect", Rect({ 0, 0, 350, 190 }));
-	rectangles["cursorRect"] = Rect({ 0, 0, 350, 190 });
+	cursor.SetRect(Rect({ 0,0,350,190 }));
+	rectangles["cursorRect"] = cursor.GetRect();
 
 #pragma endregion
 
@@ -103,13 +104,13 @@ SceneMenu::SceneMenu()
 
 SceneMenu::~SceneMenu()
 {
-	
+
 
 }
 
 void SceneMenu::Update(InputManager _inputs)
 {
-	mouseAxis = _inputs.returnMouseAxis();
+	cursor.SetPosition(_inputs.returnMouseAxis());
 	if (_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = true;
 	if (!_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = false;
 	if (_inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state = gameStates::QUIT;
@@ -121,13 +122,15 @@ void SceneMenu::Update(InputManager _inputs)
 	Renderer::Instance()->HideCursor();
 
 	//Putting the Mouse at the center of the cursor 
-	rectangles["cursorRect"].x += (((mouseAxis.x - (rectangles["cursorRect"].w / 2)) - rectangles["cursorRect"].x) / 10);
-	rectangles["cursorRect"].y += (((mouseAxis.y - (rectangles["cursorRect"].h / 2)) - rectangles["cursorRect"].y) / 10);
+	cursor.SetRect(((cursor.GetPosition().x - (cursor.GetRect().w / 2)) - cursor.GetRect().x) / 10,
+		((cursor.GetPosition().y - (cursor.GetRect().h / 2)) - cursor.GetRect().y) / 10);
+
+	rectangles["cursorRect"] = cursor.GetRect();
 
 	Renderer::Instance()->SetRect("cursorRect", rectangles["cursorRect"]);
 
 	//Changing Play Button Texture
-	if (collisions::pointCollision(mouseAxis, rectangles["playButtonRect"]))
+	if (collisions::pointCollision(cursor.GetPosition(), rectangles["playButtonRect"]))
 	{
 		//Play Button = HOVER color.
 		playHover = true;
@@ -144,7 +147,7 @@ void SceneMenu::Update(InputManager _inputs)
 	}
 
 	//Changing Sound Off/On Texture
-	if (collisions::pointCollision(mouseAxis, rectangles["soundButtonRect"]))
+	if (collisions::pointCollision(cursor.GetPosition(), rectangles["soundButtonRect"]))
 	{
 		if (_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT])
 		{
@@ -180,7 +183,7 @@ void SceneMenu::Update(InputManager _inputs)
 	}
 
 	//Changing Exit Button Texture
-	if (collisions::pointCollision(mouseAxis, rectangles["exitButtonRect"]))
+	if (collisions::pointCollision(cursor.GetPosition(), rectangles["exitButtonRect"]))
 	{
 		//Exit button HOVER color
 		exitHover = true;

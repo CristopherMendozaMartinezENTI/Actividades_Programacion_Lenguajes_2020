@@ -1,8 +1,10 @@
 #pragma once
 #include "Scene.h"
 #include "ScoreBoard.h"
+#include "GoldenBag.h"
+
 class SceneGame :
-    public Scene
+	public Scene
 {
 private:
 	//ScoreBoards
@@ -13,9 +15,7 @@ private:
 	PlayerClass playerClass1;
 	PlayerClass playerClass2;
 
-	Rect coinRect[AMOUNT_OF_COINS];
-
-	Vec2 mouseAxis;
+	GoldenBag goldenBags[AMOUNT_OF_COINS];
 
 	int timeDown;
 
@@ -23,10 +23,12 @@ private:
 	float deltaTime;
 
 public:
-    SceneGame();
-    ~SceneGame();
+	SceneGame();
+	~SceneGame();
 	void UpdateDeltaTime();
-    void Update(InputManager _inputs);
-    void Draw();
+	void Update(InputManager _inputs);
+	void Draw();
 };
+
+
 

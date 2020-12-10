@@ -81,7 +81,7 @@ SceneGame::SceneGame()
 
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
-		coinRect[i] = Rect({ (rand() % SCREEN_WIDTH) - 60, (rand() % 700) + 300, 100,100 });
+		goldenBags[i].SetRect(Rect({ (rand() % SCREEN_WIDTH) - 60, (rand() % 700) + 300, 100,100 }));
 		Renderer::Instance()->LoadRect(std::to_string(i), Rect());
 	}
 
@@ -104,7 +104,7 @@ void SceneGame::UpdateDeltaTime()
 void SceneGame::Update(InputManager _inputs)
 {
 	//Key Press
-	if (_inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state =gameStates::QUIT;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state = gameStates::QUIT;
 	if (_inputs.returnKeyIsDown()[(int)EKeys::ESC])  state = gameStates::QUIT;
 	if (_inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = true;
 	if (_inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = true;
@@ -148,21 +148,17 @@ void SceneGame::Update(InputManager _inputs)
 	//If the two get the same item, P1 will always get it
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
-		Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
-		if (collisions::rectCollision(playerClass1.returnPos(), coinRect[i])) {
-			coinRect[i].x = (rand() % SCREEN_WIDTH) - 60;
-			coinRect[i].y = (rand() % 700) + 300;
-			Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
+		Renderer::Instance()->SetRect(std::to_string(i), goldenBags[i].GetRect());
+		if (collisions::rectCollision(playerClass1.returnPos(), goldenBags[i].GetRect())) {
+			goldenBags[i].SetRect((rand() % SCREEN_WIDTH) - 60, (rand() % 700) + 300);
+			Renderer::Instance()->SetRect(std::to_string(i), goldenBags[i].GetRect());
 			playerClass1.score++;
-			playerClass1.setGetCoinsToTrue();
 
 		}
-		else if (collisions::rectCollision(playerClass2.returnPos(), coinRect[i])) {
-			coinRect[i].x = (rand() % SCREEN_WIDTH) - 60;
-			coinRect[i].y = (rand() % 700) + 300;
-			Renderer::Instance()->SetRect(std::to_string(i), coinRect[i]);
+		else if (collisions::rectCollision(playerClass2.returnPos(), goldenBags[i].GetRect())) {
+			goldenBags[i].SetRect((rand() % SCREEN_WIDTH) - 60, (rand() % 700) + 300);
+			Renderer::Instance()->SetRect(std::to_string(i), goldenBags[i].GetRect());
 			playerClass2.score++;
-			playerClass2.setGetCoinsToTrue();
 		}
 	}
 
