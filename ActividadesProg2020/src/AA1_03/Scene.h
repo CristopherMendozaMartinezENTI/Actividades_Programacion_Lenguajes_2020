@@ -4,17 +4,19 @@
 #include "InputManager.h"
 class Scene
 {
-private:
-public:
-	AudioManager music;
+protected:
 	//Colors
 	std::map<std::string, Color> colors;
 	//Texts
 	std::map<std::string, Text> texts;
 	//Rects
 	std::map<std::string, Rect> rectangles;
+	AudioManager music;
+private:
+public:
 	gameStates state;
-	virtual void Update(InputManager _inputs) = 0;
+	bool isRuning;
+	virtual void Update(InputManager& _inputs) = 0;
 	virtual void Draw() = 0;
 };
 

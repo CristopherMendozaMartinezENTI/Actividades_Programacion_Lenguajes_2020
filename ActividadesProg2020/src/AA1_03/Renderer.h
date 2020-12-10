@@ -13,9 +13,9 @@ private:
 	std::unordered_map<std::string, TTF_Font*> m_fontData;
 	std::unordered_map<std::string, SDL_Rect*> m_rects;
 	static Renderer* renderer;
+	Renderer();
 
 public:
-	Renderer();
 	~Renderer();
 	void Clear();
 	void Render();

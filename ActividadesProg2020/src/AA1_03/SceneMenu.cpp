@@ -2,7 +2,9 @@
 
 SceneMenu::SceneMenu()
 {
-	music.PlayMenuMusic();
+	isRuning = true;
+	playMenuMusic = true;
+	//music.PlayMenuMusic();
 
 	//------------- MENU ---------------
 	// --- SPRITES ---
@@ -108,7 +110,7 @@ SceneMenu::~SceneMenu()
 
 }
 
-void SceneMenu::Update(InputManager _inputs)
+void SceneMenu::Update(InputManager& _inputs)
 {
 	cursor.SetPosition(_inputs.returnMouseAxis());
 	if (_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = true;
@@ -155,14 +157,13 @@ void SceneMenu::Update(InputManager _inputs)
 			playMenuMusic = !playMenuMusic;
 			if (playMenuMusic) music.PauseMenuMusic();
 			else music.ResumeMenuMusic();
-
 		}
 		if (playMenuMusic)
 		{
 			//Sound On HOVER color.
 			sondOnHover = true;
 		}
-		else
+		else if(!playMenuMusic)
 		{
 			//Sound Off HOVER color.
 			sondOffHover = true;
@@ -175,7 +176,7 @@ void SceneMenu::Update(InputManager _inputs)
 			//Sound On NORMAL color.
 			sondOnHover = false;
 		}
-		else
+		else if(!playMenuMusic)
 		{
 			//Sound Off NORMAL color.
 			sondOffHover = false;
@@ -212,7 +213,6 @@ void SceneMenu::Draw()
 	Renderer::Instance()->PushImage("titleTexture", "titleRect");
 	Renderer::Instance()->PushImage("titleTexture_hover", "titleRect");
 	//Pay Button
-	// Renderer::Instance()->PushImage(playHover, "playButtonRect")
 	if (playHover)	Renderer::Instance()->PushImage("playButtonText_hover", "playButtonRect");
 	else Renderer::Instance()->PushImage("playButtonText", "playButtonRect");
 	//Exit Button
@@ -224,7 +224,7 @@ void SceneMenu::Draw()
 		else Renderer::Instance()->PushImage("soundOnButtonText", "soundButtonRect");
 	else
 		if (sondOffHover) Renderer::Instance()->PushImage("soundOffButtonText_hover", "soundButtonRect");
-		else Renderer::Instance()->PushImage("soundOnButtonText", "soundButtonRect");
+		else Renderer::Instance()->PushImage("soundOffButtonText", "soundButtonRect");
 
 	Renderer::Instance()->Render();
 

@@ -31,8 +31,8 @@ void Cursor :: SetRect(Rect _rect)
 
 void Cursor :: SetRect(int x, int y)
 {
-	cursorRect.x = x;
-	cursorPosition.y = y;
+	cursorRect.x += x;
+	cursorRect.y += y;
 }
 
 Vec2 Cursor :: GetPosition()

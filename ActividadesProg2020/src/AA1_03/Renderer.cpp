@@ -135,6 +135,8 @@ void Renderer::HideCursor()
 void Renderer::ClearScene()
 {
 	for (auto& t : m_textureData) SDL_DestroyTexture(t.second), t.second = nullptr;
+	for (auto& f : m_fontData) TTF_CloseFont(f.second), f.second = nullptr;
+	for (auto& f : m_rects) { delete f.second; f.second = nullptr; };
 }
 
 Renderer* Renderer::renderer = nullptr;

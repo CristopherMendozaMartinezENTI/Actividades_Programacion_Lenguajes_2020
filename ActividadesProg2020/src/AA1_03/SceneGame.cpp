@@ -101,7 +101,7 @@ void SceneGame::UpdateDeltaTime()
 }
 
 
-void SceneGame::Update(InputManager _inputs)
+void SceneGame::Update(InputManager& _inputs)
 {
 	//Key Press
 	if (_inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state = gameStates::QUIT;
@@ -129,6 +129,7 @@ void SceneGame::Update(InputManager _inputs)
 	texts["timeText"].UpdateText(std::to_string(timeDown / 100));
 	Renderer::Instance()->LoadTextureText("Arial", texts["timeText"]);
 
+
 	rectangles["timeRect"] = { SCREEN_WIDTH - 150, 20, Renderer::Instance()->GetTextureSize("timeText").x, Renderer::Instance()->GetTextureSize("timeText").y };
 	Renderer::Instance()->SetRect("timeRect", rectangles["timeRect"]);
 
@@ -153,12 +154,16 @@ void SceneGame::Update(InputManager _inputs)
 			goldenBags[i].SetRect((rand() % SCREEN_WIDTH) - 60, (rand() % 700) + 300);
 			Renderer::Instance()->SetRect(std::to_string(i), goldenBags[i].GetRect());
 			playerClass1.score++;
+			playerClass1.setGetCoinsToTrue();
+
 
 		}
 		else if (collisions::rectCollision(playerClass2.returnPos(), goldenBags[i].GetRect())) {
 			goldenBags[i].SetRect((rand() % SCREEN_WIDTH) - 60, (rand() % 700) + 300);
 			Renderer::Instance()->SetRect(std::to_string(i), goldenBags[i].GetRect());
 			playerClass2.score++;
+			playerClass2.setGetCoinsToTrue();
+
 		}
 	}
 

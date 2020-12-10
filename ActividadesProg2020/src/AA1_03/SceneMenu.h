@@ -14,7 +14,7 @@ private:
 public:
     SceneMenu();
     ~SceneMenu();
-    void Update(InputManager _inputs);
+    void Update(InputManager& _inputs);
     void Draw();
 };
 

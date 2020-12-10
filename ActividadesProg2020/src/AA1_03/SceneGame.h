@@ -13,11 +13,7 @@ private:
 	//Players
 	PlayerClass playerClass1;
 	PlayerClass playerClass2;
-
 	GoldenBag goldenBags[AMOUNT_OF_COINS];
-
-	int timeDown;
-
 	clock_t lastTime;
 	int timeDown;
 	float deltaTime;
@@ -26,7 +22,7 @@ public:
 	SceneGame();
 	~SceneGame();
 	void UpdateDeltaTime();
-	void Update(InputManager _inputs);
+	void Update(InputManager& _inputs);
 	void Draw();
 };
 
