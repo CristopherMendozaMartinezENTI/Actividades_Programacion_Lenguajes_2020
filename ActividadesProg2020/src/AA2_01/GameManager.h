@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Renderer.h"
 #include "AudioManager.h"
 #include "InputManager.h"

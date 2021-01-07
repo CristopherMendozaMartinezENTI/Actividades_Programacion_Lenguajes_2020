@@ -12,7 +12,7 @@ SceneMenu::SceneMenu()
 #pragma region Backgrounds
 
 	//Main Menu Background
-	Renderer::Instance()->LoadTexture("bgTexture", "../../res/img/bg.jpg");
+	Renderer::Instance()->LoadTexture("bgTexture", "../../res/img/bgGame.jpg");
 	Renderer::Instance()->LoadRect("bgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
 #pragma endregion
@@ -20,10 +20,10 @@ SceneMenu::SceneMenu()
 #pragma region Cursor
 
 	//Cursor
-	Renderer::Instance()->LoadTexture("cursorTexture", "../../res/img/kintoun.png");
-	Renderer::Instance()->LoadRect("cursorRect", Rect({ 0, 0, 350, 190 }));
-	cursor.SetRect(Rect({ 0,0,350,190 }));
-	rectangles["cursorRect"] = cursor.GetRect();
+	//Renderer::Instance()->LoadTexture("cursorTexture", "../../res/img/kintoun.png");
+	//Renderer::Instance()->LoadRect("cursorRect", Rect({ 0, 0, 350, 190 }));
+	//cursor.SetRect(Rect({ 0,0,350,190 }));
+	//rectangles["cursorRect"] = cursor.GetRect();
 
 #pragma endregion
 
