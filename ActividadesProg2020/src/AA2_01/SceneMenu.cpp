@@ -1,3 +1,4 @@
+/*
 #include "SceneMenu.h"
 
 SceneMenu::SceneMenu()
@@ -110,13 +111,13 @@ SceneMenu::~SceneMenu()
 
 }
 
-void SceneMenu::Update(InputManager& _inputs)
+void SceneMenu::Update(InputManager &input)
 {
-	cursor.SetPosition(_inputs.returnMouseAxis());
-	if (_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = true;
-	if (!_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = false;
-	if (_inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state = gameStates::QUIT;
-	if (_inputs.returnKeyIsDown()[(int)EKeys::ESC])  state = gameStates::QUIT;
+	cursor.SetPosition(input.returnMouseAxis());
+	if (input.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = true;
+	if (!input.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT]) mouseClicked = false;
+	if (input.returnKeyIsDown()[(int)EKeys::QUIT]) state = gameStates::QUIT;
+	if (input.returnKeyIsDown()[(int)EKeys::ESC])  state = gameStates::QUIT;
 
 #pragma region Menu Interactions
 
@@ -151,9 +152,9 @@ void SceneMenu::Update(InputManager& _inputs)
 	//Changing Sound Off/On Texture
 	if (collisions::pointCollision(cursor.GetPosition(), rectangles["soundButtonRect"]))
 	{
-		if (_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT])
+		if (input.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT])
 		{
-			_inputs.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT] = false;
+			input.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT] = false;
 			playMenuMusic = !playMenuMusic;
 			if (playMenuMusic) music.PauseMenuMusic();
 			else music.ResumeMenuMusic();
@@ -229,3 +230,5 @@ void SceneMenu::Draw()
 	Renderer::Instance()->Render();
 
 }
+
+*/

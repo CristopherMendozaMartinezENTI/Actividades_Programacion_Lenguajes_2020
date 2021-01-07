@@ -1,5 +1,6 @@
 #pragma once
 #include "Block.h"
+#include "PowerUp.h"
 
 class Map {
 private:

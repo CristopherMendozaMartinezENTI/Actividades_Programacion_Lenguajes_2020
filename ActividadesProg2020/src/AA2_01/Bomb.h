@@ -8,15 +8,23 @@ class Bomb : public GameObject
 private:
 
 	int range, damage;
+	std::string explodingTexture;
+	bool changed;
+	float lifeTime, explosionTime;
+	e_BombState state;
 
 public:
 
 	Bomb();
+	Bomb(std::string _name, Rect _rect);
 	~Bomb();
 
 	void Update(InputManager _input);
+	void Update(float _deltaTime);
+	void Draw();
 	Rect GetRect();
 	Rect GetFrame();
-	Vec2 GetPosition();
-
+	Rect GetPosition();
+	std::string GetTexture();
+	e_BombState GetBombState();
 };

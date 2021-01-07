@@ -11,8 +11,8 @@ private:
 	PlayerType type;
 
 public:
-	Directions dir;
 	int score;
+	Directions dir;
 
 	PlayerClass();
 	PlayerClass(int _textWidth, int _textHeight, PlayerType _type);

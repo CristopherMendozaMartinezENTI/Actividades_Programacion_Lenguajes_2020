@@ -17,6 +17,7 @@ public:
 	Rect GetFrame();
 	Vec2 GetPosition();
 	bool GetPressed();
+	std::string GetTexture();
 
 
 };

@@ -16,7 +16,7 @@
 #include "Constants.h"
 
 enum class e_GameStates {
-	MENU, IN_GAME, QUIT
+	MENU, IN_GAME, RANKING, QUIT
 };
 
 enum class e_PlayerType {
@@ -25,15 +25,19 @@ enum class e_PlayerType {
 enum class EKeys {
 	DEFAULT, ESC, UP, DOWN, LEFT, RIGHT, 
 	W, A, S, D, MOUSE_LEFT, MOUSE_RIGHT, 
-	SPACE, P, QUIT, TOTAL 
+	SPACE, P, KEYPAD_0, QUIT, TOTAL 
 };
 
-enum class e_BlockType a {
-	
+enum class e_BlockType {
+	BLOCK, WALL
 };
 
-enum class e_PowerupType e {
-	
+enum class e_PowerupType {
+	ROLLER_SKATER, SHIELD
+};
+
+enum class e_BombState {
+	ARMED, EXPLODING, GONE
 };
 
 struct Directions

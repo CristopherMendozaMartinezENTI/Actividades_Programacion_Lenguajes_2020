@@ -2,18 +2,21 @@
 #include "Types.h"
 #include "Collisions.h"
 #include "GameObject.h"
+#include "Bomb.h"
+
 class Player : public GameObject
 {
 public:
 
 	int score;
-	int speed;
+	int speed, speedMultiplier;
 
 private:
 	
-	bool isMoving;
+	bool isMoving, spawBomb, canSpawn;
+	Bomb newBomb;
 	
-	std::string avatarTexure;
+	std::string test;
 	
 	Directions direction;
 	
@@ -22,17 +25,24 @@ private:
 public:
 
 	Player();
-	Player(e_PlayerType _type);
+	Player(int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type);
 	~Player();
 
 	void Update(InputManager _input);
+
+	void Draw();
+
 	void Reset();
 	
 	Rect GetRect();
 	Rect GetFrame();
-	Vec2 GetPosition();
+	Rect GetPosition();
 	e_PlayerType GetPlayerType();
 	Directions GetDirection();
-	std::string GetAvatar();
+	std::string GetTexture();
+	bool GetSpawnBomb();
+	void SpawnBomb(bool _b);
+	void CanSpawnBomb();
+
 };
 

@@ -1,3 +1,4 @@
+/*
 #include "Cursor.h"
 
 
@@ -44,3 +45,5 @@ Rect Cursor :: GetRect()
 {
 	return cursorRect;
 }
+
+*/

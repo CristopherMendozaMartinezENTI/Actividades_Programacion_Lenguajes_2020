@@ -20,5 +20,6 @@ public:
 	Rect GetRect();
 	Rect GetFrame();
 	Vec2 GetPosition();
+	std::string GetTexture();
 
 };

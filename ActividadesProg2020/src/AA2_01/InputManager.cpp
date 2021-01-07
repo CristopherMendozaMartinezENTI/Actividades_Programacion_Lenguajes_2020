@@ -26,6 +26,8 @@ void InputManager::Update()
 			if (event.key.keysym.sym == SDLK_s)  keyIsDown[(int)EKeys::S] = true;
 			if (event.key.keysym.sym == SDLK_d)  keyIsDown[(int)EKeys::D] = true;
 			if (event.key.keysym.sym == SDLK_a)  keyIsDown[(int)EKeys::A] = true;
+			if (event.key.keysym.sym == SDLK_KP_0) keyIsDown[(int)EKeys::KEYPAD_0] = true;
+			if (event.key.keysym.sym == SDLK_SPACE) keyIsDown[(int)EKeys::SPACE] = true;
 			break;
 		case SDL_KEYUP:
 			if (event.key.keysym.sym == SDLK_UP) keyIsDown[(int)EKeys::UP] = false;
@@ -36,6 +38,8 @@ void InputManager::Update()
 			if (event.key.keysym.sym == SDLK_s) keyIsDown[(int)EKeys::S] = false;
 			if (event.key.keysym.sym == SDLK_d) keyIsDown[(int)EKeys::D] = false;
 			if (event.key.keysym.sym == SDLK_a)	keyIsDown[(int)EKeys::A] = false;
+			if (event.key.keysym.sym == SDLK_KP_0) keyIsDown[(int)EKeys::KEYPAD_0] = false;
+			if (event.key.keysym.sym == SDLK_SPACE) keyIsDown[(int)EKeys::SPACE] = false;
 			break;
 		case SDL_MOUSEMOTION:
 			mouseAxis.x = event.motion.x;

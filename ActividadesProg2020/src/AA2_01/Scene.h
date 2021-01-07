@@ -5,7 +5,7 @@
 class Scene
 {
 protected:
-	
+	 //Creemos que esto no tendria que ir aquí pero lo necesitamos para los inputs de los objetos.
 	std::string backgoundTexture;
 	Rect backgoundRect;	
 	clock_t lastTime;
@@ -13,9 +13,9 @@ protected:
 
 public:
 	
-	virtual void Update() = 0;
-	void Draw(){}
-	void UpdateDeltaTime(){}
+	virtual void Update(InputManager input) = 0;
+	virtual void Draw();
+	virtual float UpdateDeltaTime();
 
 };
 

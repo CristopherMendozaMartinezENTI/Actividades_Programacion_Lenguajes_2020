@@ -19,5 +19,6 @@ public:
 	Rect GetFrame();
 	Vec2 GetPosition();
 	e_PowerupType GetType();
+	std::string GetTexture();
 
 };

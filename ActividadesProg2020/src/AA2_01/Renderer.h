@@ -31,6 +31,7 @@ public:
 	void SetRenderDrawColor(int r, int g, int b);
 	void SetRenderDrawColor(const Color& c);
 	void SetRect(const std::string& idRect, const Rect& rect);
+	void DeleteObject(const std::string& id, const std::string& id2, const std::string& id3);
 	void StartFrameControl();
 	void EndFrameControl();
 	void HideCursor();

@@ -1,17 +1,17 @@
 #pragma once
 
 #include "Types.h"
-
-class InputManager {};
+#include "InputManager.h"
+#include "Renderer.h"
 
 class GameObject
 {
-private:
+protected:
 	Rect rect;
 	Rect frame;
-	Vec2 position;
-	std::string texture;
-
+	Rect position;
+	std::string texture, rectID, positionID, textureID;
+	
 	int textureWidth, textureHeight, nColumns, nRows;
 	int frameUpdate;
 
@@ -20,6 +20,7 @@ public:
 	Rect GetRect(){}
 	Rect GetFrame(){}
 	Vec2 GetPosition(){}
+	std::string GetTexture(){}
 
 
 };

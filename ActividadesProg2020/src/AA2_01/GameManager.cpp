@@ -2,9 +2,8 @@
 
 GameManager::GameManager()
 {
-	currentScene = new SceneMenu();
-	currentScene->state = gameStates::MENU;
-	state = currentScene->state;
+	currentScene = new SceneGame();
+	state = lastState = e_GameStates::IN_GAME;
 	isRunning = true;
 }
 
@@ -20,36 +19,45 @@ void GameManager::Run()
 		Renderer::Instance()->StartFrameControl();
 		//Realizamos el update de los inputs y los mapeamos
 		inputs.Update();
+
+		if (inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
+		if (inputs.returnKeyIsDown()[(int)EKeys::ESC])  state = e_GameStates::QUIT;
 		
-		if (state != currentScene->state)
+		if (state != lastState)
 		{
-			switch (currentScene->state)
+			switch (state)
 			{
-			case gameStates::MENU:
+			/*
+			case e_GameStates::MENU:
 				delete currentScene;
 				Renderer::Instance()->ClearScene();
 				currentScene = new SceneMenu();
-				currentScene->state = gameStates::MENU;
 				break;
-			case gameStates::IN_GAME:
+			*/
+			
+			case e_GameStates::IN_GAME:
 				delete currentScene;
 				Renderer::Instance()->ClearScene();
 				currentScene = new SceneGame();
-				currentScene->state = gameStates::IN_GAME;
 				break;
-			case gameStates::QUIT:
+			/*
+			case e_GameStates::RANKING:
+				delete currentScene;
+				Renderer::Instance()->ClearScene();
+				currentScene = new SceneRanking();
+			*/
+			case e_GameStates::QUIT:
 				isRunning = false;
 				break;
 			default:
 				break;
 			}
-			state = currentScene->state;
+			lastState = state;
 		}
-
-		currentScene->Update(inputs);
 		currentScene->Draw();
+		currentScene->Update(inputs);
+		
 
 		Renderer::Instance()->EndFrameControl();
 	}
 }
-

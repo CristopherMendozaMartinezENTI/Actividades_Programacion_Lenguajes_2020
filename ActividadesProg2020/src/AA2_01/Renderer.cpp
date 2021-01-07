@@ -139,5 +139,19 @@ void Renderer::ClearScene()
 	for (auto& f : m_rects) { delete f.second; f.second = nullptr; };
 }
 
+//SE TIENE QUE VER SI ESTA PUTA MIERDA FUCNIONA CUANDO EXPLOTA LA BOMBA Y SE LE HACE DESTROY.
+//YEEEEEEEEEEEEEEEEEEEESEEEEEEEEEEE
+void Renderer::DeleteObject(const std::string& id, const std::string& id2, const std::string& id3)
+{
+	SDL_DestroyTexture(m_textureData[id]);
+	m_textureData.erase(id);
+	m_rects.erase(id2);
+	m_rects.erase(id3);
+
+}
+
+
+
+
 Renderer* Renderer::renderer = nullptr;
 

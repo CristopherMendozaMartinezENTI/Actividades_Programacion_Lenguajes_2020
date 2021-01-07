@@ -15,8 +15,8 @@ public:
     SceneMenu();
     ~SceneMenu();
     
-    void Update();
+    void Update(InputManager input);
     void Draw();
-    void UpdateDeltaTime();
+    float UpdateDeltaTime();
 };
 

@@ -11,7 +11,7 @@ SceneGame::SceneGame()
 #pragma region Backgrounds
 
 	//Game Background
-	Renderer::Instance()->LoadTexture("gameBgTexture", "../../res/img/bgCastle.jpg");
+	Renderer::Instance()->LoadTexture("gameBgTexture", "../../res/img/GodenBags/bgCastle.jpg");
 	Renderer::Instance()->LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
 #pragma endregion
@@ -36,14 +36,14 @@ SceneGame::SceneGame()
 #pragma region Players Ands Scoreboards
 
 			//Players
-	Renderer::Instance()->LoadTexture("playerTexture", "../../res/img/spCastle.png");
+	Renderer::Instance()->LoadTexture("playerTexture", "../../res/img/GodenBags/spCastle.png");
 	Renderer::Instance()->LoadRect("player1Rect", Rect());
 	Renderer::Instance()->LoadRect("player1Position", Rect());
 	Renderer::Instance()->LoadRect("player2Rect", Rect());
 	Renderer::Instance()->LoadRect("player2Position", Rect());
 
 	//ScoreBoard
-	Renderer::Instance()->LoadTexture("scoreTexture", "../../res/img/num.png");
+	Renderer::Instance()->LoadTexture("scoreTexture", "../../res/img/GodenBags/num.png");
 
 	//Players
 	playerClass1 = { Renderer::Instance()->GetTextureSize("playerTexture").x, Renderer::Instance()->GetTextureSize("playerTexture").y, PlayerType::P1 };
@@ -77,7 +77,7 @@ SceneGame::SceneGame()
 
 #pragma region Coins
 
-	Renderer::Instance()->LoadTexture("coinTexture", "../../res/img/gold.png");
+	Renderer::Instance()->LoadTexture("coinTexture", "../../res/img/GodenBags/gold.png");
 
 	for (int i = 0; i < AMOUNT_OF_COINS; i++)
 	{
