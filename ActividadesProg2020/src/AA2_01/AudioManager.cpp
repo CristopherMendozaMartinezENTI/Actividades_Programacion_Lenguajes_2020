@@ -12,7 +12,8 @@ AudioManager::AudioManager()
 
 	//Title Music
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
-	menuMusic = Mix_LoadMUS("../../res/au/mainTheme.mp3");
+	menuMusic = Mix_LoadMUS("../../res/au/menu.mp3");
+	gameMusic = Mix_LoadMUS("../../res/au/game_theme.mp3");
 	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 }
 
@@ -26,6 +27,12 @@ void AudioManager::PlayMenuMusic()
 {
 	Mix_PlayMusic(menuMusic, 100);
 }
+
+void AudioManager::PlayGameMusic()
+{
+	Mix_PlayMusic(gameMusic, 100);
+}
+
 
 void AudioManager::PauseMenuMusic()
 {

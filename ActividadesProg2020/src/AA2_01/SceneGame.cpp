@@ -3,6 +3,7 @@
 
 SceneGame::SceneGame()
 {
+	music.PlayGameMusic();
 	lastTime = clock();
 	deltaTime = 0.f;
 	timeDown = MAX_TIME;
@@ -54,6 +55,9 @@ float SceneGame::UpdateDeltaTime()
 
 void SceneGame::Update(InputManager &_input)
 {
+	if (_input.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
+	if (_input.returnKeyIsDown()[(int)EKeys::ESC])  state = e_GameStates::QUIT;
+
 #pragma region Players
 
 	//Player Movement

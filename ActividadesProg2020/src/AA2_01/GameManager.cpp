@@ -20,9 +20,6 @@ void GameManager::Run()
 		//Realizamos el update de los inputs y los mapeamos
 		inputs.Update();
 
-		if (inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
-		if (inputs.returnKeyIsDown()[(int)EKeys::ESC])  state = e_GameStates::QUIT;
-		
 		if (state != currentScene->state)
 		{
 			switch (currentScene->state)
@@ -49,7 +46,6 @@ void GameManager::Run()
 		}
 		currentScene->Draw();
 		currentScene->Update(inputs);
-		
 		Renderer::Instance()->EndFrameControl();
 	}
 }
