@@ -1,8 +1,6 @@
 #include "SceneMenu.h"
 SceneMenu::SceneMenu()
 {
-	isRuning = true;
-	playMenuMusic = true;
 	music.PlayMenuMusic();
 
 	//------------- MENU ---------------
@@ -45,6 +43,7 @@ SceneMenu::SceneMenu()
 	sondOffHover = false;
 	sondOnHover = false;
 	exitHover = false;
+	musicOff = false;
 
 	//Title Text
 	Renderer::Instance()->LoadFont(Font({ "Font", "../../res/ttf/game_over.ttf", 100 }));
@@ -152,16 +151,14 @@ void SceneMenu::Update(InputManager &input)
 		if (input.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT])
 		{
 			input.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT] = false;
-			playMenuMusic = !playMenuMusic;
-			if (playMenuMusic) music.PauseMenuMusic();
-			else music.ResumeMenuMusic();
+			musicOff = !musicOff;
 		}
-		if (playMenuMusic)
+		if (musicOff)
 		{
 			//Sound On HOVER color.
 			sondOnHover = true;
 		}
-		else if(!playMenuMusic)
+		else if(!musicOff)
 		{
 			//Sound Off HOVER color.
 			sondOffHover = true;
@@ -169,17 +166,20 @@ void SceneMenu::Update(InputManager &input)
 	}
 	else
 	{
-		if (playMenuMusic)
+		if (musicOff)
 		{
 			//Sound On NORMAL color.
 			sondOnHover = false;
 		}
-		else if(!playMenuMusic)
+		else if(!musicOff)
 		{
 			//Sound Off NORMAL color.
 			sondOffHover = false;
 		}
 	}
+
+	if (musicOff) music.PauseMenuMusic();
+	else music.ResumeMenuMusic();
 
 	//Changing Exit Button Texture
 	if (collisions::pointCollision(cursor.GetPosition(), rectangles["exitButtonRect"]))
@@ -222,7 +222,7 @@ void SceneMenu::Draw()
 	if (exitHover) Renderer::Instance()->PushImage("exitButtonText_hover", "exitButtonRect");
 	else Renderer::Instance()->PushImage("exitButtonText", "exitButtonRect");
 	//Sound Button
-	if (playMenuMusic)
+	if (musicOff)
 		if (sondOnHover) Renderer::Instance()->PushImage("soundOnButtonText_hover", "soundButtonRect");
 		else Renderer::Instance()->PushImage("soundOnButtonText", "soundButtonRect");
 	else

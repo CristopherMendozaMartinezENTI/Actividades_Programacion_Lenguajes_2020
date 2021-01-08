@@ -37,6 +37,7 @@ void GameManager::Run()
 				currentScene->state = e_GameStates::IN_GAME;
 				break;
 			case e_GameStates::QUIT:
+				std::cout << "QUIT" << std::endl;
 				isRunning = false;
 				break;
 			default:

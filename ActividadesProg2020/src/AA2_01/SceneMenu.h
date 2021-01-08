@@ -10,8 +10,7 @@ private:
     Cursor cursor;
     //Button playButton, rankingButton, soundButton, exitButton;
     //Button lvlButton[MAX_LEVEL];
-
-    bool mouseClicked, playMenuMusic,
+    bool mouseClicked, musicOff,
         playLevel1Hover, playLevel2Hover, rankingHover, sondOffHover, sondOnHover, exitHover;
 
 public:

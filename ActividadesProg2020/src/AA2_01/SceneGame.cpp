@@ -56,7 +56,12 @@ float SceneGame::UpdateDeltaTime()
 void SceneGame::Update(InputManager &_input)
 {
 	if (_input.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
-	if (_input.returnKeyIsDown()[(int)EKeys::ESC])  state = e_GameStates::QUIT;
+	if (_input.returnKeyIsDown()[(int)EKeys::ESC])
+	{
+		state = e_GameStates::MENU;
+		_input.returnKeyIsDown()[(int)EKeys::ESC] = false;
+	}
+
 
 #pragma region Players
 

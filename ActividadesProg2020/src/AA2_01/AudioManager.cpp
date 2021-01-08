@@ -33,13 +33,12 @@ void AudioManager::PlayGameMusic()
 	Mix_PlayMusic(gameMusic, 100);
 }
 
-
 void AudioManager::PauseMenuMusic()
 {
-	Mix_PauseMusic();
+	Mix_VolumeMusic(0);
 }
 
 void AudioManager::ResumeMenuMusic()
 {
-	Mix_ResumeMusic();
+	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 }
