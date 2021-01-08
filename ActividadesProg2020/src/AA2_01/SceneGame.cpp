@@ -1,5 +1,9 @@
 #include "SceneGame.h"
 #include "Utils.h"
+#include "../../dep/inc/XML/rapidxml.hpp"
+#include "../../dep/inc/XML/rapidxml_iterators.hpp"
+#include "../../dep/inc/XML/rapidxml_print.hpp"
+#include "../../dep/inc/XML/rapidxml_utils.hpp"
 
 SceneGame::SceneGame()
 {
@@ -52,6 +56,45 @@ float SceneGame::UpdateDeltaTime()
 	return deltaTime;
 }
 
+void SceneGame::LoadXML()
+{
+	rapidxml::xml_document<> config;
+	std::ifstream file("../../res/files/config.xml");
+	std::stringstream buffer;
+	buffer << file.rdbuf();
+	file.close();
+	std::string content(buffer.str());
+	config.parse<0>(&content[0]);
+
+	//Root
+	rapidxml::xml_node<>* pRoot = config.first_node();
+	//---->Estamos en el Level1
+	rapidxml::xml_node<>* pLevel1 = pRoot->first_node("Level1");
+	//---->Estamos en Players de Level1
+	rapidxml::xml_node<>* pPlayers = pLevel1->first_node("Players");
+	//---->Estamos en Player1 de Level1
+	rapidxml::xml_node<>* pPlayer1 = pPlayers->first_node("Player1");
+	//---->Estamos en Player2 de Level1
+	rapidxml::xml_node<>* pPlayer2 = pPlayer1->next_sibling();
+	//---->Estamos en Mapa de Level1
+	rapidxml::xml_node<>* pMap = pPlayers->next_sibling();
+
+	//Recorrer el contenido del mapa mediante un for
+
+	//---->Estamos en el Level2
+	rapidxml::xml_node<>* pLevel2 = pLevel1->next_sibling();
+	//---->Estamos en Players de Level2
+	rapidxml::xml_node<>* pLevel2Players = pLevel2->first_node("Players");
+	//---->Estamos en Player1 de Level2
+	rapidxml::xml_node<>* pLevel2Player1 = pLevel2Players->first_node("Player1");
+	//---->Estamos en Player2 de Level2
+	rapidxml::xml_node<>* pLevel2Player2 = pLevel2Player1->next_sibling();
+	//---->Estamos en Mapa de Level2
+	rapidxml::xml_node<>* pMapLevel1 = pLevel2Players->next_sibling();
+
+	//Recorrer el contenido del mapa mediante un for
+
+}
 
 void SceneGame::Update(InputManager &_input)
 {
@@ -61,7 +104,6 @@ void SceneGame::Update(InputManager &_input)
 		state = e_GameStates::MENU;
 		_input.returnKeyIsDown()[(int)EKeys::ESC] = false;
 	}
-
 
 #pragma region Players
 
