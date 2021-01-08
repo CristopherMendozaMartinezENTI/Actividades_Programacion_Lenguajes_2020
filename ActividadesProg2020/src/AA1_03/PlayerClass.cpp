@@ -21,8 +21,8 @@ PlayerClass::PlayerClass(int _textWidth, int _textHeight, PlayerType _type)
 	switch (type)
 	{
 	case PlayerType::P1:
-		playerPosition.x = 800;
-		playerPosition.y = 800;
+		playerPosition.x = 10;
+		playerPosition.y = 10;
 		playerRect.x = frameWidth * 3;
 		playerRect.y = 0;
 

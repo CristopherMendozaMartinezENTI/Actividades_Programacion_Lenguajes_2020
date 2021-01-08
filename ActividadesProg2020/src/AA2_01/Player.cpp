@@ -25,13 +25,13 @@ Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, 
 	switch (type)
 	{
 	case e_PlayerType::P1:
-		position.x = SCREEN_WIDTH / 2;
-		position.y = SCREEN_HEIGHT / 2;
+		position.x = 50;
+		position.y = 130;
 
 		break;
 	case e_PlayerType::P2:
-		position.x = SCREEN_WIDTH / 2 + 100;
-		position.y = SCREEN_HEIGHT / 2;
+		position.x = 620;
+		position.y = 604;
 
 		break;
 	default:
