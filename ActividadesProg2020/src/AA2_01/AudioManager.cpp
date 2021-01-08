@@ -17,6 +17,7 @@ AudioManager::AudioManager()
 	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
 }
 
+
 AudioManager::~AudioManager()
 {
 	Mix_CloseAudio();

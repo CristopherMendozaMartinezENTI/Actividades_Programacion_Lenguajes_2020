@@ -16,7 +16,7 @@ public:
 	virtual void Update(InputManager _input, float _deltaTime) = 0;
 	Rect GetRect(){}
 	Rect GetFrame(){}
-	Vec2 GetPosition(){}
+	Rect GetPosition(){}
 	std::string GetTexture(){}
 
 };

@@ -23,6 +23,7 @@
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="Hud.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />

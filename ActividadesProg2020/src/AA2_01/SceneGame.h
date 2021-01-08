@@ -25,7 +25,7 @@ private:
 	//Map
 	
 	clock_t lastTime;
-	int timeDown, playTime;
+	float timeDown, playTime;
 	float deltaTime;
 
 public:

@@ -4,7 +4,7 @@ Player::Player()
 {
 }
 
-Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type)
+Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type)
 {
 	nColumns = _nColumns;
 	nRows = _nRows;
@@ -16,6 +16,7 @@ Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, 
 	speed = 9;
 	speedMultiplier = 1; //1.3
 	spawBomb = false;
+	HP = _hp;
 
 	texture = _path;
 	rectID = _name + "Rect";
@@ -25,8 +26,8 @@ Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, 
 	switch (type)
 	{
 	case e_PlayerType::P1:
-		position.x = 50;
-		position.y = 130;
+		position.x = _position.x;
+		position.y = _position.y;
 
 		break;
 	case e_PlayerType::P2:
