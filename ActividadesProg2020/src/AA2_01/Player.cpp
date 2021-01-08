@@ -109,27 +109,26 @@ void Player::Update(InputManager _input, float _deltaTime)
 		}
 
 		//Limites de la pantalla. Esto tendria que ir en otro sitio?  En la zona de mapa alomejor
-		if (direction.goUp && position.y > 110) {
+		if (direction.goUp && position.y > 130) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += -1 * MOTION_SPEED;
 			rect.y = frame.h * 0;
 		}
-		if (direction.goDown && position.y < SCREEN_HEIGHT - 100) {
+		else if (direction.goDown && position.y < SCREEN_HEIGHT - 100) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += 1 * MOTION_SPEED;
 			rect.y = frame.h * 2;
 		}
-		if (direction.goRight && position.x < SCREEN_WIDTH - 100) {
+		else if (direction.goRight && position.x < SCREEN_WIDTH - 100) {
 			position.x += 1 * MOTION_SPEED;
 			position.y += 0 * MOTION_SPEED;
 			rect.y = frame.h * 3;
 		}
-		if (direction.goLeft && position.x > 50) {
+		else if (direction.goLeft && position.x > 50) {
 			position.x += -1 * MOTION_SPEED;
 			position.y += 0 * MOTION_SPEED;
 			rect.y = frame.h * 1;
 		}
-
 	}
 
 	Renderer::Instance()->SetRect(rectID, rect);
