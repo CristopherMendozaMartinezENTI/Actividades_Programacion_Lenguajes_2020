@@ -32,8 +32,9 @@ SceneGame::SceneGame()
 #pragma region Players
 
 	//Players
-	players[0] = { 3, Vec2(0,0), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
-	players[1] = { 3, Vec2(12,10), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
+	players[0] = { 3, Vec2(50,124), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
+	players[1] = { 3, Vec2(620,604), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
+
 
 #pragma endregion
 
