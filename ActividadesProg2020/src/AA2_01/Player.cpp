@@ -11,9 +11,11 @@ Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, 
 	type = _type;
 
 	score = 0;
+	bombCD = COOLDOWN;
 	isMoving = false;
 	speed = 9;
 	speedMultiplier = 1; //1.3
+	spawBomb = false;
 
 	texture = _path;
 	rectID = _name + "Rect";
@@ -53,8 +55,9 @@ Player::~Player()
 
 }
 
-void Player::Update(InputManager _input)
+void Player::Update(InputManager _input, float _deltaTime)
 {
+	bombCD -= _deltaTime;
 
 	switch (type)
 	{
@@ -135,6 +138,7 @@ void Player::Update(InputManager _input)
 	Renderer::Instance()->SetRect(rectID, rect);
 	Renderer::Instance()->SetRect(positionID, position);
 
+
 }
 
 void Player::Draw()
@@ -197,6 +201,14 @@ std::string Player::GetTexture()
 bool Player::GetSpawnBomb()
 {
 	return spawBomb;
+}
+float Player::GetBombCD()
+{
+	return bombCD;
+}
+void Player::ResetBombCD()
+{
+	bombCD = COOLDOWN;
 }
 
 void Player::CanSpawnBomb()

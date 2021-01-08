@@ -15,7 +15,8 @@ private:
 	Player players[PLAYER_SIZE];
 
 	//Bombs
-	Bomb *testBomb;
+	Bomb* P1Bomb = nullptr;
+	Bomb* P2Bomb = nullptr;
 	std::vector<Bomb*> bombs;
 	int numBombs;
 	

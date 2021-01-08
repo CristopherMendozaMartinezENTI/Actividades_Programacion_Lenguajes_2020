@@ -13,7 +13,7 @@ public:
 	Hud();
 	~Hud();
 
-	void Update(InputManager _input);
+	void Update(InputManager _input, float _deltaTime);
 	void Reset();
 
 
