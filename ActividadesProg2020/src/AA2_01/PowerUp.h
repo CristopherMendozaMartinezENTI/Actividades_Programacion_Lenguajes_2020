@@ -14,7 +14,7 @@ public:
 	PowerUp();
 	~PowerUp();
 
-	void Update(InputManager _input);
+	void Update(InputManager _input, float _deltaTime);
 	Rect GetRect();
 	Rect GetFrame();
 	Vec2 GetPosition();

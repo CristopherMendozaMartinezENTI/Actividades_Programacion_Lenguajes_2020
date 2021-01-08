@@ -34,7 +34,6 @@ SceneGame::SceneGame()
 	players[0] = { 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
 	players[1] = { 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
 
-
 #pragma endregion
 
 }
@@ -60,15 +59,16 @@ void SceneGame::Update(InputManager _input)
 	//Player Movement
 	for (int i = 0; i < PLAYER_SIZE; i++)
 	{
-		players[i].Update(_input);
-
-		if (players[i].GetSpawnBomb())
+		players[i].Update(_input, deltaTime);
+		
+		if (players[0].GetSpawnBomb())	P1Bomb = new Bomb("P1Bomb" + numBombs, players[0].GetPosition());
+		if (players[1].GetSpawnBomb())  P2Bomb = new Bomb("P2Bomb" + numBombs, players[1].GetPosition());
+		
+		/*if (players[i].GetSpawnBomb())
 		{
-
-			bombs.push_back(new Bomb(i + "Bomb" + numBombs, players[i].GetPosition()));
+			//bombs.push_back(new Bomb(i + "Bomb" + numBombs, players[i].GetPosition()));
 			numBombs++;
-
-		}
+		}*/
 	}
 
 #pragma endregion
@@ -81,19 +81,36 @@ void SceneGame::Update(InputManager _input)
 		timeDown = playTime;
 	}
 
-#pragma endregion
-	for (int i = 0; i < bombs.size(); i++)
+	for (int i = 0; i < PLAYER_SIZE; i++)
 	{
-		bombs.at(i)->Update(_input);
-		bombs.at(i)->Update(deltaTime);
-
-		if (bombs.at(i)->GetBombState() == e_BombState::GONE)
+		if (players[i].GetBombCD() <= 0)
 		{
-			//std::cout << " hello" << std::endl;
-			//delete bombs.at(i);
-			//Aqui tendria que ir sacar la bomba del vector y hacer el delete, pero no se como manejarlo
+			players[i].CanSpawnBomb();
+			players[i].ResetBombCD();
 		}
 	}
+
+#pragma endregion
+	
+	if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
+	{
+		P1Bomb->Update(_input, deltaTime);
+	}
+	if (P2Bomb != nullptr && P2Bomb->GetBombState() != e_BombState::GONE)
+	{
+		P2Bomb->Update(_input, deltaTime);
+	}
+	
+	/*
+	for (int i = 0; i < bombs.size(); i++)
+	{
+		if (bombs.at(i)->GetBombState() != e_BombState::GONE)
+		{
+			bombs.at(i)->Update(_input, deltaTime);
+		}
+
+	}
+	*/
 	timeDown -= UpdateDeltaTime();
 }
 
@@ -110,10 +127,26 @@ void SceneGame::Draw()
 	{
 		players[i].Draw();
 	}
-	for (int i = 0; i < bombs.size(); i++)
+	
+	if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
 	{
-		bombs.at(i)->Draw();
+		P1Bomb->Draw();
 	}
+	if (P2Bomb != nullptr && P2Bomb->GetBombState() != e_BombState::GONE)
+	{
+		P2Bomb->Draw();
+	}
+	
+	
+	/*
+	for (int j = 0; j < bombs.size(); j++)
+	{
+		if (bombs.at(j)->GetBombState() != e_BombState::GONE)
+		{
+			bombs.at(j)->Draw();
+		}
+	}
+	*/
 
 	Renderer::Instance()->Render();
 }

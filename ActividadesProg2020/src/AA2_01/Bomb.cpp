@@ -6,7 +6,7 @@ Bomb::Bomb()
 }
 Bomb::Bomb(std::string _name, Rect _position)
 {
-	std::cout << ("NewBomb Created") << std::endl;
+	//std::cout << ("NewBomb Created") << std::endl;
 	nRows = 2;
 	nColumns = 3;
 	texture = "../../res/img/items.png";
@@ -47,13 +47,7 @@ Bomb::~Bomb() //iMPORTANTE MIRAR ESTO A VER SI DA PROBLMEAS CON LA MEMORIA,  AUN
 	//Renderer::Instance()->DeleteObject(textureID, rectName, positionName);
 }
 
-void Bomb::Update(InputManager _input)
-{
-	Renderer::Instance()->SetRect(rectID, rect);
-	Renderer::Instance()->SetRect(positionID, position);
-}
-
-void Bomb::Update(float _deltaTime)
+void Bomb::Update(InputManager _input, float _deltaTime)
 {
 	switch (state)
 	{
@@ -96,7 +90,9 @@ void Bomb::Update(float _deltaTime)
 	default:
 		break;
 	}
-	
+
+	Renderer::Instance()->SetRect(rectID, rect);
+	Renderer::Instance()->SetRect(positionID, position);
 }
 
 void Bomb::Draw()

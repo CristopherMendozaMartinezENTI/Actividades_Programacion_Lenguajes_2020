@@ -8,4 +8,5 @@
 #define MAX_BLOCKS 100
 #define GRID 100
 #define MAX_LEVEL 2
+#define COOLDOWN 5
 

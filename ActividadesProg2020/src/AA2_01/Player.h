@@ -12,14 +12,16 @@ public:
 	int speed, speedMultiplier;
 
 private:
-	
-	bool isMoving, spawBomb, canSpawn;
-	Bomb newBomb;
-	
+
+
+	bool isMoving;
+	float bombCD;
+	bool spawBomb, canSpawn;
+
 	std::string test;
-	
+
 	Directions direction;
-	
+
 	e_PlayerType type;
 
 public:
@@ -28,12 +30,12 @@ public:
 	Player(int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type);
 	~Player();
 
-	void Update(InputManager _input);
+	void Update(InputManager _input, float _deltaTime);
 
 	void Draw();
 
 	void Reset();
-	
+
 	Rect GetRect();
 	Rect GetFrame();
 	Rect GetPosition();
@@ -41,6 +43,8 @@ public:
 	Directions GetDirection();
 	std::string GetTexture();
 	bool GetSpawnBomb();
+	float GetBombCD();
+	void ResetBombCD();
 	void SpawnBomb(bool _b);
 	void CanSpawnBomb();
 

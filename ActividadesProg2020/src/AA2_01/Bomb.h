@@ -13,14 +13,15 @@ private:
 	float lifeTime, explosionTime;
 	e_BombState state;
 
+	std::vector<Vec2> explosionWave;
+
 public:
 
 	Bomb();
 	Bomb(std::string _name, Rect _rect);
 	~Bomb();
 
-	void Update(InputManager _input);
-	void Update(float _deltaTime);
+	void Update(InputManager _input, float _deltaTime);
 	void Draw();
 	Rect GetRect();
 	Rect GetFrame();

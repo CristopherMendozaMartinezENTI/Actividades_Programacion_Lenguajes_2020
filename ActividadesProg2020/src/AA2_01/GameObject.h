@@ -16,7 +16,7 @@ protected:
 	int frameUpdate;
 
 public:
-	virtual void Update(InputManager _input) = 0;
+	virtual void Update(InputManager _input, float _deltaTime) = 0;
 	Rect GetRect(){}
 	Rect GetFrame(){}
 	Vec2 GetPosition(){}
