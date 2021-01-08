@@ -9,6 +9,7 @@ public:
 
 	int score;
 	int speed, speedMultiplier;
+	int HP;
 
 private:
 
@@ -26,7 +27,7 @@ private:
 public:
 
 	Player();
-	Player(int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type);
+	Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type);
 	~Player();
 
 	void Update(InputManager _input, float _deltaTime);

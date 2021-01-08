@@ -49,6 +49,8 @@ struct Directions
 struct Vec2
 {
 	int x, y;
+	Vec2() : x{ 0 }, y{ 0 } {};
+	Vec2(int _x, int _y) : x{ _x }, y{ _y } {};
 };
 
 struct Rect

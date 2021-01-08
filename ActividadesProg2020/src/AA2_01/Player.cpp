@@ -4,11 +4,19 @@ Player::Player()
 {
 }
 
-Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type)
+Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type)
 {
-	nColumns = _nColumns;
+	HP = _hp;
+	position.x = _position.x;
+	position.y = _position.y;
 	nRows = _nRows;
+	nColumns = _nColumns;
+	rectID = _name + "Rect";
+	positionID = _name + "Position";
+	textureID = _name + "Texture";
+	texture = _path;
 	type = _type;
+
 
 	score = 0;
 	bombCD = COOLDOWN;
@@ -16,27 +24,9 @@ Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, 
 	speed = 9;
 	speedMultiplier = 1; //1.3
 	spawBomb = false;
+	
 
-	texture = _path;
-	rectID = _name + "Rect";
-	positionID = _name + "Position";
-	textureID = _name + "Texture";
 
-	switch (type)
-	{
-	case e_PlayerType::P1:
-		position.x = 50;
-		position.y = 130;
-		 
-		break;
-	case e_PlayerType::P2:
-		position.x = 620;
-		position.y = 604;
-
-		break;
-	default:
-		break;
-	}
 	Renderer::Instance()->LoadTexture(textureID, texture);
 	Renderer::Instance()->LoadRect(rectID, Rect());
 	Renderer::Instance()->LoadRect(positionID, Rect());
@@ -47,6 +37,16 @@ Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, 
 	frame.h = textureHeight / nRows;
 	position.w = rect.w = frame.w;
 	position.h = rect.h = frame.h;
+	if (type == e_PlayerType::P1)
+	{
+		rect.y = frame.h * 2;
+		rect.x = frame.w * 1;
+	}
+	else
+	{
+		rect.y = frame.h * 0;
+		rect.x = frame.w * 1;
+	}
 }
 
 Player::~Player()
@@ -62,10 +62,10 @@ void Player::Update(InputManager _input, float _deltaTime)
 	{
 	case e_PlayerType::P1:
 		//Key Press
-		if (_input.returnKeyIsDown()[(int)EKeys::UP])  direction.goUp = true;
-		if (_input.returnKeyIsDown()[(int)EKeys::DOWN]) direction.goDown = true;
-		if (_input.returnKeyIsDown()[(int)EKeys::RIGHT]) direction.goRight = true;
-		if (_input.returnKeyIsDown()[(int)EKeys::LEFT]) direction.goLeft = true;
+		if (_input.returnKeyIsDown()[(int)EKeys::UP])  direction.goUp = true; 
+		if (_input.returnKeyIsDown()[(int)EKeys::DOWN]) direction.goDown = true;  
+		if (_input.returnKeyIsDown()[(int)EKeys::RIGHT]) direction.goRight = true;  
+		if (_input.returnKeyIsDown()[(int)EKeys::LEFT]) direction.goLeft = true;  
 		if (_input.returnKeyIsDown()[(int)EKeys::KEYPAD_0]) SpawnBomb(true);
 		//Key Release
 		if (!_input.returnKeyIsDown()[(int)EKeys::UP]) direction.goUp = false;
@@ -77,10 +77,10 @@ void Player::Update(InputManager _input, float _deltaTime)
 		break;
 	case e_PlayerType::P2:
 		//Key Press		
-		if (_input.returnKeyIsDown()[(int)EKeys::W]) direction.goUp = true;
-		if (_input.returnKeyIsDown()[(int)EKeys::S]) direction.goDown = true;
-		if (_input.returnKeyIsDown()[(int)EKeys::D]) direction.goRight = true;
-		if (_input.returnKeyIsDown()[(int)EKeys::A]) direction.goLeft = true;
+		if (_input.returnKeyIsDown()[(int)EKeys::W]) direction.goUp = true; 
+		if (_input.returnKeyIsDown()[(int)EKeys::S]) direction.goDown = true;  
+		if (_input.returnKeyIsDown()[(int)EKeys::D]) direction.goRight = true;  
+		if (_input.returnKeyIsDown()[(int)EKeys::A]) direction.goLeft = true;  
 		if (_input.returnKeyIsDown()[(int)EKeys::SPACE]) SpawnBomb(true);
 		//Key Release
 		if (!_input.returnKeyIsDown()[(int)EKeys::W]) direction.goUp = false;
@@ -130,6 +130,7 @@ void Player::Update(InputManager _input, float _deltaTime)
 			rect.y = frame.h * 1;
 		}
 	}
+
 
 	Renderer::Instance()->SetRect(rectID, rect);
 	Renderer::Instance()->SetRect(positionID, position);
