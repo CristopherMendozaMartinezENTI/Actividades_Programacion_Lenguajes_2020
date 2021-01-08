@@ -3,7 +3,7 @@ SceneMenu::SceneMenu()
 {
 	isRuning = true;
 	playMenuMusic = true;
-	//music.PlayMenuMusic();
+	music.PlayMenuMusic();
 
 	//------------- MENU ---------------
 	// --- SPRITES ---
@@ -48,6 +48,7 @@ SceneMenu::SceneMenu()
 
 	//Title Text
 	Renderer::Instance()->LoadFont(Font({ "Font", "../../res/ttf/game_over.ttf", 100 }));
+	Renderer::Instance()->LoadFont(Font({ "FontHover", "../../res/ttf/game_over.ttf", 200 }));
 	Renderer::Instance()->LoadTextureText("Font", texts["titleTexture"]);
 	Renderer::Instance()->LoadRect("titleRect", Rect({ 220, 200, Renderer::Instance()->GetTextureSize("titleTexture").x, Renderer::Instance()->GetTextureSize("titleTexture").y }));
 
@@ -58,13 +59,13 @@ SceneMenu::SceneMenu()
 	//Play Button (Menu)
 	//Level 1
 	Renderer::Instance()->LoadTextureText("Font", texts["playButtonText"]);
-	Renderer::Instance()->LoadTextureText("Font", texts["playButtonText_hover"]);
+	Renderer::Instance()->LoadTextureText("FontHover", texts["playButtonText_hover"]);
 	Renderer::Instance()->LoadRect("playButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText").x) / 2, 300, Renderer::Instance()->GetTextureSize("playButtonText").x, Renderer::Instance()->GetTextureSize("playButtonText").y }));
 	rectangles["playButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText").x) / 2, 300, Renderer::Instance()->GetTextureSize("playButtonText").x, Renderer::Instance()->GetTextureSize("playButtonText").y });
 
 	//Level 2
 	Renderer::Instance()->LoadTextureText("Font", texts["playButtonText2"]);
-	Renderer::Instance()->LoadTextureText("Font", texts["playButtonText_hover2"]);
+	Renderer::Instance()->LoadTextureText("FontHover", texts["playButtonText_hover2"]);
 	Renderer::Instance()->LoadRect("playButtonRect2", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText2").x) / 2, 350, Renderer::Instance()->GetTextureSize("playButtonText2").x, Renderer::Instance()->GetTextureSize("playButtonText2").y }));
 	rectangles["playButtonRect2"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText2").x) / 2, 350, Renderer::Instance()->GetTextureSize("playButtonText2").x, Renderer::Instance()->GetTextureSize("playButtonText2").y });
 
@@ -74,7 +75,7 @@ SceneMenu::SceneMenu()
 
 	//Sound Off Button (Menu)
 	Renderer::Instance()->LoadTextureText("Font", texts["soundOffButtonText"]);
-	Renderer::Instance()->LoadTextureText("Font", texts["soundOffButtonText_hover"]);
+	Renderer::Instance()->LoadTextureText("FontHover", texts["soundOffButtonText_hover"]);
 	Renderer::Instance()->LoadRect("soundButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("soundOffButtonText").x) / 2, 400, Renderer::Instance()->GetTextureSize("soundOffButtonText").x, Renderer::Instance()->GetTextureSize("soundOffButtonText").y }));
 	rectangles["soundButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("soundOffButtonText").x) / 2, 400, Renderer::Instance()->GetTextureSize("soundOffButtonText").x, Renderer::Instance()->GetTextureSize("soundOffButtonText").y });
 
@@ -84,7 +85,7 @@ SceneMenu::SceneMenu()
 
 	//Sound On Button (Menu)
 	Renderer::Instance()->LoadTextureText("Font", texts["soundOnButtonText"]);
-	Renderer::Instance()->LoadTextureText("Font", texts["soundOnButtonText_hover"]);
+	Renderer::Instance()->LoadTextureText("FontHover", texts["soundOnButtonText_hover"]);
 
 #pragma endregion
 
@@ -92,7 +93,7 @@ SceneMenu::SceneMenu()
 
 	//Ranking Button (Menu)
 	Renderer::Instance()->LoadTextureText("Font", texts["rankingButtonText"]);
-	Renderer::Instance()->LoadTextureText("Font", texts["rankingButtonText_hover"]);
+	Renderer::Instance()->LoadTextureText("FontHover", texts["rankingButtonText_hover"]);
 	Renderer::Instance()->LoadRect("rankingButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("rankingButtonText").x) / 2, 450, Renderer::Instance()->GetTextureSize("rankingButtonText").x, Renderer::Instance()->GetTextureSize("rankingButtonText").y }));
 	rectangles["rankingButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("rankingButtonText").x) / 2, 450, Renderer::Instance()->GetTextureSize("rankingButtonText").x, Renderer::Instance()->GetTextureSize("rankingButtonText").y });
 
@@ -102,7 +103,7 @@ SceneMenu::SceneMenu()
 
 	//Exit Button (Menu)
 	Renderer::Instance()->LoadTextureText("Font", texts["exitButtonText"]);
-	Renderer::Instance()->LoadTextureText("Font", texts["exitButtonText_hover"]);
+	Renderer::Instance()->LoadTextureText("FontHover", texts["exitButtonText_hover"]);
 	Renderer::Instance()->LoadRect("exitButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("exitButtonText").x) / 2, 500, Renderer::Instance()->GetTextureSize("exitButtonText").x, Renderer::Instance()->GetTextureSize("exitButtonText").y }));
 	rectangles["exitButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("exitButtonText").x) / 2, 500, Renderer::Instance()->GetTextureSize("exitButtonText").x, Renderer::Instance()->GetTextureSize("exitButtonText").y });
 
@@ -152,10 +153,8 @@ void SceneMenu::Update(InputManager &input)
 		{
 			input.returnKeyIsDown()[(int)EKeys::MOUSE_LEFT] = false;
 			playMenuMusic = !playMenuMusic;
-			/*
 			if (playMenuMusic) music.PauseMenuMusic();
 			else music.ResumeMenuMusic();
-			*/
 		}
 		if (playMenuMusic)
 		{

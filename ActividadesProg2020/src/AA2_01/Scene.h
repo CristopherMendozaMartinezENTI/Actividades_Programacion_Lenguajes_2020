@@ -18,6 +18,8 @@ protected:
 	//Rects
 	std::map<std::string, Rect> rectangles;
 
+	AudioManager music;
+
 public:
 	e_GameStates state;
 	bool isRuning;
