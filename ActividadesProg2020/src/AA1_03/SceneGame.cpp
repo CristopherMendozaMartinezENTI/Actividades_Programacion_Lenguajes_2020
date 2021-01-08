@@ -105,7 +105,7 @@ void SceneGame::Update(InputManager& _inputs)
 {
 	//Key Press
 	if (_inputs.returnKeyIsDown()[(int)EKeys::QUIT]) state = gameStates::QUIT;
-	if (_inputs.returnKeyIsDown()[(int)EKeys::ESC])  state = gameStates::QUIT;
+	if (_inputs.returnKeyIsDown()[(int)EKeys::ESC])  state = gameStates::MENU;
 	if (_inputs.returnKeyIsDown()[(int)EKeys::UP]) playerClass1.dir.goUp = true;
 	if (_inputs.returnKeyIsDown()[(int)EKeys::DOWN]) playerClass1.dir.goDown = true;
 	if (_inputs.returnKeyIsDown()[(int)EKeys::RIGHT]) playerClass1.dir.goRight = true;

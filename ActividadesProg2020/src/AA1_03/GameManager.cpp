@@ -38,6 +38,8 @@ void GameManager::Run()
 				currentScene->state = gameStates::IN_GAME;
 				break;
 			case gameStates::QUIT:
+				delete currentScene;
+				Renderer::Instance()->ClearScene();
 				isRunning = false;
 				break;
 			default:
