@@ -57,17 +57,13 @@ SceneMenu::SceneMenu()
 
 	//Play Button (Menu)
 	//Level 1
-	//normal surface
 	Renderer::Instance()->LoadTextureText("Font", texts["playButtonText"]);
-	//hover surface
 	Renderer::Instance()->LoadTextureText("Font", texts["playButtonText_hover"]);
 	Renderer::Instance()->LoadRect("playButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText").x) / 2, 300, Renderer::Instance()->GetTextureSize("playButtonText").x, Renderer::Instance()->GetTextureSize("playButtonText").y }));
 	rectangles["playButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText").x) / 2, 300, Renderer::Instance()->GetTextureSize("playButtonText").x, Renderer::Instance()->GetTextureSize("playButtonText").y });
 
 	//Level 2
-	//normal surface
 	Renderer::Instance()->LoadTextureText("Font", texts["playButtonText2"]);
-	//hover surface
 	Renderer::Instance()->LoadTextureText("Font", texts["playButtonText_hover2"]);
 	Renderer::Instance()->LoadRect("playButtonRect2", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText2").x) / 2, 350, Renderer::Instance()->GetTextureSize("playButtonText2").x, Renderer::Instance()->GetTextureSize("playButtonText2").y }));
 	rectangles["playButtonRect2"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("playButtonText2").x) / 2, 350, Renderer::Instance()->GetTextureSize("playButtonText2").x, Renderer::Instance()->GetTextureSize("playButtonText2").y });
@@ -77,9 +73,7 @@ SceneMenu::SceneMenu()
 #pragma region Sound Off Button
 
 	//Sound Off Button (Menu)
-	//normal surface
 	Renderer::Instance()->LoadTextureText("Font", texts["soundOffButtonText"]);
-	//hover surface
 	Renderer::Instance()->LoadTextureText("Font", texts["soundOffButtonText_hover"]);
 	Renderer::Instance()->LoadRect("soundButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("soundOffButtonText").x) / 2, 400, Renderer::Instance()->GetTextureSize("soundOffButtonText").x, Renderer::Instance()->GetTextureSize("soundOffButtonText").y }));
 	rectangles["soundButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("soundOffButtonText").x) / 2, 400, Renderer::Instance()->GetTextureSize("soundOffButtonText").x, Renderer::Instance()->GetTextureSize("soundOffButtonText").y });
@@ -89,9 +83,7 @@ SceneMenu::SceneMenu()
 #pragma region Sound On Button
 
 	//Sound On Button (Menu)
-	//normal surface
 	Renderer::Instance()->LoadTextureText("Font", texts["soundOnButtonText"]);
-	//hover surface
 	Renderer::Instance()->LoadTextureText("Font", texts["soundOnButtonText_hover"]);
 
 #pragma endregion
@@ -99,9 +91,7 @@ SceneMenu::SceneMenu()
 #pragma region Ranking Button
 
 	//Ranking Button (Menu)
-	//normal surface
 	Renderer::Instance()->LoadTextureText("Font", texts["rankingButtonText"]);
-	//hover surface
 	Renderer::Instance()->LoadTextureText("Font", texts["rankingButtonText_hover"]);
 	Renderer::Instance()->LoadRect("rankingButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("rankingButtonText").x) / 2, 450, Renderer::Instance()->GetTextureSize("rankingButtonText").x, Renderer::Instance()->GetTextureSize("rankingButtonText").y }));
 	rectangles["rankingButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("rankingButtonText").x) / 2, 450, Renderer::Instance()->GetTextureSize("rankingButtonText").x, Renderer::Instance()->GetTextureSize("rankingButtonText").y });
@@ -111,9 +101,7 @@ SceneMenu::SceneMenu()
 #pragma region Exit Button
 
 	//Exit Button (Menu)
-	//normal surface
 	Renderer::Instance()->LoadTextureText("Font", texts["exitButtonText"]);
-	//hover surface
 	Renderer::Instance()->LoadTextureText("Font", texts["exitButtonText_hover"]);
 	Renderer::Instance()->LoadRect("exitButtonRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("exitButtonText").x) / 2, 500, Renderer::Instance()->GetTextureSize("exitButtonText").x, Renderer::Instance()->GetTextureSize("exitButtonText").y }));
 	rectangles["exitButtonRect"] = Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("exitButtonText").x) / 2, 500, Renderer::Instance()->GetTextureSize("exitButtonText").x, Renderer::Instance()->GetTextureSize("exitButtonText").y });
