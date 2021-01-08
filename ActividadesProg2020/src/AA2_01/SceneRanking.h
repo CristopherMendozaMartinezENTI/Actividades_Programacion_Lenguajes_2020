@@ -5,7 +5,7 @@
 
 class SceneRanking : public Scene {
 private:
-	Button menuButton, exitButton;
+	//Button menuButton, exitButton;
 	Cursor cursor;
 
 public:

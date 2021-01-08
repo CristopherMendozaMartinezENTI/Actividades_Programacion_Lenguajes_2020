@@ -5,7 +5,6 @@
 #include "Hud.h"
 #include "Constants.h"
 
-
 class SceneGame :
 	public Scene
 {
@@ -33,7 +32,7 @@ public:
 	SceneGame();
 	~SceneGame();
 
-	void Update(InputManager input);
+	void Update(InputManager &input);
 	void Draw();
 	float UpdateDeltaTime();
 };

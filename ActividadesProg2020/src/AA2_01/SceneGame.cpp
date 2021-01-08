@@ -52,7 +52,7 @@ float SceneGame::UpdateDeltaTime()
 }
 
 
-void SceneGame::Update(InputManager _input)
+void SceneGame::Update(InputManager &_input)
 {
 #pragma region Players
 
@@ -147,6 +147,7 @@ void SceneGame::Draw()
 		}
 	}
 	*/
+
 
 	Renderer::Instance()->Render();
 }

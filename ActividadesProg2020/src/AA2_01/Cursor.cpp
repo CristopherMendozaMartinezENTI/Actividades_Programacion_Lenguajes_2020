@@ -1,7 +1,4 @@
-/*
 #include "Cursor.h"
-
-
 Cursor::Cursor()
 {
 	cursorPosition.x = 0;
@@ -18,6 +15,10 @@ Cursor::Cursor(Vec2 _position, Rect _rect)
 Cursor :: ~Cursor()
 {
 
+}
+
+void Cursor::Update(InputManager _input, float _deltaTime)
+{
 }
 
 void Cursor :: SetPosition(Vec2 _position)
@@ -45,5 +46,3 @@ Rect Cursor :: GetRect()
 {
 	return cursorRect;
 }
-
-*/

@@ -1,9 +1,6 @@
 #pragma once
-
-#include "Types.h"
-#include "InputManager.h"
 #include "Renderer.h"
-
+#include "Collisions.h"
 class GameObject
 {
 protected:
@@ -21,6 +18,5 @@ public:
 	Rect GetFrame(){}
 	Vec2 GetPosition(){}
 	std::string GetTexture(){}
-
 
 };

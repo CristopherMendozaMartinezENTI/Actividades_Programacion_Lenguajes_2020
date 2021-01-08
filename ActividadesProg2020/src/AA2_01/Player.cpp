@@ -47,7 +47,6 @@ Player::Player(int _nRows, int _nColumns, std::string _name, std::string _path, 
 	frame.h = textureHeight / nRows;
 	position.w = rect.w = frame.w;
 	position.h = rect.h = frame.h;
-
 }
 
 Player::~Player()
@@ -63,7 +62,6 @@ void Player::Update(InputManager _input, float _deltaTime)
 	{
 	case e_PlayerType::P1:
 		//Key Press
-
 		if (_input.returnKeyIsDown()[(int)EKeys::UP])  direction.goUp = true;
 		if (_input.returnKeyIsDown()[(int)EKeys::DOWN]) direction.goDown = true;
 		if (_input.returnKeyIsDown()[(int)EKeys::RIGHT]) direction.goRight = true;
@@ -98,8 +96,6 @@ void Player::Update(InputManager _input, float _deltaTime)
 	if (direction.goUp || direction.goDown || direction.goRight || direction.goLeft) isMoving = true;
 	if (!direction.goUp && !direction.goDown && !direction.goRight && !direction.goLeft) isMoving = false;
 
-
-
 	if (isMoving) {
 		frameUpdate++;
 		if (FPS / frameUpdate <= speed * speedMultiplier)
@@ -113,32 +109,31 @@ void Player::Update(InputManager _input, float _deltaTime)
 		}
 
 		//Limites de la pantalla. Esto tendria que ir en otro sitio?  En la zona de mapa alomejor
-		if (direction.goUp) {
+		if (direction.goUp && position.y > 110) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += -1 * MOTION_SPEED;
 			rect.y = frame.h * 0;
 		}
-		if (direction.goDown) {
+		if (direction.goDown && position.y < SCREEN_HEIGHT - 100) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += 1 * MOTION_SPEED;
 			rect.y = frame.h * 2;
 		}
-		if (direction.goRight) {
+		if (direction.goRight && position.x < SCREEN_WIDTH - 100) {
 			position.x += 1 * MOTION_SPEED;
 			position.y += 0 * MOTION_SPEED;
 			rect.y = frame.h * 3;
 		}
-		if (direction.goLeft) {
+		if (direction.goLeft && position.x > 50) {
 			position.x += -1 * MOTION_SPEED;
 			position.y += 0 * MOTION_SPEED;
 			rect.y = frame.h * 1;
 		}
+
 	}
 
 	Renderer::Instance()->SetRect(rectID, rect);
 	Renderer::Instance()->SetRect(positionID, position);
-
-
 }
 
 void Player::Draw()

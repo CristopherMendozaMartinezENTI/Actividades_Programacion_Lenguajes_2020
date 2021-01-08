@@ -11,11 +11,18 @@ protected:
 	clock_t lastTime;
 	float deltaTime;
 
+	//Colors
+	std::map<std::string, Color> colors;
+	//Texts
+	std::map<std::string, Text> texts;
+	//Rects
+	std::map<std::string, Rect> rectangles;
+
 public:
-	
-	virtual void Update(InputManager input) = 0;
+	e_GameStates state;
+	bool isRuning;
+	virtual void Update(InputManager& _inputs) = 0;
 	virtual void Draw();
 	virtual float UpdateDeltaTime();
-
 };
 

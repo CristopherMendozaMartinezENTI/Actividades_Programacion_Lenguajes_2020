@@ -1,12 +1,12 @@
 #pragma once
-#include "Types.h"
 #include "GameObject.h"
-
+//#include "Collisions.h"
 
 class Cursor : public GameObject
 {
 private: 
-
+	Vec2 cursorPosition;
+	Rect cursorRect;
 
 public:
 

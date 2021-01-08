@@ -1,6 +1,5 @@
 #pragma once
-#include "Types.h"
-#include "Constants.h"
+#include "InputManager.h"
 
 //SDL
 class Renderer {
