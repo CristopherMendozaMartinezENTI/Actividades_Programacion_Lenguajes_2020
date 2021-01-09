@@ -6,10 +6,27 @@
 class Hud : public GameObject
 {
 private:
+	//Variables needed to print the HP (icons) that each player has. Avatars are threaded as sprites.
 	std::string Avatar[PLAYER_SIZE];
+	Rect rectAvatar[PLAYER_SIZE];
+	Rect posAvatar[PLAYER_SIZE*3];
+	Rect frameAvatar[PLAYER_SIZE];
 	int HP[PLAYER_SIZE];
+	std::string avatarTextureID[PLAYER_SIZE], avatarRectID[PLAYER_SIZE], avatarPositionID[PLAYER_SIZE*3];
+
+	//Variables needed to print the score that each player has (a number)
 	int score[PLAYER_SIZE];
+	Rect rectScore[PLAYER_SIZE];
+	Rect positionScore[PLAYER_SIZE];
+	Rect frameScore[PLAYER_SIZE];
+	std::string scoreTextureID[PLAYER_SIZE], scoreRectID[PLAYER_SIZE], scorePositionID[PLAYER_SIZE];
+
+	//Varibales needed to print the Game Time left
 	float gameTime;
+	Rect rectGameTime[PLAYER_SIZE];
+	Rect positionGameTime[PLAYER_SIZE];
+	Rect frameGameTime[PLAYER_SIZE];
+	std::string gameTimeTexureID, gameTimeRectID, gameTimePositionID;
 
 public:
 
@@ -18,6 +35,7 @@ public:
 	~Hud();
 
 	void Update(InputManager _input, float _deltaTime);
+	void Draw();
 	void Reset();
 
 
@@ -25,5 +43,6 @@ public:
 	Rect GetFrame();
 	Rect GetPosition();
 	std::string GetTexture();
+	void UpdateHPPlayer(int _hp1, int _hp2);
 
 };

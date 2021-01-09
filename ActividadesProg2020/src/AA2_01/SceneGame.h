@@ -24,6 +24,7 @@ private:
 	Bomb* P2Bomb = nullptr;
 	std::vector<Bomb*> bombs;
 	int numBombs;
+	Hud hud;
 	
 	//HUD
 	//Hud scoreboard;

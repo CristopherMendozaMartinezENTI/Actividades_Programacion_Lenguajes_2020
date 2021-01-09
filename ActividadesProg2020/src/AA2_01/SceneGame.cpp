@@ -146,6 +146,8 @@ SceneGame::SceneGame(e_Levels _level)
 	Renderer::Instance()->LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
 	LoadGameObjects(_level);
+	
+	hud = { players[0].GetTexture() , players[1].GetTexture(), players[0].HP, players[1].HP, timeDown };
 }
 
 SceneGame::~SceneGame()
@@ -186,6 +188,7 @@ void SceneGame::Update(InputManager& _input)
 			numBombs++;
 		}*/
 	}
+	hud.UpdateHPPlayer(players[0].HP, players[1].HP);
 
 #pragma endregion
 
@@ -227,6 +230,7 @@ void SceneGame::Update(InputManager& _input)
 
 	}
 	*/
+	hud.Update(_input, deltaTime);
 	timeDown -= UpdateDeltaTime();
 }
 
@@ -261,6 +265,7 @@ void SceneGame::Draw()
 		}
 	}
 	*/
+	hud.Draw();
 
 	Renderer::Instance()->Render();
 }
