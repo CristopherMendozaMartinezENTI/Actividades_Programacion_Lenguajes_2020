@@ -33,9 +33,9 @@ private:
 	float deltaTime;
 
 public:
+	void LoadXML();
 	SceneGame();
 	~SceneGame();
-	void LoadXML();
 	void Update(InputManager &input);
 	void Draw();
 	float UpdateDeltaTime();
