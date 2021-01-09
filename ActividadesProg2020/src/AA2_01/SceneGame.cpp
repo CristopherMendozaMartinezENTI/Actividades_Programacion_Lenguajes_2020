@@ -24,17 +24,17 @@ void SceneGame::LoadXML()
 	rapidxml::xml_node<>* pLevel1 = pRoot->first_node("Level1");
 
 	//---->Estamos en Players de Level1
-	rapidxml::xml_node<>* pPlayers = pLevel1->first_node("Players");
+	rapidxml::xml_node<>* pLevel1Players = pLevel1->first_node("Players");
 
 	//---->Estamos en Player1 de Level1
-	rapidxml::xml_node<>* pPlayer1 = pPlayers->first_node("Player1");
-	rapidxml::xml_attribute<>* level1Player1Vidas = pPlayer1->first_attribute("lives");
+	rapidxml::xml_node<>* pLevel1Player1 = pLevel1Players->first_node("Player1");
+	rapidxml::xml_attribute<>* level1Player1Vidas = pLevel1Player1->first_attribute("lives");
 	int vidas = atoi(level1Player1Vidas->value());
-	rapidxml::xml_node<>* pPlayer1Position = pPlayer1->first_node("Positon");
-	rapidxml::xml_attribute<>* level1Player1Posicion = pPlayer1Position->first_attribute("x");
-	int posX = atoi(level1Player1Posicion->value());
-	level1Player1Posicion = pPlayer1Position->first_attribute("y");
-	int posY = atoi(level1Player1Posicion->value());
+	rapidxml::xml_node<>* pLevel1Player1Position = pLevel1Player1->first_node("Positon");
+	rapidxml::xml_attribute<>* level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("x");
+	int posX = atoi(level1Player1PositionAttribute->value());
+	level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("y");
+	int posY = atoi(level1Player1PositionAttribute->value());
 
 	std::cout << "Player 1" << std::endl;
 	std::cout << "Vidas: " << vidas << std::endl;
@@ -43,14 +43,14 @@ void SceneGame::LoadXML()
 	std::cout << std::endl;
 
 	//---->Estamos en Player2 de Level1
-	rapidxml::xml_node<>* pPlayer2 = pPlayer1->next_sibling();
-	rapidxml::xml_attribute<>* level1Player2Vidas = pPlayer2->first_attribute("lives");
+	rapidxml::xml_node<>* pLevel1Player2 = pLevel1Player1->next_sibling();
+	rapidxml::xml_attribute<>* level1Player2Vidas = pLevel1Player2->first_attribute("lives");
 	int vidas2 = atoi(level1Player2Vidas->value());
-	rapidxml::xml_node<>* pPlayer2Position = pPlayer2->first_node("Positon");
-	rapidxml::xml_attribute<>* level1Player2Posicion = pPlayer2Position->first_attribute("x");
-	int pos2X = atoi(level1Player2Posicion->value());
-	level1Player2Posicion = pPlayer2Position->first_attribute("y");
-	int pos2Y = atoi(level1Player2Posicion->value());
+	rapidxml::xml_node<>* pPlayer2Position = pLevel1Player2->first_node("Positon");
+	rapidxml::xml_attribute<>* level1Player2PositionAtributte = pPlayer2Position->first_attribute("x");
+	int pos2X = atoi(level1Player2PositionAtributte->value());
+	level1Player2PositionAtributte = pPlayer2Position->first_attribute("y");
+	int pos2Y = atoi(level1Player2PositionAtributte->value());
 
 	std::cout << "Player 2" << std::endl;
 	std::cout << "Vidas: " << vidas2 << std::endl;
@@ -59,18 +59,18 @@ void SceneGame::LoadXML()
 	std::cout << std::endl;
 
 	//---->Estamos en Mapa de Level1
-	rapidxml::xml_node<>* pMap = pPlayers->next_sibling();
+	rapidxml::xml_node<>* pLevel1Map = pLevel1Players->next_sibling();
 	//Recorrer el contenido del mapa mediante un for
 	int i = 0;
-	for (pMap = pMap->first_node("Wall"); pMap; pMap = pMap->next_sibling())
+	for (pLevel1Map = pLevel1Map->first_node("Wall"); pLevel1Map; pLevel1Map = pLevel1Map->next_sibling())
 	{
-		rapidxml::xml_attribute<>* pWallData = pMap->first_attribute("destructible");
+		rapidxml::xml_attribute<>* pWallData = pLevel1Map->first_attribute("destructible");
 		std::string destructible = pWallData->value();
-		pWallData = pMap->first_attribute("x");
+		pWallData = pLevel1Map->first_attribute("x");
 		WallPos.x = atoi(pWallData->value());
-		pWallData = pMap->first_attribute("y");
+		pWallData = pLevel1Map->first_attribute("y");
 		WallPos.y = atoi(pWallData->value());
-		
+
 		std::cout << "Wall " << i << std::endl;
 		std::cout << "Destructible: " << destructible << std::endl;
 		std::cout << "WallPosX: " << WallPos.x << std::endl;
@@ -145,7 +145,7 @@ float SceneGame::UpdateDeltaTime()
 	return deltaTime;
 }
 
-void SceneGame::Update(InputManager &_input)
+void SceneGame::Update(InputManager& _input)
 {
 	if (_input.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
 	if (_input.returnKeyIsDown()[(int)EKeys::ESC])
@@ -160,10 +160,10 @@ void SceneGame::Update(InputManager &_input)
 	for (int i = 0; i < PLAYER_SIZE; i++)
 	{
 		players[i].Update(_input, deltaTime);
-		
+
 		if (players[0].GetSpawnBomb())	P1Bomb = new Bomb("P1Bomb" + numBombs, players[0].GetPosition());
 		if (players[1].GetSpawnBomb())  P2Bomb = new Bomb("P2Bomb" + numBombs, players[1].GetPosition());
-		
+
 		/*if (players[i].GetSpawnBomb())
 		{
 			//bombs.push_back(new Bomb(i + "Bomb" + numBombs, players[i].GetPosition()));
@@ -191,7 +191,7 @@ void SceneGame::Update(InputManager &_input)
 	}
 
 #pragma endregion
-	
+
 	if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
 	{
 		P1Bomb->Update(_input, deltaTime);
@@ -200,7 +200,7 @@ void SceneGame::Update(InputManager &_input)
 	{
 		P2Bomb->Update(_input, deltaTime);
 	}
-	
+
 	/*
 	for (int i = 0; i < bombs.size(); i++)
 	{
@@ -221,7 +221,7 @@ void SceneGame::Draw()
 
 	//Background
 	Renderer::Instance()->PushImage("gameBgTexture", "gameBgRect");
-	
+
 	if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
 	{
 		P1Bomb->Draw();
@@ -236,7 +236,7 @@ void SceneGame::Draw()
 	{
 		players[i].Draw();
 	}
-	
+
 	/*
 	for (int j = 0; j < bombs.size(); j++)
 	{
