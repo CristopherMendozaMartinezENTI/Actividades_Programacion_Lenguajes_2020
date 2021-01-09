@@ -30,14 +30,14 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 			//---->Estamos en Player1 de Level1
 			rapidxml::xml_node<>* pLevel1Player1 = pLevel1Players->first_node("Player1");
 			rapidxml::xml_attribute<>* level1Player1Vidas = pLevel1Player1->first_attribute("lives");
-			int vidas = atoi(level1Player1Vidas->value());
+			int vidas1 = atoi(level1Player1Vidas->value());
 			rapidxml::xml_node<>* pLevel1Player1Position = pLevel1Player1->first_node("Positon");
 			rapidxml::xml_attribute<>* level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("x");
-			int posX = atoi(level1Player1PositionAttribute->value());
+			int pos1X = atoi(level1Player1PositionAttribute->value());
 			level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("y");
-			int posY = atoi(level1Player1PositionAttribute->value());
+			int pos1Y = atoi(level1Player1PositionAttribute->value());
 
-			players[0] = { vidas, Vec2(((posX*48)+50), ((posY*48)+130)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
+			players[0] = { vidas1, Vec2(((pos1X*48)+50), ((pos1Y*48)+130)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
 
 			//---->Estamos en Player2 de Level1
 			rapidxml::xml_node<>* pLevel1Player2 = pLevel1Player1->next_sibling();
@@ -85,14 +85,14 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 			//---->Estamos en Player1 de Level2
 			rapidxml::xml_node<>* pLevel2Player1 = pLevel2Players->first_node("Player1");
 			rapidxml::xml_attribute<>* level2Player1Vidas = pLevel2Player1->first_attribute("lives");
-			int vidas = atoi(level2Player1Vidas->value());
+			int vidas1 = atoi(level2Player1Vidas->value());
 			rapidxml::xml_node<>* pLevel2Player1Position = pLevel2Player1->first_node("Positon");
 			rapidxml::xml_attribute<>* level2Player1PositionAttribute = pLevel2Player1Position->first_attribute("x");
-			int posX = atoi(level2Player1PositionAttribute->value());
+			int pos1X = atoi(level2Player1PositionAttribute->value());
 			level2Player1PositionAttribute = pLevel2Player1Position->first_attribute("y");
-			int posY = atoi(level2Player1PositionAttribute->value());
+			int pos1Y = atoi(level2Player1PositionAttribute->value());
 
-			players[0] = { vidas, Vec2(((posX * 48) + 50), ((posY * 48) + 130)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
+			players[0] = { vidas1, Vec2(((pos1X * 48) + 50), ((pos1Y * 48) + 130)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
 
 			//---->Estamos en Player2 de Level2
 			rapidxml::xml_node<>* pLevel2Player2 = pLevel2Player1->next_sibling();
@@ -232,7 +232,6 @@ void SceneGame::Update(InputManager& _input)
 
 void SceneGame::Draw()
 {
-
 	Renderer::Instance()->Clear();
 
 	//Background
@@ -262,7 +261,6 @@ void SceneGame::Draw()
 		}
 	}
 	*/
-
 
 	Renderer::Instance()->Render();
 }

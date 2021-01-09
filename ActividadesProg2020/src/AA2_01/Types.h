@@ -29,7 +29,7 @@ enum class e_Levels {
 enum class EKeys {
 	DEFAULT, ESC, UP, DOWN, LEFT, RIGHT, 
 	W, A, S, D, MOUSE_LEFT, MOUSE_RIGHT, 
-	SPACE, P, KEYPAD_0, QUIT, TOTAL 
+	SPACE, P, LCTRL, QUIT, TOTAL 
 };
 
 enum class e_BlockType {

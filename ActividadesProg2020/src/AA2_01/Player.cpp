@@ -66,13 +66,13 @@ void Player::Update(InputManager _input, float _deltaTime)
 		if (_input.returnKeyIsDown()[(int)EKeys::DOWN]) direction.goDown = true;  
 		if (_input.returnKeyIsDown()[(int)EKeys::RIGHT]) direction.goRight = true;  
 		if (_input.returnKeyIsDown()[(int)EKeys::LEFT]) direction.goLeft = true;  
-		if (_input.returnKeyIsDown()[(int)EKeys::KEYPAD_0]) SpawnBomb(true);
+		if (_input.returnKeyIsDown()[(int)EKeys::LCTRL]) SpawnBomb(true);
 		//Key Release
 		if (!_input.returnKeyIsDown()[(int)EKeys::UP]) direction.goUp = false;
 		if (!_input.returnKeyIsDown()[(int)EKeys::DOWN]) direction.goDown = false;
 		if (!_input.returnKeyIsDown()[(int)EKeys::RIGHT]) direction.goRight = false;
 		if (!_input.returnKeyIsDown()[(int)EKeys::LEFT]) direction.goLeft = false;
-		if (!_input.returnKeyIsDown()[(int)EKeys::KEYPAD_0]) SpawnBomb(false);
+		if (!_input.returnKeyIsDown()[(int)EKeys::LCTRL]) SpawnBomb(false);
 
 		break;
 	case e_PlayerType::P2:
