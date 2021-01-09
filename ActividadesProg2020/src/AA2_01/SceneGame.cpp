@@ -5,7 +5,7 @@
 #include "../../dep/inc/XML/rapidxml_print.hpp"
 #include "../../dep/inc/XML/rapidxml_utils.hpp"
 
-void SceneGame::LoadXML(e_Levels _level)
+void SceneGame::LoadGameObjects(e_Levels _level)
 {
 	rapidxml::xml_document<> config;
 	std::ifstream file("../../res/files/config.xml");
@@ -14,9 +14,6 @@ void SceneGame::LoadXML(e_Levels _level)
 	file.close();
 	std::string content(buffer.str());
 	config.parse<0>(&content[0]);
-
-	Vec2 WallPos;
-	bool Walldestructible;
 
 	//Root
 	rapidxml::xml_node<>* pRoot = config.first_node();
@@ -60,6 +57,8 @@ void SceneGame::LoadXML(e_Levels _level)
 			int i = 0;
 			for (pLevel1Map = pLevel1Map->first_node("Wall"); pLevel1Map; pLevel1Map = pLevel1Map->next_sibling())
 			{
+				Vec2 WallPos;
+				bool Walldestructible;
 				rapidxml::xml_attribute<>* pWallData = pLevel1Map->first_attribute("destructible");
 				std::string destructible = pWallData->value();
 				pWallData = pLevel1Map->first_attribute("x");
@@ -116,6 +115,7 @@ void SceneGame::LoadXML(e_Levels _level)
 				rapidxml::xml_attribute<>* pWallData = pMapLevel2->first_attribute("destructible");
 				std::string destructible = pWallData->value();
 				pWallData = pMapLevel2->first_attribute("x");
+				Vec2 WallPos;
 				WallPos.x = atoi(pWallData->value());
 				pWallData = pMapLevel2->first_attribute("y");
 				WallPos.y = atoi(pWallData->value());
@@ -133,44 +133,19 @@ void SceneGame::LoadXML(e_Levels _level)
 		default:
 			break;
 	}
-
 }
 
 SceneGame::SceneGame(e_Levels _level)
 {
-	LoadXML(_level);
 	music.PlayGameMusic();
 	lastTime = clock();
 	deltaTime = 0.f;
 	timeDown = MAX_TIME;
 
-	//------------- INGAME ---------------
-
-	// --- SPRITES ---
-#pragma region Backgrounds
-
 	Renderer::Instance()->LoadTexture("gameBgTexture", "../../res/img/bgGame.jpg");
 	Renderer::Instance()->LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
-#pragma endregion
-
-#pragma region Objects
-
-	//Bombas, PowerUp & Walls 
-
-
-#pragma endregion 
-	// --- TEXT --- 
-
-
-	//--- ANIMATED SPRITES ---
-
-#pragma region Players
-
-	//Players
-
-#pragma endregion
-
+	LoadGameObjects(_level);
 }
 
 SceneGame::~SceneGame()

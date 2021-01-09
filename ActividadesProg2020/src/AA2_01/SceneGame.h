@@ -35,7 +35,7 @@ private:
 	float deltaTime;
 
 public:
-	void LoadXML(e_Levels _level);
+	void LoadGameObjects(e_Levels _level);
 	SceneGame(e_Levels _level);
 	~SceneGame();
 	void Update(InputManager &input);
