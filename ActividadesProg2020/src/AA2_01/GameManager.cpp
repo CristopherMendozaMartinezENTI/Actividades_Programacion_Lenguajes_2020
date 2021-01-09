@@ -30,14 +30,19 @@ void GameManager::Run()
 				currentScene = new SceneMenu();
 				currentScene->state = e_GameStates::MENU;
 				break;
-			case e_GameStates::IN_GAME:
+			case e_GameStates::IN_GAME_LEVEL1:
 				delete currentScene;
 				Renderer::Instance()->ClearScene();
-				currentScene = new SceneGame();
-				currentScene->state = e_GameStates::IN_GAME;
+				currentScene = new SceneGame(e_Levels::LEVEL_1);
+				currentScene->state = e_GameStates::IN_GAME_LEVEL1;
+				break;
+			case e_GameStates::IN_GAME_LEVEL2:
+				delete currentScene;
+				Renderer::Instance()->ClearScene();
+				currentScene = new SceneGame(e_Levels::LEVEL_2);
+				currentScene->state = e_GameStates::IN_GAME_LEVEL2;
 				break;
 			case e_GameStates::QUIT:
-				std::cout << "QUIT" << std::endl;
 				isRunning = false;
 				break;
 			default:

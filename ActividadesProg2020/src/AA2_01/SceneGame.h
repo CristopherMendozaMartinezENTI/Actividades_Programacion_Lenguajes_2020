@@ -14,6 +14,8 @@ class SceneGame :
 {
 private:
 
+	e_Levels level;
+
 	//Players
 	Player players[PLAYER_SIZE];
 
@@ -33,8 +35,8 @@ private:
 	float deltaTime;
 
 public:
-	void LoadXML();
-	SceneGame();
+	void LoadXML(e_Levels _level);
+	SceneGame(e_Levels _level);
 	~SceneGame();
 	void Update(InputManager &input);
 	void Draw();

@@ -130,7 +130,7 @@ void SceneMenu::Update(InputManager &input)
 	{
 		//Play Button = HOVER color.
 		playLevel1Hover = true;
-		if (mouseClicked) state = e_GameStates::IN_GAME;
+		if (mouseClicked) state = e_GameStates::IN_GAME_LEVEL1;
 	}
 	else
 		playLevel1Hover = false;
@@ -140,7 +140,7 @@ void SceneMenu::Update(InputManager &input)
 	{
 		//Play Button = HOVER color.
 		playLevel2Hover = true;
-		if (mouseClicked) state = e_GameStates::IN_GAME;
+		if (mouseClicked) state = e_GameStates::IN_GAME_LEVEL2;
 	}
 	else
 		playLevel2Hover = false;

@@ -16,12 +16,17 @@
 #include "Constants.h"
 
 enum class e_GameStates {
-	MENU, IN_GAME, RANKING, QUIT
+	MENU, IN_GAME_LEVEL1, IN_GAME_LEVEL2, RANKING, QUIT
 };
 
 enum class e_PlayerType {
 	P1, P2
 };
+
+enum class e_Levels {
+	LEVEL_1, LEVEL_2
+};
+
 enum class EKeys {
 	DEFAULT, ESC, UP, DOWN, LEFT, RIGHT, 
 	W, A, S, D, MOUSE_LEFT, MOUSE_RIGHT, 

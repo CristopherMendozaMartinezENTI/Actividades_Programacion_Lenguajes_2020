@@ -45,13 +45,43 @@
 	<Level2>
 		<Players>
 			<Player1 lives = "3">
-				<Positon x="0" y="0"/>
+				<Positon x="12" y="0"/>
 			</Player1>
 			<Player2 lives = "3">
-				<Positon x="12" y="10"/>
+				<Positon x="0" y="10"/>
 			</Player2>
 		</Players>
 		<Map>
+      <Wall destructible = "true" x="1" y="1"/>
+      <Wall destructible = "true" x="3" y="1"/>
+      <Wall destructible = "true" x="5" y="1"/>
+      <Wall destructible = "true" x="7" y="1"/>
+      <Wall destructible = "true" x="9" y="1"/>
+      <Wall destructible = "true" x="11" y="1"/>
+      <Wall destructible = "true" x="1" y="3"/>
+      <Wall destructible = "true" x="3" y="3"/>
+      <Wall destructible = "true" x="5" y="3"/>
+      <Wall destructible = "true" x="7" y="3"/>
+      <Wall destructible = "true" x="9" y="3"/>
+      <Wall destructible = "true" x="11" y="3"/>
+      <Wall destructible = "true" x="1" y="5"/>
+      <Wall destructible = "true" x="3" y="5"/>
+      <Wall destructible = "true" x="5" y="5"/>
+      <Wall destructible = "true" x="7" y="5"/>
+      <Wall destructible = "true" x="9" y="5"/>
+      <Wall destructible = "true" x="11" y="5"/>
+      <Wall destructible = "true" x="1" y="7"/>
+      <Wall destructible = "true" x="3" y="7"/>
+      <Wall destructible = "true" x="5" y="7"/>
+      <Wall destructible = "true" x="7" y="7"/>
+      <Wall destructible = "true" x="9" y="7"/>
+      <Wall destructible = "true" x="11" y="7"/>
+      <Wall destructible = "true" x="1" y="9"/>
+      <Wall destructible = "true" x="3" y="9"/>
+      <Wall destructible = "true" x="5" y="9"/>
+      <Wall destructible = "true" x="7" y="9"/>
+      <Wall destructible = "true" x="9" y="9"/>
+      <Wall destructible = "true" x="11" y="9"/>
 		</Map>
 	</Level2>
 </Game>

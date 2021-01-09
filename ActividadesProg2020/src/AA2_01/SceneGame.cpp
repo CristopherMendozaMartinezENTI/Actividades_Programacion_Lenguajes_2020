@@ -5,7 +5,7 @@
 #include "../../dep/inc/XML/rapidxml_print.hpp"
 #include "../../dep/inc/XML/rapidxml_utils.hpp"
 
-void SceneGame::LoadXML()
+void SceneGame::LoadXML(e_Levels _level)
 {
 	rapidxml::xml_document<> config;
 	std::ifstream file("../../res/files/config.xml");
@@ -23,79 +23,122 @@ void SceneGame::LoadXML()
 	//---->Estamos en el Level1
 	rapidxml::xml_node<>* pLevel1 = pRoot->first_node("Level1");
 
-	//---->Estamos en Players de Level1
-	rapidxml::xml_node<>* pLevel1Players = pLevel1->first_node("Players");
-
-	//---->Estamos en Player1 de Level1
-	rapidxml::xml_node<>* pLevel1Player1 = pLevel1Players->first_node("Player1");
-	rapidxml::xml_attribute<>* level1Player1Vidas = pLevel1Player1->first_attribute("lives");
-	int vidas = atoi(level1Player1Vidas->value());
-	rapidxml::xml_node<>* pLevel1Player1Position = pLevel1Player1->first_node("Positon");
-	rapidxml::xml_attribute<>* level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("x");
-	int posX = atoi(level1Player1PositionAttribute->value());
-	level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("y");
-	int posY = atoi(level1Player1PositionAttribute->value());
-
-	std::cout << "Player 1" << std::endl;
-	std::cout << "Vidas: " << vidas << std::endl;
-	std::cout << "PosX: " << posX << std::endl;
-	std::cout << "PosY: " << posY << std::endl;
-	std::cout << std::endl;
-
-	//---->Estamos en Player2 de Level1
-	rapidxml::xml_node<>* pLevel1Player2 = pLevel1Player1->next_sibling();
-	rapidxml::xml_attribute<>* level1Player2Vidas = pLevel1Player2->first_attribute("lives");
-	int vidas2 = atoi(level1Player2Vidas->value());
-	rapidxml::xml_node<>* pPlayer2Position = pLevel1Player2->first_node("Positon");
-	rapidxml::xml_attribute<>* level1Player2PositionAtributte = pPlayer2Position->first_attribute("x");
-	int pos2X = atoi(level1Player2PositionAtributte->value());
-	level1Player2PositionAtributte = pPlayer2Position->first_attribute("y");
-	int pos2Y = atoi(level1Player2PositionAtributte->value());
-
-	std::cout << "Player 2" << std::endl;
-	std::cout << "Vidas: " << vidas2 << std::endl;
-	std::cout << "PosX: " << pos2X << std::endl;
-	std::cout << "PosY: " << pos2Y << std::endl;
-	std::cout << std::endl;
-
-	//---->Estamos en Mapa de Level1
-	rapidxml::xml_node<>* pLevel1Map = pLevel1Players->next_sibling();
-	//Recorrer el contenido del mapa mediante un for
-	int i = 0;
-	for (pLevel1Map = pLevel1Map->first_node("Wall"); pLevel1Map; pLevel1Map = pLevel1Map->next_sibling())
+	switch (_level)
 	{
-		rapidxml::xml_attribute<>* pWallData = pLevel1Map->first_attribute("destructible");
-		std::string destructible = pWallData->value();
-		pWallData = pLevel1Map->first_attribute("x");
-		WallPos.x = atoi(pWallData->value());
-		pWallData = pLevel1Map->first_attribute("y");
-		WallPos.y = atoi(pWallData->value());
+		case e_Levels::LEVEL_1:
+		{
+			//---->Estamos en Players de Level1
+			rapidxml::xml_node<>* pLevel1Players = pLevel1->first_node("Players");
 
-		std::cout << "Wall " << i << std::endl;
-		std::cout << "Destructible: " << destructible << std::endl;
-		std::cout << "WallPosX: " << WallPos.x << std::endl;
-		std::cout << "WallPosY: " << WallPos.y << std::endl;
-		std::cout << std::endl;
-		i++;
+			//---->Estamos en Player1 de Level1
+			rapidxml::xml_node<>* pLevel1Player1 = pLevel1Players->first_node("Player1");
+			rapidxml::xml_attribute<>* level1Player1Vidas = pLevel1Player1->first_attribute("lives");
+			int vidas = atoi(level1Player1Vidas->value());
+			rapidxml::xml_node<>* pLevel1Player1Position = pLevel1Player1->first_node("Positon");
+			rapidxml::xml_attribute<>* level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("x");
+			int posX = atoi(level1Player1PositionAttribute->value());
+			level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("y");
+			int posY = atoi(level1Player1PositionAttribute->value());
+
+			players[0] = { vidas, Vec2(((posX*48)+50), ((posY*48)+130)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
+
+			//---->Estamos en Player2 de Level1
+			rapidxml::xml_node<>* pLevel1Player2 = pLevel1Player1->next_sibling();
+			rapidxml::xml_attribute<>* level1Player2Vidas = pLevel1Player2->first_attribute("lives");
+			int vidas2 = atoi(level1Player2Vidas->value());
+			rapidxml::xml_node<>* pPlayer2Position = pLevel1Player2->first_node("Positon");
+			rapidxml::xml_attribute<>* level1Player2PositionAtributte = pPlayer2Position->first_attribute("x");
+			int pos2X = atoi(level1Player2PositionAtributte->value());
+			level1Player2PositionAtributte = pPlayer2Position->first_attribute("y");
+			int pos2Y = atoi(level1Player2PositionAtributte->value());
+
+			players[1] = { vidas2, Vec2(((pos2X * 48) + 50), ((pos2Y * 48) + 130)), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
+
+			//---->Estamos en Mapa de Level1
+			rapidxml::xml_node<>* pLevel1Map = pLevel1Players->next_sibling();
+			//Recorrer el contenido del mapa mediante un for
+			int i = 0;
+			for (pLevel1Map = pLevel1Map->first_node("Wall"); pLevel1Map; pLevel1Map = pLevel1Map->next_sibling())
+			{
+				rapidxml::xml_attribute<>* pWallData = pLevel1Map->first_attribute("destructible");
+				std::string destructible = pWallData->value();
+				pWallData = pLevel1Map->first_attribute("x");
+				WallPos.x = atoi(pWallData->value());
+				pWallData = pLevel1Map->first_attribute("y");
+				WallPos.y = atoi(pWallData->value());
+
+				std::cout << "Wall " << i << std::endl;
+				std::cout << "Destructible: " << destructible << std::endl;
+				std::cout << "WallPosX: " << WallPos.x << std::endl;
+				std::cout << "WallPosY: " << WallPos.y << std::endl;
+				std::cout << std::endl;
+				i++;
+			}
+			break;
+		}
+		case e_Levels::LEVEL_2:
+		{
+			//---->Estamos en el Level2
+			rapidxml::xml_node<>* pLevel2 = pLevel1->next_sibling();
+			//---->Estamos en Players de Level2
+			rapidxml::xml_node<>* pLevel2Players = pLevel2->first_node("Players");
+
+			//---->Estamos en Player1 de Level2
+			rapidxml::xml_node<>* pLevel2Player1 = pLevel2Players->first_node("Player1");
+			rapidxml::xml_attribute<>* level2Player1Vidas = pLevel2Player1->first_attribute("lives");
+			int vidas = atoi(level2Player1Vidas->value());
+			rapidxml::xml_node<>* pLevel2Player1Position = pLevel2Player1->first_node("Positon");
+			rapidxml::xml_attribute<>* level2Player1PositionAttribute = pLevel2Player1Position->first_attribute("x");
+			int posX = atoi(level2Player1PositionAttribute->value());
+			level2Player1PositionAttribute = pLevel2Player1Position->first_attribute("y");
+			int posY = atoi(level2Player1PositionAttribute->value());
+
+			players[0] = { vidas, Vec2(((posX * 48) + 50), ((posY * 48) + 130)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
+
+			//---->Estamos en Player2 de Level2
+			rapidxml::xml_node<>* pLevel2Player2 = pLevel2Player1->next_sibling();
+			rapidxml::xml_attribute<>* level2Player2Vidas = pLevel2Player2->first_attribute("lives");
+			int vidas2 = atoi(level2Player2Vidas->value());
+			rapidxml::xml_node<>* pPlayer2Position = pLevel2Player2->first_node("Positon");
+			rapidxml::xml_attribute<>* level2Player2PositionAtributte = pPlayer2Position->first_attribute("x");
+			int pos2X = atoi(level2Player2PositionAtributte->value());
+			level2Player2PositionAtributte = pPlayer2Position->first_attribute("y");
+			int pos2Y = atoi(level2Player2PositionAtributte->value());
+
+			players[1] = { vidas2, Vec2(((pos2X * 48) + 50), ((pos2Y * 48) + 130)), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
+
+			//---->Estamos en Mapa de Level2
+			rapidxml::xml_node<>* pMapLevel2 = pLevel2Players->next_sibling();
+			//Recorrer el contenido del mapa mediante un for
+			int i = 0;
+			for (pMapLevel2 = pMapLevel2->first_node("Wall"); pMapLevel2; pMapLevel2 = pMapLevel2->next_sibling())
+			{
+				rapidxml::xml_attribute<>* pWallData = pMapLevel2->first_attribute("destructible");
+				std::string destructible = pWallData->value();
+				pWallData = pMapLevel2->first_attribute("x");
+				WallPos.x = atoi(pWallData->value());
+				pWallData = pMapLevel2->first_attribute("y");
+				WallPos.y = atoi(pWallData->value());
+
+				std::cout << "Wall " << i << std::endl;
+				std::cout << "Destructible: " << destructible << std::endl;
+				std::cout << "WallPosX: " << WallPos.x << std::endl;
+				std::cout << "WallPosY: " << WallPos.y << std::endl;
+				std::cout << std::endl;
+				i++;
+			}
+			break;
+		}
+
+		default:
+			break;
 	}
-
-	//---->Estamos en el Level2
-	rapidxml::xml_node<>* pLevel2 = pLevel1->next_sibling();
-	//---->Estamos en Players de Level2
-	rapidxml::xml_node<>* pLevel2Players = pLevel2->first_node("Players");
-	//---->Estamos en Player1 de Level2
-	rapidxml::xml_node<>* pLevel2Player1 = pLevel2Players->first_node("Player1");
-	//---->Estamos en Player2 de Level2
-	rapidxml::xml_node<>* pLevel2Player2 = pLevel2Player1->next_sibling();
-	//---->Estamos en Mapa de Level2
-	rapidxml::xml_node<>* pMapLevel1 = pLevel2Players->next_sibling();
-	//Recorrer el contenido del mapa mediante un for
 
 }
 
-SceneGame::SceneGame()
+SceneGame::SceneGame(e_Levels _level)
 {
-	LoadXML();
+	LoadXML(_level);
 	music.PlayGameMusic();
 	lastTime = clock();
 	deltaTime = 0.f;
@@ -125,8 +168,6 @@ SceneGame::SceneGame()
 #pragma region Players
 
 	//Players
-	players[0] = { 3, Vec2(50,124), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
-	players[1] = { 3, Vec2(620,604), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
 
 #pragma endregion
 
