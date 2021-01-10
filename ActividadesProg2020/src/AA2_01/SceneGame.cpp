@@ -68,7 +68,7 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 				e_BlockType tmpType;
 				if (destructible == "false") tmpType = e_BlockType::WALL;
 				if (destructible == "true") tmpType = e_BlockType::BLOCK;
-				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 48),((WallPos.y * 48) + 128),48,48) };
+				Block tmpBlock = { tmpType, std::to_string(i), Rect(((WallPos.x * 48) + 48),((WallPos.y * 48) + 128),48,48) };
 				blocks.push_back(tmpBlock);
 				i++;
 			}
@@ -121,7 +121,7 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 				e_BlockType tmpType;
 				if (destructible == "false") tmpType = e_BlockType::WALL;
 				if (destructible == "true") tmpType = e_BlockType::BLOCK;
-				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 48),((WallPos.y * 48) + 128),48,48) };
+				Block tmpBlock = { tmpType, std::to_string(i), Rect(((WallPos.x * 48) + 48),((WallPos.y * 48) + 128),48,48) };
 				blocks.push_back(tmpBlock);
 				i++;
 			}
@@ -201,12 +201,12 @@ void SceneGame::Update(InputManager& _input)
 
 	for (int i = 0; i < blocks.size(); i++)
 	{
-		if (collisions::rectCollision(blocks[i].GetPosition(), players[0].GetPosition()))
+		if (collisions::rectCollision(blocks[i].GetPosition(), players[0].collisionRect))
 		{
 			blocks[i].erase = true;
 		}
 
-		if (collisions::rectCollision(blocks[i].GetPosition(), players[1].GetPosition()))
+		if (collisions::rectCollision(blocks[i].GetPosition(), players[1].collisionRect))
 		{
 			blocks[i].erase = true;
 		}

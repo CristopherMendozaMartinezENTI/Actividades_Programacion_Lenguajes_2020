@@ -46,6 +46,7 @@ Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _
 		rect.y = frame.h * 0;
 		rect.x = frame.w * 1;
 	}
+
 }
 
 Player::~Player()
@@ -130,6 +131,10 @@ void Player::Update(InputManager _input, float _deltaTime)
 		}
 	}
 
+	collisionRect.x = position.x - 10;
+	collisionRect.y = position.y - 10;
+	collisionRect.w = position.w - 10;
+	collisionRect.h = position.h - 10;
 
 	Renderer::Instance()->SetRect(rectID, rect);
 	Renderer::Instance()->SetRect(positionID, position);

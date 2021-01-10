@@ -19,5 +19,4 @@ public:
 	Rect GetFrame();
 	Rect GetPosition();
 	std::string GetTexture();
-	
 };
