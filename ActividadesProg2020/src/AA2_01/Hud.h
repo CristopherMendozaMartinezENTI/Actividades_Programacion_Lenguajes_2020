@@ -17,16 +17,14 @@ private:
 	//Variables needed to print the score that each player has (a number)
 	int score[PLAYER_SIZE];
 	Rect rectScore[PLAYER_SIZE];
-	Rect positionScore[PLAYER_SIZE];
-	Rect frameScore[PLAYER_SIZE];
-	std::string scoreTextureID[PLAYER_SIZE], scoreRectID[PLAYER_SIZE], scorePositionID[PLAYER_SIZE];
+	std::string scoreRectID[PLAYER_SIZE];
 
 	//Varibales needed to print the Game Time left
 	float gameTime;
 	Rect rectGameTime[PLAYER_SIZE];
 	Rect positionGameTime[PLAYER_SIZE];
 	Rect frameGameTime[PLAYER_SIZE];
-	std::string gameTimeTexureID, gameTimeRectID, gameTimePositionID;
+	std::string gameTimeRectID;
 
 public:
 

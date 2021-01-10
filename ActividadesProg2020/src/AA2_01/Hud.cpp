@@ -100,8 +100,24 @@ texts["playerOneScoreBoardText"] = { "playerOneScoreBoardText", "PlayerOne:", co
 Renderer::Instance()->LoadTextureText("Arial", texts["playerOneScoreBoardText"]);
 Renderer::Instance()->LoadRect("player1ScoreRect", Rect({ 30,30,  Renderer::Instance()->GetTextureSize("playerOneScoreBoardText").x, Renderer::Instance()->GetTextureSize("playerOneScoreBoardText").y }));
 */
+	Renderer::Instance()->LoadFont(Font({ "BomberFont", "../../res/ttf/sunspire.ttf", 24 }));
+	scoreRectID[0] = "scoreRect1";
+	Text scoreText1 = { "scoreText1", "Score: ", Color(0,0,0,0), 50, 30 };
+	Renderer::Instance()->LoadTextureText("BomberFont", scoreText1);
+	Renderer::Instance()->LoadRect(scoreRectID[0], Rect({ 50, 30, Renderer::Instance()->GetTextureSize("scoreText1").x, Renderer::Instance()->GetTextureSize("scoreText1").y }));
 
+	scoreRectID[1] = "scoreRect2";
+	Text scoreText2 = { "scoreText2", "Score: 13", Color(0,0,0,0), 660, 30 };
+	Renderer::Instance()->LoadTextureText("BomberFont", scoreText2);
+	Renderer::Instance()->LoadRect(scoreRectID[1], Rect({ 660, 30, Renderer::Instance()->GetTextureSize("scoreText2").x, Renderer::Instance()->GetTextureSize("scoreText2").y }));
+
+	gameTimeRectID = "gameTimeRect";
+	Text gameTimeText = { "gameTimeText", "Time : ", Color(0,0,0,0), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+	Renderer::Instance()->LoadTextureText("BomberFont", gameTimeText);
+	Renderer::Instance()->LoadRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize("scoreText2").x / 2) , 30, Renderer::Instance()->GetTextureSize("scoreText2").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
 }
+
+
 
 Hud::~Hud()
 {
@@ -163,6 +179,10 @@ void Hud::Draw()
 		Renderer::Instance()->PushSprite(avatarTextureID[1], avatarRectID[1], avatarPositionID[5]);
 	}
 	else {}
+
+	Renderer::Instance()->PushImage("scoreText1", scoreRectID[0]);
+	Renderer::Instance()->PushImage("scoreText2", scoreRectID[1]);
+	Renderer::Instance()->PushImage("gameTimeText", gameTimeRectID);
 }
 
 
