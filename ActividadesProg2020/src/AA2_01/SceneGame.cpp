@@ -171,8 +171,6 @@ float SceneGame::UpdateDeltaTime()
 
 void SceneGame::Update(InputManager& _input)
 {
-	std::cout << players[0].GetPosition().x << std::endl;
-	std::cout << players[0].GetPosition().y << std::endl;
 	if (_input.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
 	if (_input.returnKeyIsDown()[(int)EKeys::ESC])
 	{
@@ -197,7 +195,6 @@ void SceneGame::Update(InputManager& _input)
 		}*/
 	}
 	hud.UpdateHPPlayer(players[0].HP, players[1].HP);
-
 	hud.UpdateScorePlayer(players[0].score, players[1].score);
 
 	for (int i = 0; i < blocks.size(); i++)
@@ -212,6 +209,7 @@ void SceneGame::Update(InputManager& _input)
 			blocks[i].erase = true;
 		}
 	}
+
 
 #pragma endregion
 
@@ -237,22 +235,20 @@ void SceneGame::Update(InputManager& _input)
 	if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
 	{
 		P1Bomb->Update(_input, deltaTime);
+		if (P1Bomb->GetBombState() == e_BombState::EXPLODING)
+		{
+			Rect* a = P1Bomb->GetExplosionRects();
+			for (int i = 0; i < P1Bomb->GetRange(); i++)
+			{
+				std::cout << " " << a[i].x << "," << a[i].y << std::endl;
+			}
+		}
 	}
 	if (P2Bomb != nullptr && P2Bomb->GetBombState() != e_BombState::GONE)
 	{
 		P2Bomb->Update(_input, deltaTime);
 	}
 
-	/*
-	for (int i = 0; i < bombs.size(); i++)
-	{
-		if (bombs.at(i)->GetBombState() != e_BombState::GONE)
-		{
-			bombs.at(i)->Update(_input, deltaTime);
-		}
-
-	}
-	*/
 	hud.Update(_input, deltaTime);
 	timeDown -= UpdateDeltaTime();
 }

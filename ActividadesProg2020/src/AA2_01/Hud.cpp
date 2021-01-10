@@ -20,9 +20,6 @@ Hud::Hud(std::string _avatar1, std::string _avatar2, int _hp1, int _hp2, float _
 	nRows = 4;
 	nColumns = 3;
 
-
-
-
 	//Avatar PLAYER ONE!!
 	avatarTextureID[0] = "P1AvatarText";
 	avatarRectID[0] = "P1AvatarRect";

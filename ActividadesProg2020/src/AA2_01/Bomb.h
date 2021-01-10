@@ -12,7 +12,14 @@ private:
 	float lifeTime, explosionTime;
 	e_BombState state;
 
-	std::vector<Vec2> explosionWave;
+	Rect rectColision[8]; // 0-1 para arriba , 2-3 para derecha, 4-5 para abajo, 6-7 para izquierda
+	
+	int spriteSpeed;
+	Rect rectSpriteExplosion[8];
+	std::string rectSpriteExplosionID[8];
+	
+	Rect positionExplosion[8]; //0 - 1 para arriba, 2 - 3 para derecha, 4 - 5 para abajo, 6 - 7 para izquierda
+	std::string positionExplosionID[8];
 
 public:
 
@@ -25,6 +32,8 @@ public:
 	Rect GetRect();
 	Rect GetFrame();
 	Rect GetPosition();
+	Rect* GetExplosionRects();
 	std::string GetTexture();
 	e_BombState GetBombState();
+	int GetRange();
 };
