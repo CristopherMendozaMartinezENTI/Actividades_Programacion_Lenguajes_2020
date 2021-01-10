@@ -57,15 +57,14 @@ Player::~Player()
 void Player::Update(InputManager _input, float _deltaTime)
 {
 	bombCD -= _deltaTime;
-
 	switch (type)
 	{
 	case e_PlayerType::P1:
 		//Key Press
-		if (_input.returnKeyIsDown()[(int)EKeys::UP])  direction.goUp = true; 
-		if (_input.returnKeyIsDown()[(int)EKeys::DOWN]) direction.goDown = true;  
-		if (_input.returnKeyIsDown()[(int)EKeys::RIGHT]) direction.goRight = true;  
-		if (_input.returnKeyIsDown()[(int)EKeys::LEFT]) direction.goLeft = true;  
+		if (_input.returnKeyIsDown()[(int)EKeys::UP])  direction.goUp = true;
+		if (_input.returnKeyIsDown()[(int)EKeys::DOWN]) direction.goDown = true;
+		if (_input.returnKeyIsDown()[(int)EKeys::RIGHT]) direction.goRight = true;
+		if (_input.returnKeyIsDown()[(int)EKeys::LEFT]) direction.goLeft = true;
 		if (_input.returnKeyIsDown()[(int)EKeys::LCTRL]) SpawnBomb(true);
 		//Key Release
 		if (!_input.returnKeyIsDown()[(int)EKeys::UP]) direction.goUp = false;
@@ -77,10 +76,10 @@ void Player::Update(InputManager _input, float _deltaTime)
 		break;
 	case e_PlayerType::P2:
 		//Key Press		
-		if (_input.returnKeyIsDown()[(int)EKeys::W]) direction.goUp = true; 
-		if (_input.returnKeyIsDown()[(int)EKeys::S]) direction.goDown = true;  
-		if (_input.returnKeyIsDown()[(int)EKeys::D]) direction.goRight = true;  
-		if (_input.returnKeyIsDown()[(int)EKeys::A]) direction.goLeft = true;  
+		if (_input.returnKeyIsDown()[(int)EKeys::W]) direction.goUp = true;
+		if (_input.returnKeyIsDown()[(int)EKeys::S]) direction.goDown = true;
+		if (_input.returnKeyIsDown()[(int)EKeys::D]) direction.goRight = true;
+		if (_input.returnKeyIsDown()[(int)EKeys::A]) direction.goLeft = true;
 		if (_input.returnKeyIsDown()[(int)EKeys::SPACE]) SpawnBomb(true);
 		//Key Release
 		if (!_input.returnKeyIsDown()[(int)EKeys::W]) direction.goUp = false;
@@ -93,10 +92,11 @@ void Player::Update(InputManager _input, float _deltaTime)
 		break;
 	}
 
+
 	if (direction.goUp || direction.goDown || direction.goRight || direction.goLeft) isMoving = true;
 	if (!direction.goUp && !direction.goDown && !direction.goRight && !direction.goLeft) isMoving = false;
 
-	if (isMoving) {
+	if (isMoving && !isColliding) {
 		frameUpdate++;
 		if (FPS / frameUpdate <= speed * speedMultiplier)
 		{
@@ -107,32 +107,32 @@ void Player::Update(InputManager _input, float _deltaTime)
 				rect.x = 0;
 			}
 		}
-		
+
 		//Limites de la pantalla. Esto tendria que ir en otro sitio?  En la zona de mapa alomejor
-		if (direction.goUp && position.y > 128 && isColliding == false) {
+		if (direction.goUp && position.y > 128) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += -1 * MOTION_SPEED;
 			rect.y = frame.h * 0;
 		}
-		else if (direction.goDown && position.y < SCREEN_HEIGHT - 96 && isColliding == false) {
+		else if (direction.goDown && position.y < SCREEN_HEIGHT - 96) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += 1 * MOTION_SPEED;
 			rect.y = frame.h * 2;
 		}
-		else if (direction.goRight && position.x < SCREEN_WIDTH - 96 && isColliding == false) {
+		else if (direction.goRight && position.x < SCREEN_WIDTH - 96) {
 			position.x += 1 * MOTION_SPEED;
 			position.y += 0 * MOTION_SPEED;
 			rect.y = frame.h * 3;
 		}
-		else if (direction.goLeft && position.x > 48 && isColliding == false) {
+		else if (direction.goLeft && position.x > 48 ) {
 			position.x += -1 * MOTION_SPEED;
 			position.y += 0 * MOTION_SPEED;
 			rect.y = frame.h * 1;
 		}
 	}
 
-	collisionRect.x = position.x - 10;
-	collisionRect.y = position.y - 10;
+	collisionRect.x = position.x + 10;
+	collisionRect.y = position.y + 10;
 	collisionRect.w = position.w - 10;
 	collisionRect.h = position.h - 10;
 

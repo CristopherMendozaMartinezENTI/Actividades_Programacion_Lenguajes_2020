@@ -199,14 +199,14 @@ void SceneGame::Update(InputManager& _input)
 
 	for (int i = 0; i < blocks.size(); i++)
 	{
-		if (collisions::rectCollision(blocks[i].GetPosition(), players[0].collisionRect))
+		if (collisions::isColliding(blocks[i].GetPosition(), players[0].collisionRect))
 		{
-			blocks[i].erase = true;
+			players->isColliding = true;
 		}
 
-		if (collisions::rectCollision(blocks[i].GetPosition(), players[1].collisionRect))
+		if (collisions::isColliding(blocks[i].GetPosition(), players[1].collisionRect))
 		{
-			blocks[i].erase = true;
+			players->isColliding = true;
 		}
 	}
 
