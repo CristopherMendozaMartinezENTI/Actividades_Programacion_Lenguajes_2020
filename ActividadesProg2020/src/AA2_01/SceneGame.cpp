@@ -37,7 +37,7 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 			level1Player1PositionAttribute = pLevel1Player1Position->first_attribute("y");
 			int pos1Y = atoi(level1Player1PositionAttribute->value());
 
-			players[0] = { vidas1, Vec2(((pos1X*48)+50), ((pos1Y*48)+130)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
+			players[0] = { vidas1, Vec2(((pos1X * 48) + 48), ((pos1Y * 48) + 128)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
 
 			//---->Estamos en Player2 de Level1
 			rapidxml::xml_node<>* pLevel1Player2 = pLevel1Player1->next_sibling();
@@ -49,7 +49,7 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 			level1Player2PositionAtributte = pPlayer2Position->first_attribute("y");
 			int pos2Y = atoi(level1Player2PositionAtributte->value());
 
-			players[1] = { vidas2, Vec2(((pos2X * 48) + 50), ((pos2Y * 48) + 130)), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
+			players[1] = { vidas2, Vec2(((pos2X * 48) + 48), ((pos2Y * 48) + 128)), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
 
 			//---->Estamos en Mapa de Level1
 			rapidxml::xml_node<>* pLevel1Map = pLevel1Players->next_sibling();
@@ -68,7 +68,7 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 				e_BlockType tmpType;
 				if (destructible == "false") tmpType = e_BlockType::WALL;
 				if (destructible == "true") tmpType = e_BlockType::BLOCK;
-				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 50),((WallPos.y * 48) + 130),48,48) };
+				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 48),((WallPos.y * 48) + 128),48,48) };
 				blocks.push_back(tmpBlock);
 				std::cout << std::endl;
 				i++;
@@ -92,7 +92,7 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 			level2Player1PositionAttribute = pLevel2Player1Position->first_attribute("y");
 			int pos1Y = atoi(level2Player1PositionAttribute->value());
 
-			players[0] = { vidas1, Vec2(((pos1X * 48) + 50), ((pos1Y * 48) + 130)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
+			players[0] = { vidas1, Vec2(((pos1X * 48) + 48), ((pos1Y * 48) + 128)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
 
 			//---->Estamos en Player2 de Level2
 			rapidxml::xml_node<>* pLevel2Player2 = pLevel2Player1->next_sibling();
@@ -104,7 +104,7 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 			level2Player2PositionAtributte = pPlayer2Position->first_attribute("y");
 			int pos2Y = atoi(level2Player2PositionAtributte->value());
 
-			players[1] = { vidas2, Vec2(((pos2X * 48) + 50), ((pos2Y * 48) + 130)), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
+			players[1] = { vidas2, Vec2(((pos2X * 48) + 48), ((pos2Y * 48) + 128)), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
 
 			//---->Estamos en Mapa de Level2
 			rapidxml::xml_node<>* pMapLevel2 = pLevel2Players->next_sibling();
@@ -122,7 +122,7 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 				e_BlockType tmpType;
 				if (destructible == "false") tmpType = e_BlockType::WALL;
 				if (destructible == "true") tmpType = e_BlockType::BLOCK;
-				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 50),((WallPos.y * 48) + 130),48,48) };
+				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 48),((WallPos.y * 48) + 128),48,48) };
 				blocks.push_back(tmpBlock);
 				i++;
 			}
