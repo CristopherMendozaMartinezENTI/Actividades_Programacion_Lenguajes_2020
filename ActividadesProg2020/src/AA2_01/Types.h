@@ -6,9 +6,11 @@
 #include <stdint.h>
 #include <exception>
 #include <iostream>
+#include <iomanip>
+#include <string>
+#include <sstream>
 #include <map>
 #include <random>
-#include <string>
 #include <time.h>
 #include <string.h>
 #include <unordered_map>
