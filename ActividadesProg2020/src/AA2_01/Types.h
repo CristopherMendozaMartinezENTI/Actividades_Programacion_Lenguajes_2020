@@ -33,7 +33,7 @@ enum class EKeys {
 };
 
 enum class e_BlockType {
-	BLOCK, WALL
+	BLOCK, WALL, DEFAULT
 };
 
 enum class e_PowerupType {

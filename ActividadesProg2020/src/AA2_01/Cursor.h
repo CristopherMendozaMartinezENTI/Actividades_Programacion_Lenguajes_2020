@@ -15,6 +15,7 @@ public:
 	~Cursor();
 
 	void Update(InputManager _input, float _deltaTime);
+	void Draw();
 	void SetPosition(Vec2 _position);
 	void SetRect(Rect _rect);
 	void SetRect(int x, int y);

@@ -65,11 +65,11 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 				WallPos.x = atoi(pWallData->value());
 				pWallData = pLevel1Map->first_attribute("y");
 				WallPos.y = atoi(pWallData->value());
-
-				std::cout << "Wall " << i << std::endl;
-				std::cout << "Destructible: " << destructible << std::endl;
-				std::cout << "WallPosX: " << WallPos.x << std::endl;
-				std::cout << "WallPosY: " << WallPos.y << std::endl;
+				e_BlockType tmpType;
+				if (destructible == "false") tmpType = e_BlockType::WALL;
+				if (destructible == "true") tmpType = e_BlockType::BLOCK;
+				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 50),((WallPos.y * 48) + 130),48,48) };
+				blocks.push_back(tmpBlock);
 				std::cout << std::endl;
 				i++;
 			}
@@ -119,12 +119,11 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 				WallPos.x = atoi(pWallData->value());
 				pWallData = pMapLevel2->first_attribute("y");
 				WallPos.y = atoi(pWallData->value());
-
-				std::cout << "Wall " << i << std::endl;
-				std::cout << "Destructible: " << destructible << std::endl;
-				std::cout << "WallPosX: " << WallPos.x << std::endl;
-				std::cout << "WallPosY: " << WallPos.y << std::endl;
-				std::cout << std::endl;
+				e_BlockType tmpType;
+				if (destructible == "false") tmpType = e_BlockType::WALL;
+				if (destructible == "true") tmpType = e_BlockType::BLOCK;
+				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 50),((WallPos.y * 48) + 130),48,48) };
+				blocks.push_back(tmpBlock);
 				i++;
 			}
 			break;
@@ -254,6 +253,11 @@ void SceneGame::Draw()
 	for (int i = 0; i < PLAYER_SIZE; i++)
 	{
 		players[i].Draw();
+	}
+
+	for (int i = 0; i < blocks.size(); i++)
+	{
+		blocks[i].Draw();
 	}
 
 	/*

@@ -2,7 +2,6 @@
 #include "Types.h"
 #include "GameObject.h"
 
-
 class Bomb : public GameObject
 {
 private:

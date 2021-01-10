@@ -2,7 +2,6 @@
 #include "Types.h"
 #include "GameObject.h"
 
-
 class Block : public GameObject
 {
 private: 
@@ -12,9 +11,11 @@ private:
 public:
 
 	Block();
+	Block(e_BlockType _type, std::string _name, Rect _position);
 	~Block();
 
 	void Update(InputManager _input, float _deltaTime);
+	void Draw();
 	Rect GetRect();
 	Rect GetFrame();
 	Vec2 GetPosition();

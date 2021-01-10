@@ -2,6 +2,7 @@
 #include "Scene.h"
 #include "Player.h"
 #include "Bomb.h"
+#include "Block.h"
 #include "Hud.h"
 #include "Constants.h"
 #include "../../dep/inc/XML/rapidxml.hpp"
@@ -25,6 +26,8 @@ private:
 	std::vector<Bomb*> bombs;
 	int numBombs;
 	Hud hud;
+
+	std::vector<Block> blocks;
 	
 	//HUD
 	//Hud scoreboard;

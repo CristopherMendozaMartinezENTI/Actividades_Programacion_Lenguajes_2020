@@ -21,6 +21,10 @@ void Cursor::Update(InputManager _input, float _deltaTime)
 {
 }
 
+void Cursor::Draw()
+{
+}
+
 void Cursor :: SetPosition(Vec2 _position)
 {
 	cursorPosition = _position;

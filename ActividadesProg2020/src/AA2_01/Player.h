@@ -6,14 +6,11 @@
 class Player : public GameObject
 {
 public:
-
 	int score;
 	int speed, speedMultiplier;
 	int HP;
 
 private:
-
-
 	bool isMoving;
 	float bombCD;
 	bool spawBomb, canSpawn;
