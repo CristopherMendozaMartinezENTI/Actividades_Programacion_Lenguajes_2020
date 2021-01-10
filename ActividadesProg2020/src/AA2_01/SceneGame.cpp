@@ -1,5 +1,4 @@
 #include "SceneGame.h"
-#include "Utils.h"
 #include "../../dep/inc/XML/rapidxml.hpp"
 #include "../../dep/inc/XML/rapidxml_iterators.hpp"
 #include "../../dep/inc/XML/rapidxml_print.hpp"
@@ -198,6 +197,8 @@ void SceneGame::Update(InputManager& _input)
 		}*/
 	}
 	hud.UpdateHPPlayer(players[0].HP, players[1].HP);
+
+	hud.UpdateScorePlayer(players[0].score, players[1].score);
 
 	for (int i = 0; i < blocks.size(); i++)
 	{

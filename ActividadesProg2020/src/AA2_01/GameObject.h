@@ -1,6 +1,7 @@
 #pragma once
 #include "Renderer.h"
 #include "Collisions.h"
+
 class GameObject
 {
 protected:
