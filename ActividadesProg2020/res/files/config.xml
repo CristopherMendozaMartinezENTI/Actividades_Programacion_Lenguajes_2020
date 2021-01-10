@@ -52,7 +52,6 @@
 			</Player2>
 		</Players>
 		<Map>
-      <Wall destructible = "true" x="1" y="0"/>
       <Wall destructible = "true" x="2" y="0"/>
       <Wall destructible = "true" x="3" y="0"/>
       <Wall destructible = "true" x="4" y="0"/>
@@ -62,7 +61,6 @@
       <Wall destructible = "true" x="8" y="0"/>
       <Wall destructible = "true" x="9" y="0"/>
       <Wall destructible = "true" x="10" y="0"/>
-      <Wall destructible = "true" x="11" y="0"/>
       <Wall destructible = "false" x="1" y="1"/>
       <Wall destructible = "true" x="2" y="1"/>
       <Wall destructible = "false" x="3" y="1"/>
@@ -176,7 +174,6 @@
       <Wall destructible = "false" x="9" y="9"/>
       <Wall destructible = "true" x="10" y="9"/>
       <Wall destructible = "false" x="11" y="9"/>
-      <Wall destructible = "true" x="1" y="10"/>
       <Wall destructible = "true" x="2" y="10"/>
       <Wall destructible = "true" x="3" y="10"/>
       <Wall destructible = "true" x="4" y="10"/>
@@ -186,7 +183,6 @@
       <Wall destructible = "true" x="8" y="10"/>
       <Wall destructible = "true" x="9" y="10"/>
       <Wall destructible = "true" x="10" y="10"/>
-      <Wall destructible = "true" x="11" y="10"/>
     </Map>
 	</Level2>
 </Game>

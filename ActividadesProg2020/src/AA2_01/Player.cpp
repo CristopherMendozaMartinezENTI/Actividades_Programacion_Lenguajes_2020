@@ -17,15 +17,13 @@ Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _
 	texture = _path;
 	type = _type;
 
-
 	score = 0;
 	bombCD = COOLDOWN;
 	isMoving = false;
 	speed = 9;
 	speedMultiplier = 1; //1.3
 	spawBomb = false;
-	
-
+	isColliding = false;
 
 	Renderer::Instance()->LoadTexture(textureID, texture);
 	Renderer::Instance()->LoadRect(rectID, Rect());
@@ -37,6 +35,7 @@ Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _
 	frame.h = textureHeight / nRows;
 	position.w = rect.w = frame.w;
 	position.h = rect.h = frame.h;
+
 	if (type == e_PlayerType::P1)
 	{
 		rect.y = frame.h * 2;
@@ -107,24 +106,24 @@ void Player::Update(InputManager _input, float _deltaTime)
 				rect.x = 0;
 			}
 		}
-
+		
 		//Limites de la pantalla. Esto tendria que ir en otro sitio?  En la zona de mapa alomejor
-		if (direction.goUp && position.y > 128) {
+		if (direction.goUp && position.y > 128 && isColliding == false) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += -1 * MOTION_SPEED;
 			rect.y = frame.h * 0;
 		}
-		else if (direction.goDown && position.y < SCREEN_HEIGHT - 96) {
+		else if (direction.goDown && position.y < SCREEN_HEIGHT - 96 && isColliding == false) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += 1 * MOTION_SPEED;
 			rect.y = frame.h * 2;
 		}
-		else if (direction.goRight && position.x < SCREEN_WIDTH - 96) {
+		else if (direction.goRight && position.x < SCREEN_WIDTH - 96 && isColliding == false) {
 			position.x += 1 * MOTION_SPEED;
 			position.y += 0 * MOTION_SPEED;
 			rect.y = frame.h * 3;
 		}
-		else if (direction.goLeft && position.x > 48) {
+		else if (direction.goLeft && position.x > 48 && isColliding == false) {
 			position.x += -1 * MOTION_SPEED;
 			position.y += 0 * MOTION_SPEED;
 			rect.y = frame.h * 1;

@@ -70,7 +70,6 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 				if (destructible == "true") tmpType = e_BlockType::BLOCK;
 				Block tmpBlock = { tmpType, std::to_string(i), Rect((WallPos.x * 48 + 48),((WallPos.y * 48) + 128),48,48) };
 				blocks.push_back(tmpBlock);
-				std::cout << std::endl;
 				i++;
 			}
 			break;
@@ -147,6 +146,15 @@ SceneGame::SceneGame(e_Levels _level)
 	LoadGameObjects(_level);
 	
 	hud = { players[0].GetTexture() , players[1].GetTexture(), players[0].HP, players[1].HP, timeDown };
+	std::cout << blocks[10].GetPosition().x << std::endl;
+	std::cout << blocks[10].GetPosition().y << std::endl;
+	std::cout << blocks[10].GetPosition().w << std::endl;
+	std::cout << blocks[10].GetPosition().h << std::endl;
+
+	std::cout << players[0].GetPosition().x << std::endl;
+	std::cout << players[0].GetPosition().y << std::endl;
+	std::cout << players[0].GetPosition().w << std::endl;
+	std::cout << players[0].GetPosition().h << std::endl;
 }
 
 SceneGame::~SceneGame()
@@ -164,6 +172,8 @@ float SceneGame::UpdateDeltaTime()
 
 void SceneGame::Update(InputManager& _input)
 {
+	std::cout << players[0].GetPosition().x << std::endl;
+	std::cout << players[0].GetPosition().y << std::endl;
 	if (_input.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
 	if (_input.returnKeyIsDown()[(int)EKeys::ESC])
 	{
@@ -188,6 +198,19 @@ void SceneGame::Update(InputManager& _input)
 		}*/
 	}
 	hud.UpdateHPPlayer(players[0].HP, players[1].HP);
+
+	for (int i = 0; i < blocks.size(); i++)
+	{
+		if (collisions::rectCollision(blocks[i].GetPosition(), players[0].GetPosition()))
+		{
+			blocks[i].erase = true;
+		}
+
+		if (collisions::rectCollision(blocks[i].GetPosition(), players[1].GetPosition()))
+		{
+			blocks[i].erase = true;
+		}
+	}
 
 #pragma endregion
 

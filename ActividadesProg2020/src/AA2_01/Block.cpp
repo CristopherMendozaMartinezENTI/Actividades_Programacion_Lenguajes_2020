@@ -6,7 +6,8 @@ Block::Block()
 
 Block::Block(e_BlockType _type, std::string _name, Rect _position)
 {
-	//std::cout << ("NewBomb Created") << std::endl;
+	erase = false;
+
 	nRows = 2;
 	nColumns = 3;
 	texture = "../../res/img/items.png";
@@ -61,5 +62,10 @@ void Block::Update(InputManager _input, float _deltaTime)
 
 void Block::Draw()
 {
-	Renderer::Instance()->PushSprite(textureID, rectID, positionID);
+	if(erase ==  false) Renderer::Instance()->PushSprite(textureID, rectID, positionID);
+}
+
+Rect Block::GetPosition()
+{
+	return position;
 }

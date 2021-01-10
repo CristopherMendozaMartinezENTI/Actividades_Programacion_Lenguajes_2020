@@ -5,11 +5,10 @@
 class Block : public GameObject
 {
 private: 
-	
 	e_BlockType type;
 
 public:
-
+	bool erase;
 	Block();
 	Block(e_BlockType _type, std::string _name, Rect _position);
 	~Block();
@@ -18,7 +17,7 @@ public:
 	void Draw();
 	Rect GetRect();
 	Rect GetFrame();
-	Vec2 GetPosition();
+	Rect GetPosition();
 	std::string GetTexture();
 	
 };

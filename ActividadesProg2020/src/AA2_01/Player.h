@@ -9,9 +9,9 @@ public:
 	int score;
 	int speed, speedMultiplier;
 	int HP;
+	bool isMoving;
 
 private:
-	bool isMoving;
 	float bombCD;
 	bool spawBomb, canSpawn;
 
@@ -22,7 +22,7 @@ private:
 	e_PlayerType type;
 
 public:
-
+	bool isColliding;
 	Player();
 	Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type);
 	~Player();
