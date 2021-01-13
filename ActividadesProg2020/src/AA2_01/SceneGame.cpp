@@ -145,15 +145,6 @@ SceneGame::SceneGame(e_Levels _level)
 	LoadGameObjects(_level);
 	
 	hud = { players[0].GetTexture() , players[1].GetTexture(), players[0].HP, players[1].HP, timeDown };
-	std::cout << blocks[10].GetPosition().x << std::endl;
-	std::cout << blocks[10].GetPosition().y << std::endl;
-	std::cout << blocks[10].GetPosition().w << std::endl;
-	std::cout << blocks[10].GetPosition().h << std::endl;
-
-	std::cout << players[0].GetPosition().x << std::endl;
-	std::cout << players[0].GetPosition().y << std::endl;
-	std::cout << players[0].GetPosition().w << std::endl;
-	std::cout << players[0].GetPosition().h << std::endl;
 }
 
 SceneGame::~SceneGame()
@@ -184,15 +175,8 @@ void SceneGame::Update(InputManager& _input)
 	for (int i = 0; i < PLAYER_SIZE; i++)
 	{
 		players[i].Update(_input, deltaTime);
-
 		if (players[0].GetSpawnBomb())	P1Bomb = new Bomb("P1Bomb" + numBombs, players[0].GetPosition());
 		if (players[1].GetSpawnBomb())  P2Bomb = new Bomb("P2Bomb" + numBombs, players[1].GetPosition());
-
-		/*if (players[i].GetSpawnBomb())
-		{
-			//bombs.push_back(new Bomb(i + "Bomb" + numBombs, players[i].GetPosition()));
-			numBombs++;
-		}*/
 	}
 	hud.UpdateHPPlayer(players[0].HP, players[1].HP);
 	hud.UpdateScorePlayer(players[0].score, players[1].score);
@@ -209,7 +193,6 @@ void SceneGame::Update(InputManager& _input)
 			players->isColliding = true;
 		}
 	}
-
 
 #pragma endregion
 
@@ -280,15 +263,6 @@ void SceneGame::Draw()
 		blocks[i].Draw();
 	}
 
-	/*
-	for (int j = 0; j < bombs.size(); j++)
-	{
-		if (bombs.at(j)->GetBombState() != e_BombState::GONE)
-		{
-			bombs.at(j)->Draw();
-		}
-	}
-	*/
 	hud.Draw();
 
 	Renderer::Instance()->Render();

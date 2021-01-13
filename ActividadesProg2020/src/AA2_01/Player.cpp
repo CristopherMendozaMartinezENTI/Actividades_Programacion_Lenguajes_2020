@@ -111,12 +111,12 @@ void Player::Update(InputManager _input, float _deltaTime)
 		//Limites de la pantalla. Esto tendria que ir en otro sitio?  En la zona de mapa alomejor
 		if (direction.goUp && position.y > 128) {
 			position.x += 0 * MOTION_SPEED;
-			position.y += -1 * MOTION_SPEED;
+			position.y += -speedMultiplier * MOTION_SPEED;
 			rect.y = frame.h * 0;
 		}
 		else if (direction.goDown && position.y < SCREEN_HEIGHT - 96) {
 			position.x += 0 * MOTION_SPEED;
-			position.y += 1 * MOTION_SPEED;
+			position.y += speedMultiplier * MOTION_SPEED;
 			rect.y = frame.h * 2;
 		}
 		else if (direction.goRight && position.x < SCREEN_WIDTH - 96) {
@@ -135,6 +135,11 @@ void Player::Update(InputManager _input, float _deltaTime)
 	collisionRect.y = position.y + 10;
 	collisionRect.w = position.w - 10;
 	collisionRect.h = position.h - 10;
+
+	collisionRect.x = position.x + 8;
+	collisionRect.y = position.y + 8;
+	collisionRect.w = position.w - 8;
+	collisionRect.h = position.h - 8;
 
 	Renderer::Instance()->SetRect(rectID, rect);
 	Renderer::Instance()->SetRect(positionID, position);
@@ -180,6 +185,11 @@ Rect Player::GetFrame()
 Rect Player::GetPosition()
 {
 	return position;
+}
+
+Rect Player::GetRectCollider()
+{
+	return collisionRect;
 }
 
 e_PlayerType Player::GetPlayerType()
