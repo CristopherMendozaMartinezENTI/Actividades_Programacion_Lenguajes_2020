@@ -26,12 +26,12 @@ AudioManager::~AudioManager()
 
 void AudioManager::PlayMenuMusic()
 {
-	Mix_PlayMusic(menuMusic, 100);
+	//Mix_PlayMusic(menuMusic, 100);
 }
 
 void AudioManager::PlayGameMusic()
 {
-	Mix_PlayMusic(gameMusic, 100);
+	//Mix_PlayMusic(gameMusic, 100);
 }
 
 void AudioManager::PauseMenuMusic()
