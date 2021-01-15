@@ -50,8 +50,8 @@ void GameManager::Run()
 			}
 			state = currentScene->state;
 		}
-		currentScene->Draw();
 		currentScene->Update(inputs);
+		currentScene->Draw();
 		Renderer::Instance()->EndFrameControl();
 	}
 }

@@ -16,5 +16,8 @@ bool MinHeapTree::Exist(int key)
 
 int MinHeapTree::Min()
 {
-    return 0;
+    if (root != nullptr)
+        return root->key;
+    else
+        return 0;
 }

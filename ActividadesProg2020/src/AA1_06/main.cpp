@@ -9,6 +9,14 @@ int main() {
 
 	int x = t1.GetNumberNodesI();
 
+	int x1 = t1.Height();
+
+	bool e = t1.Exist(5);
+
+	BT::Node* tmp = t1.Search(12);
+
+	t1.PostOrderI();
+
 	std::vector<int> v;
 
 	t1.GetNPair(v);

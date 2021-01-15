@@ -5,10 +5,7 @@
 #include <queue>
 #include <iostream>
 
-
 //Binary Tree implemented with pointers
-
-
 class BT
 {
 public:
@@ -28,7 +25,10 @@ private:
 	void PreOrder(Node* n);
 	void InOrder(Node* n);
 	void PostOrder(Node* n);
-
+	Node* Search(Node* n, int key);
+	bool Exist(Node* n, int key);
+	bool IsBalanced(Node* n);
+	void Destroy(Node* n);
 
 public:
 	BT();

@@ -1,7 +1,4 @@
-
 #include "MaxHeapTree.h"
-
-
 MaxHeapTree::MaxHeapTree()
 {
 }
@@ -23,6 +20,10 @@ bool MaxHeapTree::Exist(int key)
 
 int MaxHeapTree::Max()
 {
-	return 0;
+    if (root != nullptr)
+        return root->key;
+    else
+
+        return 0;
 }
 

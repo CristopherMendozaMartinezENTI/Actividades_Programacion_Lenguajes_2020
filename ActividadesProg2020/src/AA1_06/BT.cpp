@@ -12,7 +12,9 @@ BT::BT() {
 };
 
 //Implementar (AA106)
-BT::~BT() {}
+BT::~BT() {
+	Destroy(root);
+}
 
 void BT::PreOrder()
 {
@@ -53,22 +55,66 @@ void BT::PostOrder(Node* n)
 	std::cout << n->key;  //raiz
 }
 
+//Implementar (AA106)
+bool BT::Exist(int key)
+{
+	return Exist(root, key);
+}
+
+bool BT::Exist(Node* n, int key)
+{
+	if (n == nullptr) return false;
+	if (n->key == key) return true;
+	bool e1 = Exist(n->left, key);
+	if (e1) return true;
+	bool e2 = Exist(n->right, key);
+	return e2;
+}
 
 //Implementar (AA106)
 BT::Node* BT::Search(int key)
 {
-	return nullptr;
+	return Search(root, key);
 }
 
-//Implementar (AA106)
-bool BT::Exist(int key)
+BT::Node* BT::Search(Node* n, int key)
 {
-	return false;
+	Node* tmp;
+	if (n == nullptr) return tmp = nullptr;
+	if (n->key == key) return tmp = n;
+	Node* s1 = Search(n->left, key);
+	if (s1 != nullptr) return s1;
+	Node* s2 = Search(n->right, key);
+	return s2;
 }
 
 //Implementar uno de los siguientes: PreOrderI, InOrderI o PostOrderI
 void BT::PreOrderI()
 {
+	Node* n = root;
+	//Caso: tree no vacio
+	if (n != nullptr)
+	{
+		std::queue<Node*> q;  //para guardar a los nodos que me quedan por visitar
+
+		int count = 0; // contador de nodos
+		q.push(n);
+		while (!q.empty())
+		{
+			Node *temp = q.front();
+			q.pop();
+
+			std::cout << temp->key;  //raiz
+
+			if (temp->left != nullptr)
+				q.push(temp->left);
+
+			else if (temp->right != nullptr)
+				q.push(temp->right);
+		}
+	}
+	//Caso: tree vacio
+	else {}
 }
 
 void BT::InOrderI()
@@ -90,16 +136,38 @@ void BT::GetNPair(Node* n, std::vector<int>& v) {
 	GetNPair(n->right, v);
 }
 
-
 //Implementar (AA106)
 int BT::Height()
 {
-	return 0;
+	Node* n = root;
+	if (n == nullptr) return 0;
+	else {
+		int leftH = GetNumberNodes(n->left);
+		int rightH = GetNumberNodes(n->right);
+		if (leftH >= rightH)
+			return leftH;
+		else
+			return rightH;
+	}
+}
+
+bool BT::IsBalanced(Node* n)
+{
+	return true;
 }
 
 //Implementar (AA106)
 bool BT::IsBalanced() {
-	return false;
+	return true;
+}
+
+void BT::Destroy(Node* n)
+{
+	if (n != nullptr) {
+		Destroy(n->left);
+		Destroy(n->right);
+		delete n;
+	}
 }
 
 //Implementar (AA106)
@@ -119,6 +187,7 @@ int BT::Min()
 int BT::GetNumberNodes() {
 	return GetNumberNodes(root);
 }
+
 int BT::GetNumberNodes(Node* n) {
 	if (n == nullptr) return 0;
 	return GetNumberNodes(n->left) + GetNumberNodes(n->right) + 1;
@@ -150,10 +219,3 @@ int BT::GetNumberNodesI() {
 	}
 	return count;
 }
-
-
-
-
-
-
-
