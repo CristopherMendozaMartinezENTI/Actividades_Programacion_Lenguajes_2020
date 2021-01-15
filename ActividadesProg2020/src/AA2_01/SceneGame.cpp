@@ -172,6 +172,7 @@ void SceneGame::Update(InputManager& _input)
 #pragma region Players
 
 	//Player Movement
+
 	for (int i = 0; i < PLAYER_SIZE; i++)
 	{
 		players[i].Update(_input, deltaTime);
@@ -180,17 +181,17 @@ void SceneGame::Update(InputManager& _input)
 	}
 	hud.UpdateHPPlayer(players[0].HP, players[1].HP);
 	hud.UpdateScorePlayer(players[0].score, players[1].score);
-
+	
 	for (int i = 0; i < blocks.size(); i++)
 	{
-		if (collisions::IsColliding(blocks[i].GetPosition(), players[0].GetRectCollider()))
+		if (collisions::isColliding(blocks[i].GetPosition(), players[0].GetRectCollider()))
 		{
-			players[0].isColliding = true;
+			players->isColliding = true;
 		}
 
-		if (collisions::rectCollision(blocks[i].GetPosition(), players[1].GetRectCollider()))
+		if (collisions::isColliding(blocks[i].GetPosition(), players[1].GetRectCollider()))
 		{
-			players[1].isColliding = true;
+			players->isColliding = true;
 		}
 	}
 

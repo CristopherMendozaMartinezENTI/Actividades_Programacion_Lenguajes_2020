@@ -17,6 +17,9 @@ private:
 	Directions direction;
 	e_PlayerType type;
 	Rect collisionRect;
+	Rect lastPosition;
+
+
 
 
 public:

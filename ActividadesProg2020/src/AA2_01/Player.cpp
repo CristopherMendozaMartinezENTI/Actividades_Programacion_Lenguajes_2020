@@ -36,6 +36,8 @@ Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _
 	position.w = rect.w = frame.w;
 	position.h = rect.h = frame.h;
 
+	lastPosition = position;
+
 	if (type == e_PlayerType::P1)
 	{
 		rect.y = frame.h * 2;
@@ -57,7 +59,6 @@ Player::~Player()
 void Player::Update(InputManager _input, float _deltaTime)
 {
 	bombCD -= _deltaTime;
-
 	switch (type)
 	{
 	case e_PlayerType::P1:
@@ -95,8 +96,9 @@ void Player::Update(InputManager _input, float _deltaTime)
 
 	if (direction.goUp || direction.goDown || direction.goRight || direction.goLeft) isMoving = true;
 	if (!direction.goUp && !direction.goDown && !direction.goRight && !direction.goLeft) isMoving = false;
-		
+
 	if (isMoving && !isColliding) {
+		lastPosition = position;
 		frameUpdate++;
 		if (FPS / frameUpdate <= speed * speedMultiplier)
 		{
@@ -107,7 +109,7 @@ void Player::Update(InputManager _input, float _deltaTime)
 				rect.x = 0;
 			}
 		}
-		
+
 		//Limites de la pantalla. Esto tendria que ir en otro sitio?  En la zona de mapa alomejor
 		if (direction.goUp && position.y > 128) {
 			position.x += 0 * MOTION_SPEED;
@@ -131,39 +133,19 @@ void Player::Update(InputManager _input, float _deltaTime)
 		}
 	}
 
+	//Si el Pj no esta colisionando, todos los calculos hechos antes se aplican y el pj se mueve. Sino se queda todo igual.
 	if (isColliding)
 	{
+		position.x = lastPosition.x;
+		position.y = lastPosition.y;
 		isColliding = false;
-		if (direction.goUp)
-		{
-			position.x += 0 * MOTION_SPEED;
-			position.y += speedMultiplier * MOTION_SPEED;
-			rect.y = frame.h * 0;
-		}
-		else if (direction.goDown)
-		{
-			position.x += 0 * MOTION_SPEED;
-			position.y += -speedMultiplier * MOTION_SPEED;
-			rect.y = frame.h * 2;
-		}
-		else if (direction.goRight)
-		{
-			position.x += -speedMultiplier * MOTION_SPEED;
-			position.y += 0 * MOTION_SPEED;
-			rect.y = frame.h * 3;
-		}
-		else if (direction.goLeft)
-		{
-			position.x += speedMultiplier * MOTION_SPEED;
-			position.y += 0 * MOTION_SPEED;
-			rect.y = frame.h * 1;
-		}
 	}
 
-	collisionRect.x = position.x + 8;
-	collisionRect.y = position.y + 8;
-	collisionRect.w = position.w - 8;
-	collisionRect.h = position.h - 8;
+	//Actualizacion de la hitbox (con ofset) que calcula las colisiones del personaje.
+	collisionRect.x = position.x + 5;
+	collisionRect.y = position.y + 5;
+	collisionRect.w = position.w - 5;
+	collisionRect.h = position.h - 5;
 
 	Renderer::Instance()->SetRect(rectID, rect);
 	Renderer::Instance()->SetRect(positionID, position);

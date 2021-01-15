@@ -15,7 +15,7 @@ namespace collisions {
 			|| pointCollision(Vec2{ rect1.x + rect1.w, rect1.y + rect1.h }, rect2));
 	}
 
-	inline bool IsColliding(Rect r1, Rect r2) {
+	inline bool isColliding(Rect r1, Rect r2) {
 		if (r1.x + r1.w > r2.x &&
 			r1.x < r2.x + r2.w &&
 			r1.y + r1.h > r2.y &&
