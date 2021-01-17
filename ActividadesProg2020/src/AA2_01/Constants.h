@@ -2,7 +2,7 @@
 #define SCREEN_HEIGHT 704
 #define FPS  60
 #define DELAY_TIME 1000.0f / FPS
-#define MAX_TIME 100
+#define MAX_TIME 10
 #define PLAYER_SIZE 2
 #define MOTION_SPEED 3
 #define MAX_BLOCKS 100

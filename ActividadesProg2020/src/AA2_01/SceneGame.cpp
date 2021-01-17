@@ -180,13 +180,12 @@ void SceneGame::CheckWinnerInput(InputManager &input)
 			else if (winnerText.text.length() == 1) winnerText.text = " ";
 		}
 		else if (input.keyInput == "Space") {
-			if (winnerText.text.length() <= 10 && winnerText.text.length() > 1)winnerText.text = winnerText.text + " ";
+			if (winnerText.text.length() <= 5 && winnerText.text.length() > 1)winnerText.text = winnerText.text + " ";
 		}
-		else if (winnerText.text.length() <= 10 && input.keyInput != "Return") {
+		else if (winnerText.text.length() <= 5 && input.keyInput != "Return") {
 			if (winnerText.text.length() == 1 && winnerText.text == " ")winnerText.text = input.keyInput;
 			else winnerText.text = winnerText.text + input.keyInput;
 		}
-		std::cout << winnerText.text << std::endl;
 	}
 }
 
@@ -235,7 +234,6 @@ void SceneGame::CheckRanking()
 	}
 
 	//INSERT WINNER SCORE
-
 	if (players[0].score > players[1].score)
 	{
 		if (ranking.find(winnerText.text) == ranking.end())
@@ -254,7 +252,6 @@ void SceneGame::CheckRanking()
 	}
 
 	//ORDER RANKING
-
 	std::multimap<int, std::string> orderedRanking;
 
 	for (auto const& pair : ranking) {
@@ -277,7 +274,7 @@ void SceneGame::CheckRanking()
 
 	//SAVE
 	std::ofstream fsalida("../../res/files/ranking.bin", std::ios::out | std::ios::binary);
-	std::cout << rankFile << std::endl;
+	//std::cout << rankFile << std::endl;
 	len = rankFile.size();
 	fsalida.write(reinterpret_cast<char*>(&len), sizeof(size_t));
 	fsalida.write(rankFile.c_str(), rankFile.size());
