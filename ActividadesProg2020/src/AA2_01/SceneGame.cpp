@@ -150,7 +150,7 @@ SceneGame::SceneGame(e_Levels _level)
 
 	Renderer::Instance()->LoadFont(Font({ "Font", "../../res/ttf/game_over.ttf", 80 }));
 
-	Text winText = { "winTextTexture", "YOU WIN, INTRODUCE YOUR NAME:",  Color(0, 0, 0, 0) };
+	Text winText = { "winTextTexture", "YOU WIN, INTRODUCE YOUR NAME",  Color(0, 0, 0, 0) };
 	Renderer::Instance()->LoadTextureText("Font", winText);
 	Renderer::Instance()->LoadRect("winTextRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("winTextTexture").x) / 2, 600, Renderer::Instance()->GetTextureSize("winTextTexture").x, Renderer::Instance()->GetTextureSize("winTextTexture").y }));
 
