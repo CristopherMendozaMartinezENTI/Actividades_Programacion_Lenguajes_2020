@@ -23,6 +23,7 @@
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="DynText.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Hud.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="Collisions.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Cursor.h" />
+    <ClInclude Include="DynText.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Hud.h" />

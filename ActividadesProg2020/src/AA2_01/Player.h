@@ -19,9 +19,6 @@ private:
 	Rect collisionRect;
 	Rect lastPosition;
 
-
-
-
 public:
 	int speed, speedMultiplier;
 	bool isColliding;

@@ -134,16 +134,27 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 
 SceneGame::SceneGame(e_Levels _level)
 {
+	inGameState = SceneState::RUNNING;
+
 	music.PlayGameMusic();
 	lastTime = clock();
 	deltaTime = 0.f;
 	timeDown = MAX_TIME;
 
+	winnerText = { "winner", " ", {255, 255, 255, 255} };
+
+	playerWinText = DynText({ 125, 400, 300, 50 });
+
 	Renderer::Instance()->LoadTexture("gameBgTexture", "../../res/img/bgGame.jpg");
 	Renderer::Instance()->LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
+	Renderer::Instance()->LoadFont(Font({ "Font", "../../res/ttf/game_over.ttf", 80 }));
+
+	Text winText = { "winTextTexture", "YOU WIN, INTRODUCE YOUR NAME:",  Color(0, 0, 0, 0) };
+	Renderer::Instance()->LoadTextureText("Font", winText);
+	Renderer::Instance()->LoadRect("winTextRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("winTextTexture").x) / 2, 600, Renderer::Instance()->GetTextureSize("winTextTexture").x, Renderer::Instance()->GetTextureSize("winTextTexture").y }));
+
 	LoadGameObjects(_level);
-	
 	hud = { players[0].GetTexture() , players[1].GetTexture(), players[0].HP, players[1].HP, timeDown };
 }
 
@@ -160,115 +171,247 @@ float SceneGame::UpdateDeltaTime()
 	return deltaTime;
 }
 
+void SceneGame::CheckWinnerInput(InputManager &input)
+{
+	if (timeDown <= 0 && input.keyInput != "NONE") {
+		if (input.keyInput == "Return" && winnerText.text != " ") CheckRanking();
+		else if (input.keyInput == "Backspace") {
+			if (winnerText.text.length() > 1)winnerText.text = winnerText.text.substr(0, winnerText.text.size() - 1);
+			else if (winnerText.text.length() == 1) winnerText.text = " ";
+		}
+		else if (input.keyInput == "Space") {
+			if (winnerText.text.length() <= 10 && winnerText.text.length() > 1)winnerText.text = winnerText.text + " ";
+		}
+		else if (winnerText.text.length() <= 10 && input.keyInput != "Return") {
+			if (winnerText.text.length() == 1 && winnerText.text == " ")winnerText.text = input.keyInput;
+			else winnerText.text = winnerText.text + input.keyInput;
+		}
+		std::cout << winnerText.text << std::endl;
+	}
+}
 
+void SceneGame::CheckRanking()
+{
+	Renderer* myRenderer = Renderer::Instance();
+	std::map<std::string, int> ranking;
+	std::string rankFile;
+	size_t len;
+	bool exsists = true;
 
+	//READ FILE
 
+	std::ifstream inFile("../../res/files/ranking.bin", std::ios::out | std::ios::binary);
+	inFile.read(reinterpret_cast<char*>(&len), sizeof(size_t));
+	if (!(bool)inFile) exsists = false;
+	else {
+
+		char* temp = new char[(int)len + 1];
+		inFile.read(temp, len);
+		temp[(int)len] = '\0';
+		rankFile = temp;
+		rankFile = rankFile.substr(0, rankFile.find(";") + 1);
+		if (rankFile == FILE_CHECK) {
+			rankFile.clear();
+			rankFile = temp;
+			while (rankFile.substr(rankFile.find(";") + 1) != "\0")
+			{
+				rankFile = rankFile.substr(rankFile.find(";") + 1);
+				ranking[rankFile.substr(0, rankFile.find("-"))] = atoi(rankFile.substr(rankFile.find("-") + 1, rankFile.find(";")).c_str());
+			}
+		}
+		else exsists = false;
+	}
+	rankFile = FILE_CHECK;
+	inFile.close();
+
+	//CREATE A NEW FILE IF IS WRONG
+	if (!exsists) {
+		std::ofstream fsalida("../../res/files/ranking.bin", std::ios::out | std::ios::binary);
+		len = rankFile.size();
+		fsalida.write(reinterpret_cast<char*>(&len), sizeof(size_t));
+		fsalida.write(rankFile.c_str(), rankFile.size());
+
+		fsalida.close();
+	}
+
+	//INSERT WINNER SCORE
+
+	if (players[0].score > players[1].score)
+	{
+		if (ranking.find(winnerText.text) == ranking.end())
+			ranking[winnerText.text] = players[0].score;
+		else if (ranking[winnerText.text] < players[0].score) {
+			ranking[winnerText.text] = players[0].score;
+		}
+	}
+	else
+	{
+		if (ranking.find(winnerText.text) == ranking.end())
+			ranking[winnerText.text] = players[1].score;
+		else if (ranking[winnerText.text] < players[1].score) {
+			ranking[winnerText.text] = players[1].score;
+		}
+	}
+
+	//ORDER RANKING
+
+	std::multimap<int, std::string> orderedRanking;
+
+	for (auto const& pair : ranking) {
+		orderedRanking.insert(std::make_pair(pair.second, pair.first));
+	}
+
+	//CHECK RANKING SIZE
+	if (orderedRanking.size() == 11) orderedRanking.erase(orderedRanking.begin());
+
+	//PRINT
+	int i = 0;
+	Text textureText;
+	for (auto it = orderedRanking.crbegin(); it != orderedRanking.crend(); ++it, i++) {
+		rankFile = rankFile + it->second + "-" + std::to_string(it->first) + ";";
+		textureText.text = std::to_string(i + 1) + "-" + it->second + " " + std::to_string(it->first) + " POINTS";
+		textureText.id = "ranking-" + std::to_string(i + 1);
+		textureText.color = { 255, 255, 255, 255 };
+		myRenderer->OverwritteTextureText(textureText);
+	}
+
+	//SAVE
+	std::ofstream fsalida("../../res/files/ranking.bin", std::ios::out | std::ios::binary);
+	std::cout << rankFile << std::endl;
+	len = rankFile.size();
+	fsalida.write(reinterpret_cast<char*>(&len), sizeof(size_t));
+	fsalida.write(rankFile.c_str(), rankFile.size());
+
+	fsalida.close();
+
+	state = e_GameStates::RANKING;
+}
 
 void SceneGame::Update(InputManager& _input)
 {
-	if (_input.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
-	if (_input.returnKeyIsDown()[(int)EKeys::ESC])
+	switch (inGameState)
 	{
-		state = e_GameStates::MENU;
-		_input.returnKeyIsDown()[(int)EKeys::ESC] = false;
-	}
-
-#pragma region Players
-
-	//Player Movement
-
-	for (int i = 0; i < PLAYER_SIZE; i++)
-	{
-		players[i].Update(_input, deltaTime);
-		if (players[0].GetSpawnBomb())	P1Bomb = new Bomb("P1Bomb" + numBombs, players[0].GetPosition());
-		if (players[1].GetSpawnBomb())  P2Bomb = new Bomb("P2Bomb" + numBombs, players[1].GetPosition());
-	}
-	hud.UpdateHPPlayer(players[0].HP, players[1].HP);
-	hud.UpdateScorePlayer(players[0].score, players[1].score);
-	
-	for (int i = 0; i < blocks.size(); i++)
-	{
-		if (collisions::isColliding(blocks[i].GetPosition(), players[0].GetRectCollider()))
+		case SceneState::RUNNING:
 		{
-			players[0].isColliding = true;
-		}
-
-		if (collisions::isColliding(blocks[i].GetPosition(), players[1].GetRectCollider()))
-		{
-			players[1].isColliding = true;
-		}
-	}
-
-#pragma endregion
-
-#pragma region Time
-
-	if (timeDown <= 0)
-	{
-		//Exit GameScene!
-		timeDown = playTime;
-	}
-
-	for (int i = 0; i < PLAYER_SIZE; i++)
-	{
-		if (players[i].GetBombCD() <= 0)
-		{
-			players[i].CanSpawnBomb();
-			players[i].ResetBombCD();
-		}
-	}
-
-#pragma endregion
-
-	if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
-	{
-		P1Bomb->Update(_input, deltaTime);
-		if (P1Bomb->GetBombState() == e_BombState::EXPLODING)
-		{
-			Rect* a = P1Bomb->GetExplosionRects();
-			for (int i = 0; i < P1Bomb->GetRange(); i++)
+			if (_input.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
+			if (_input.returnKeyIsDown()[(int)EKeys::ESC])
 			{
-				std::cout << " " << a[i].x << "," << a[i].y << std::endl;
+				state = e_GameStates::MENU;
+				_input.returnKeyIsDown()[(int)EKeys::ESC] = false;
 			}
-		}
-	}
-	if (P2Bomb != nullptr && P2Bomb->GetBombState() != e_BombState::GONE)
-	{
-		P2Bomb->Update(_input, deltaTime);
-	}
 
-	hud.Update(_input, deltaTime);
+			//Player Movement and Updates
+			for (int i = 0; i < PLAYER_SIZE; i++)
+			{
+				players[i].Update(_input, deltaTime);
+				if (players[0].GetSpawnBomb())	P1Bomb = new Bomb("P1Bomb" + numBombs, players[0].GetPosition());
+				if (players[1].GetSpawnBomb())  P2Bomb = new Bomb("P2Bomb" + numBombs, players[1].GetPosition());
+			}
+			hud.UpdateHPPlayer(players[0].HP, players[1].HP);
+			hud.UpdateScorePlayer(players[0].score, players[1].score);
+
+			for (int i = 0; i < blocks.size(); i++)
+			{
+				if (collisions::isColliding(blocks[i].GetPosition(), players[0].GetRectCollider()))
+				{
+					players[0].isColliding = true;
+				}
+
+				if (collisions::isColliding(blocks[i].GetPosition(), players[1].GetRectCollider()))
+				{
+					players[1].isColliding = true;
+				}
+			}
+
+			if (timeDown <= 0)
+			{
+				//Exit GameScene!
+				timeDown = playTime;
+				inGameState = SceneState::GAME_OVER;
+			}
+
+			for (int i = 0; i < PLAYER_SIZE; i++)
+			{
+				if (players[i].GetBombCD() <= 0)
+				{
+					players[i].CanSpawnBomb();
+					players[i].ResetBombCD();
+				}
+			}
+
+			if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
+			{
+				P1Bomb->Update(_input, deltaTime);
+				if (P1Bomb->GetBombState() == e_BombState::EXPLODING)
+				{
+					Rect* a = P1Bomb->GetExplosionRects();
+					for (int i = 0; i < P1Bomb->GetRange(); i++)
+					{
+						std::cout << " " << a[i].x << "," << a[i].y << std::endl;
+					}
+				}
+			}
+			if (P2Bomb != nullptr && P2Bomb->GetBombState() != e_BombState::GONE)
+			{
+				P2Bomb->Update(_input, deltaTime);
+			}
+
+			hud.Update(_input, deltaTime);
+		}
+		break;
+		case SceneState::GAME_OVER:
+		{
+			CheckWinnerInput(_input);
+			playerWinText.UpdateText(winnerText, 50);
+		}
+		break;
+		default:
+			break;
+	}
 	timeDown -= UpdateDeltaTime();
 }
 
 void SceneGame::Draw()
 {
 	Renderer::Instance()->Clear();
-
 	//Background
 	Renderer::Instance()->PushImage("gameBgTexture", "gameBgRect");
-
-	if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
+	switch (inGameState)
 	{
-		P1Bomb->Draw();
-	}
-	if (P2Bomb != nullptr && P2Bomb->GetBombState() != e_BombState::GONE)
-	{
-		P2Bomb->Draw();
-	}
+		case SceneState::RUNNING:
+		{
+			if (P1Bomb != nullptr && P1Bomb->GetBombState() != e_BombState::GONE)
+			{
+				P1Bomb->Draw();
+			}
+			if (P2Bomb != nullptr && P2Bomb->GetBombState() != e_BombState::GONE)
+			{
+				P2Bomb->Draw();
+			}
 
-	//Player Sprites
-	for (int i = 0; i < PLAYER_SIZE; i++)
-	{
-		players[i].Draw();
-	}
+			//Player Sprites
+			for (int i = 0; i < PLAYER_SIZE; i++)
+			{
+				players[i].Draw();
+			}
 
-	for (int i = 0; i < blocks.size(); i++)
-	{
-		blocks[i].Draw();
-	}
+			for (int i = 0; i < blocks.size(); i++)
+			{
+				blocks[i].Draw();
+			}
 
-	hud.Draw();
+			hud.Draw();
+		}
+		break;
+		case SceneState::GAME_OVER:
+		{
+			Renderer::Instance()->PushImage("winTextTexture", "winTextRect");
+			playerWinText.Draw();
+		}
+		break;
+		default:
+			break;
+	}
 
 	Renderer::Instance()->Render();
 }

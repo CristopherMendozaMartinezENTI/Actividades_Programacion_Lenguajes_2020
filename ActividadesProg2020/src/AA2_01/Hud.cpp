@@ -232,8 +232,6 @@ void Hud::UpdateScorePlayer(int _score1, int _score2)
 	score[1] = _score2;
 }
 
-
-
 std::string Hud::FloatToString(float num, int _precision)
 {
 	// Create an output string stream
@@ -247,7 +245,7 @@ std::string Hud::FloatToString(float num, int _precision)
 	// Set precision 
 	streamObj3 << std::setprecision(_precision);
 	//Add double to stream
-	streamObj3 << minutes << "," << seconds;
+	streamObj3 << minutes << ":" << seconds;
 	// Get string from output string stream
 	std::string strObj3 = streamObj3.str();
 

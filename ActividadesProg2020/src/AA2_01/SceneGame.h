@@ -1,10 +1,12 @@
 #pragma once
+#include <fstream>
 #include "Scene.h"
 #include "Player.h"
 #include "Bomb.h"
 #include "Block.h"
 #include "Hud.h"
 #include "Constants.h"
+#include "DynText.h"
 #include "../../dep/inc/XML/rapidxml.hpp"
 #include "../../dep/inc/XML/rapidxml_iterators.hpp"
 #include "../../dep/inc/XML/rapidxml_print.hpp"
@@ -14,6 +16,13 @@ class SceneGame :
 	public Scene
 {
 private:
+
+	enum class SceneState
+	{
+		RUNNING, GAME_OVER
+	}; 
+
+	SceneState inGameState;
 
 	e_Levels level;
 
@@ -39,10 +48,18 @@ private:
 	float timeDown, playTime;
 	float deltaTime;
 
+	float timeRef;
+
+	Text winnerText;
+
+	DynText playerWinText;
+
 public:
 	void LoadGameObjects(e_Levels _level);
 	SceneGame(e_Levels _level);
 	~SceneGame();
+	void CheckWinnerInput(InputManager& _input);
+	void CheckRanking();
 	void Update(InputManager &input);
 	void Draw();
 	float UpdateDeltaTime();

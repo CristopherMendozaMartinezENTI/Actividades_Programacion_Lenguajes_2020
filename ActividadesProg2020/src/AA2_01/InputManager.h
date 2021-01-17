@@ -8,9 +8,9 @@ private:
 	SDL_Event event;
 	bool keyIsDown[(int)EKeys::TOTAL] = {};
 	Vec2 mouseAxis;
-	std::string keyInput;
 
 public:
+	std::string keyInput;
 	InputManager();
 	~InputManager();
 

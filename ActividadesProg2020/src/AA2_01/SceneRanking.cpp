@@ -4,18 +4,20 @@ SceneRanking::SceneRanking()
 {
 	state = e_GameStates::RANKING;
 	Renderer::Instance()->LoadFont(Font({ "Font", "../../res/ttf/game_over.ttf", 80 }));
-
 	Renderer::Instance()->LoadTexture("bgTexture", "../../res/img/bgGame.jpg");
 	Renderer::Instance()->LoadRect("bgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
-
 	Text RankingTitle = { "titleRankingTexture", "RANKING ",  Color(0, 0, 0, 0)};
 	Renderer::Instance()->LoadTextureText("Font", RankingTitle);
 	Renderer::Instance()->LoadRect("titleRankingRect", Rect({ 300, 10, Renderer::Instance()->GetTextureSize("titleRankingTexture").x, Renderer::Instance()->GetTextureSize("titleRankingTexture").y }));
+	Text exitButtonText = { "exitRankingTexture", "PRESS ESC TO RETURN TO MENU",  Color(0, 0, 0, 0) };
+	Renderer::Instance()->LoadTextureText("Font", exitButtonText);
+	Renderer::Instance()->LoadRect("exitRankingRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("exitRankingTexture").x) / 2, 600, Renderer::Instance()->GetTextureSize("exitRankingTexture").x, Renderer::Instance()->GetTextureSize("exitRankingTexture").y }));
 	SceneRanking::ReadBinaryFile();
 }
 
 SceneRanking::~SceneRanking()
 {
+
 }
 
 void SceneRanking::ReadBinaryFile()
@@ -86,10 +88,11 @@ void SceneRanking::Draw()
 	Renderer::Instance()->Clear();
 	Renderer::Instance()->PushImage("bgTexture", "bgRect");
 	Renderer::Instance()->PushImage("titleRankingTexture", "titleRankingRect");
+	Renderer::Instance()->PushImage("exitRankingTexture", "exitRankingRect");
 	for (int i = 0; i < 10; i++)
 	{
 		auto id = "ranking-" + std::to_string(i + 1);
-		if (Renderer::Instance()->TextureExist(id)) Renderer::Instance()->PushImageToRect(id, { (SCREEN_WIDTH / 7), i * 35 + 175, 600, 25 });
+		if (Renderer::Instance()->TextureExist(id)) Renderer::Instance()->PushImageToRect(id, { (SCREEN_WIDTH / 7), i * 35 + 175, 300, 50 });
 	}
 	Renderer::Instance()->Render();
 }
