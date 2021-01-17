@@ -43,6 +43,5 @@ public:
 	void ResetBombCD();
 	void SpawnBomb(bool _b);
 	void CanSpawnBomb();
-
 };
 

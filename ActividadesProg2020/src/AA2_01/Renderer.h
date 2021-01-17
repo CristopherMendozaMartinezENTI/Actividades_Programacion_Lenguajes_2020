@@ -25,12 +25,15 @@ public:
 	Vec2 LoadTextureText(const std::string& fontId, Text text);
 	Vec2 GetTextureSize(const std::string& id);
 	void PushImage(const std::string& id, const std::string& idRect);
+	void PushImageToRect(const std::string& id, const SDL_Rect& rect);
 	void PushSprite(const std::string& id, const std::string& idRectSprite, const std::string& idRectPos);
 	void PushRotatedSprite(const std::string& id, const std::string& idRectSprite, const std::string& idRectPos, float angle);
 	void SetRenderDrawColor(int r, int g, int b);
 	void SetRenderDrawColor(const Color& c);
 	void SetRect(const std::string& idRect, const Rect& rect);
 	void DeleteObject(const std::string& id, const std::string& id2, const std::string& id3);
+	void OverwritteTextureText(Text text);
+	bool TextureExist(std::string id);
 	void StartFrameControl();
 	void EndFrameControl();
 	void HideCursor();

@@ -160,6 +160,10 @@ float SceneGame::UpdateDeltaTime()
 	return deltaTime;
 }
 
+
+
+
+
 void SceneGame::Update(InputManager& _input)
 {
 	if (_input.returnKeyIsDown()[(int)EKeys::QUIT]) state = e_GameStates::QUIT;
@@ -186,12 +190,12 @@ void SceneGame::Update(InputManager& _input)
 	{
 		if (collisions::isColliding(blocks[i].GetPosition(), players[0].GetRectCollider()))
 		{
-			players->isColliding = true;
+			players[0].isColliding = true;
 		}
 
 		if (collisions::isColliding(blocks[i].GetPosition(), players[1].GetRectCollider()))
 		{
-			players->isColliding = true;
+			players[1].isColliding = true;
 		}
 	}
 

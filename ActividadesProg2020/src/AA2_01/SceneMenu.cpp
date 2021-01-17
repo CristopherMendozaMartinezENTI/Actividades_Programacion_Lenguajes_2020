@@ -23,19 +23,19 @@ SceneMenu::SceneMenu()
 	colors["button_no_avalible"] = Color(130, 130, 130, 0);
 
 	//All Texts
-	texts["titleTexture"] = { "titleTexture", "SDL Bomberman ", colors["title_c"], 200, 200 };
-	texts["playButtonText"] = { "playButtonText", "Level 1", colors["button_c"], SCREEN_WIDTH / 2, 300 };
-	texts["playButtonText_hover"] = { "playButtonText_hover", "Level 1", colors["button_hover_c"], SCREEN_WIDTH / 2, 300 };
-	texts["playButtonText2"] = { "playButtonText2", "Level 2", colors["button_c"], SCREEN_WIDTH / 2, 350 };
-	texts["playButtonText_hover2"] = { "playButtonText_hover2", "Level 2", colors["button_hover_c"], SCREEN_WIDTH / 2, 350 };
-	texts["soundOffButtonText"] = { "soundOffButtonText", "Sound Off", colors["button_c"], SCREEN_WIDTH / 2, 400 };
-	texts["soundOffButtonText_hover"] = { "soundOffButtonText_hover", "Sound Off", colors["button_hover_c"], SCREEN_WIDTH / 2, 400 };
-	texts["soundOnButtonText"] = { "soundOnButtonText", "Sound On", colors["button_c"], SCREEN_WIDTH / 2, 400 };
-	texts["soundOnButtonText_hover"] = { "soundOnButtonText_hover", "Sound On", colors["button_hover_c"], SCREEN_WIDTH / 2, 400 };
-	texts["rankingButtonText"] = { "rankingButtonText", "Ranking", colors["button_no_avalible"], SCREEN_WIDTH / 2, 450 };
-	texts["rankingButtonText_hover"] = { "rankingButtonText_hover", "Ranking", colors["button_no_avalible"], SCREEN_WIDTH / 2, 450 };
-	texts["exitButtonText"] = { "exitButtonText", "Exit", colors["button_c"], SCREEN_WIDTH / 2, 500 };
-	texts["exitButtonText_hover"] = { "exitButtonText_hover", "Exit", colors["button_hover_c"], SCREEN_WIDTH / 2, 500 };
+	texts["titleTexture"] = { "titleTexture", "SDL Bomberman ", colors["title_c"]};
+	texts["playButtonText"] = { "playButtonText", "Level 1", colors["button_c"]};
+	texts["playButtonText_hover"] = { "playButtonText_hover", "Level 1", colors["button_hover_c"]};
+	texts["playButtonText2"] = { "playButtonText2", "Level 2", colors["button_c"]};
+	texts["playButtonText_hover2"] = { "playButtonText_hover2", "Level 2", colors["button_hover_c"]};
+	texts["soundOffButtonText"] = { "soundOffButtonText", "Sound Off", colors["button_c"]};
+	texts["soundOffButtonText_hover"] = { "soundOffButtonText_hover", "Sound Off", colors["button_hover_c"]};
+	texts["soundOnButtonText"] = { "soundOnButtonText", "Sound On", colors["button_c"]};
+	texts["soundOnButtonText_hover"] = { "soundOnButtonText_hover", "Sound On", colors["button_hover_c"]};
+	texts["rankingButtonText"] = { "rankingButtonText", "Ranking", colors["button_c"]};
+	texts["rankingButtonText_hover"] = { "rankingButtonText_hover", "Ranking", colors["button_hover_c"]};
+	texts["exitButtonText"] = { "exitButtonText", "Exit", colors["button_c"]};
+	texts["exitButtonText_hover"] = { "exitButtonText_hover", "Exit", colors["button_hover_c"]};
 
 	//All Flags
 	playLevel1Hover = false;
@@ -144,6 +144,15 @@ void SceneMenu::Update(InputManager &input)
 	}
 	else
 		playLevel2Hover = false;
+
+	if (collisions::pointCollision(cursor.GetPosition(), rectangles["rankingButtonRect"]))
+	{
+		//Play Button = HOVER color.
+		rankingHover = true;
+		if (mouseClicked) state = e_GameStates::RANKING;
+	}
+	else
+		rankingHover = false;
 
 	//Changing Sound Off/On Texture
 	if (collisions::pointCollision(cursor.GetPosition(), rectangles["soundButtonRect"]))

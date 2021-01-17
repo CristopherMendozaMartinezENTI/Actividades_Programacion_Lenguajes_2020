@@ -110,7 +110,7 @@ void Player::Update(InputManager _input, float _deltaTime)
 			}
 		}
 
-		//Limites de la pantalla. Esto tendria que ir en otro sitio?  En la zona de mapa alomejor
+		//Limites de la pantalla.
 		if (direction.goUp && position.y > 128) {
 			position.x += 0 * MOTION_SPEED;
 			position.y += -speedMultiplier * MOTION_SPEED;

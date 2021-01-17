@@ -42,6 +42,12 @@ void GameManager::Run()
 				currentScene = new SceneGame(e_Levels::LEVEL_2);
 				currentScene->state = e_GameStates::IN_GAME_LEVEL2;
 				break;
+			case e_GameStates::RANKING:
+				delete currentScene;
+				Renderer::Instance()->ClearScene();
+				currentScene = new SceneRanking();
+				currentScene->state = e_GameStates::RANKING;
+				break;
 			case e_GameStates::QUIT:
 				isRunning = false;
 				break;

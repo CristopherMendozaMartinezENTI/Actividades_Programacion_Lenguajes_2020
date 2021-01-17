@@ -31,7 +31,7 @@ enum class e_Levels {
 enum class EKeys {
 	DEFAULT, ESC, UP, DOWN, LEFT, RIGHT, 
 	W, A, S, D, MOUSE_LEFT, MOUSE_RIGHT, 
-	SPACE, P, LCTRL, QUIT, TOTAL 
+	SPACE, P, LCTRL, QUIT, ENTER, TOTAL
 };
 
 enum class e_BlockType {
@@ -86,10 +86,9 @@ struct Text
 	std::string id;
 	std::string text;
 	Color color;
-	int x, y;
-	Text() : id{ "0" }, text{ "#" }, color{ Color(0,0,0,0) }, x{ 0 }, y{ 0 } {};
-	Text(std::string _id, std::string _text, Color _color, int _x, int _y) :
-		id{ _id }, text{ _text }, color{ _color }, x{ _x }, y{ _y } {};
+	Text() : id{ "0" }, text{ "#" }, color{ Color(0,0,0,0) } {};
+	Text(std::string _id, std::string _text, Color _color) :
+		id{ _id }, text{ _text }, color{ _color } {};
 	void UpdateColor(Color _color) 
 	{ 
 		color = _color; 

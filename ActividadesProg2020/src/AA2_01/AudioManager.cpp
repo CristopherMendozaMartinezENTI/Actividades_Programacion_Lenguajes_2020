@@ -14,7 +14,7 @@ AudioManager::AudioManager()
 	Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640);
 	menuMusic = Mix_LoadMUS("../../res/au/menu.mp3");
 	gameMusic = Mix_LoadMUS("../../res/au/game_theme.mp3");
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+	Mix_VolumeMusic(MIX_MAX_VOLUME * 0);
 }
 
 
@@ -41,5 +41,5 @@ void AudioManager::PauseMenuMusic()
 
 void AudioManager::ResumeMenuMusic()
 {
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
+	Mix_VolumeMusic(MIX_MAX_VOLUME * 0);
 }

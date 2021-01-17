@@ -10,6 +10,7 @@ InputManager::~InputManager()
 
 void InputManager::Update()
 {
+	keyInput = "NONE";
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type) {
@@ -28,6 +29,9 @@ void InputManager::Update()
 			if (event.key.keysym.sym == SDLK_a)  keyIsDown[(int)EKeys::A] = true;
 			if (event.key.keysym.sym == SDLK_RCTRL) keyIsDown[(int)EKeys::LCTRL] = true;
 			if (event.key.keysym.sym == SDLK_SPACE) keyIsDown[(int)EKeys::SPACE] = true;
+			if (event.key.keysym.sym == SDLK_KP_ENTER) keyIsDown[(int)EKeys::ENTER] = true;
+			keyInput = SDL_GetScancodeName(event.key.keysym.scancode);
+			if (keyInput.length() != 1 && keyInput != "Backspace" && keyInput != "Return" && keyInput != "Space") keyInput = "NONE";
 			break;
 		case SDL_KEYUP:
 			if (event.key.keysym.sym == SDLK_UP) keyIsDown[(int)EKeys::UP] = false;
@@ -40,6 +44,7 @@ void InputManager::Update()
 			if (event.key.keysym.sym == SDLK_a)	keyIsDown[(int)EKeys::A] = false;
 			if (event.key.keysym.sym == SDLK_RCTRL) keyIsDown[(int)EKeys::LCTRL] = false;
 			if (event.key.keysym.sym == SDLK_SPACE) keyIsDown[(int)EKeys::SPACE] = false;
+			if (event.key.keysym.sym == SDLK_KP_ENTER) keyIsDown[(int)EKeys::ENTER] = false;
 			break;
 		case SDL_MOUSEMOTION:
 			mouseAxis.x = event.motion.x;

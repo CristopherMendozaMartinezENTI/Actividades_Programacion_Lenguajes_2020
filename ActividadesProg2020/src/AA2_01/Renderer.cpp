@@ -85,6 +85,10 @@ void Renderer::PushImage(const std::string& id, const std::string& idRect) {
 	SDL_RenderCopy(m_renderer, m_textureData[id], nullptr, m_rects[idRect]);
 };
 
+void Renderer::PushImageToRect(const std::string& id, const SDL_Rect& rect) {
+	SDL_RenderCopy(m_renderer, m_textureData[id], nullptr, &rect);
+};
+
 void Renderer::PushSprite(const std::string& id, const  std::string& idRectSprite, const  std::string& idRectPos) {
 
 	SDL_RenderCopy(m_renderer, m_textureData[id], m_rects[idRectSprite], m_rects[idRectPos]);
@@ -150,7 +154,17 @@ void Renderer::DeleteObject(const std::string& id, const std::string& id2, const
 
 }
 
+void Renderer::OverwritteTextureText(Text text)
+{
+	SDL_DestroyTexture(m_textureData[text.id]);
+	LoadTextureText("Font", text);
+}
 
+bool Renderer::TextureExist(std::string id)
+{
+	auto it = m_textureData.find(id);
+	return it != m_textureData.end();
+}
 
 
 Renderer* Renderer::renderer = nullptr;

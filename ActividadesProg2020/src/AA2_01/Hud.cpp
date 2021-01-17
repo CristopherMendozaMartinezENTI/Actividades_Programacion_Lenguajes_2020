@@ -97,18 +97,18 @@ Hud::Hud(std::string _avatar1, std::string _avatar2, int _hp1, int _hp2, float _
 	//Textos Score P1, Score P2, Tiempo
 	Renderer::Instance()->LoadFont(Font({ "BomberFont", "../../res/ttf/game_over.ttf", 80 }));
 	scoreRectID[0] = "scoreRect1";
-	scoreText1 = { "scoreText1", "Score: ", Color(0,0,0,0), 30, 30 };
+	scoreText1 = { "scoreText1", "Score: ", Color(0,0,0,0)};
 	Renderer::Instance()->LoadTextureText("BomberFont", scoreText1);
 	Renderer::Instance()->LoadRect(scoreRectID[0], Rect({ 30, 30, Renderer::Instance()->GetTextureSize("scoreText1").x, Renderer::Instance()->GetTextureSize("scoreText1").y }));
 
 	scoreRectID[1] = "scoreRect2";
-	scoreText2 = { "scoreText2", "Score: 13", Color(0,0,0,0), SCREEN_WIDTH - 148, 30 };
+	scoreText2 = { "scoreText2", "Score: 13", Color(0,0,0,0)};
 	Renderer::Instance()->LoadTextureText("BomberFont", scoreText2);
 	Renderer::Instance()->LoadRect(scoreRectID[1], Rect({ SCREEN_WIDTH - 148, 30, Renderer::Instance()->GetTextureSize("scoreText2").x, Renderer::Instance()->GetTextureSize("scoreText2").y }));
 	
 	std::string times = "Time: " + std::to_string(gameTime/100);
 	gameTimeRectID = "gameTimeRect";
-	gameTimeText = { "gameTimeText", "Time: ", Color(0,0,0,0), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+	gameTimeText = { "gameTimeText", "Time: ", Color(0,0,0,0)};
 	Renderer::Instance()->LoadTextureText("BomberFont", gameTimeText);
 	Renderer::Instance()->LoadRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize("gameTimeText").x / 2) , 30, Renderer::Instance()->GetTextureSize("gameTimeText").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
 }
