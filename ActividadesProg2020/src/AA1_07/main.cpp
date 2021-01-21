@@ -19,6 +19,7 @@ void printAdjency(std::list<int> adjList[], int u)
 void addEdge(std::list<int> adjList[], int u, int v)
 {
 	adjList[u].push_back(v);
+	adjList[v].push_back(u);
 }
 
 int main()
@@ -27,7 +28,6 @@ int main()
 	//Poder ver la lista de adjacencia de cada uno
 	std::list<int> adjList[4];
 	addEdge(adjList, 1, 2);
-	addEdge(adjList, 2, 3);
 	addEdge(adjList, 3, 2);
 	addEdge(adjList, 1, 3);
 	printAdjency(adjList, 4);
