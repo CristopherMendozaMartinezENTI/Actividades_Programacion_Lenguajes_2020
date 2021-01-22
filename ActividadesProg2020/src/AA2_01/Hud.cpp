@@ -137,7 +137,7 @@ void Hud::Update(InputManager _input, float _deltaTime)
 	Renderer::Instance()->SetRect(avatarPositionID[5], posAvatar[5]);
 
 	//Update Score Player 1
-	scoreText1.UpdateText("Score: " + std::to_string(score[1]));
+	scoreText1.UpdateText("Score: " + std::to_string(score[0]));
 	if (scoreText1.text != lastScore1.text)
 	{
 		Renderer::Instance()->LoadTextureText("BomberFont", scoreText1);

@@ -7,6 +7,7 @@ Block::Block()
 Block::Block(e_BlockType _type, std::string _name, Rect _position)
 {
 	erase = false;
+	hasPowerUp = false;
 	destoyTime = 1.0f;
 	nRows = 2;
 	nColumns = 3;
@@ -47,11 +48,6 @@ Block::Block(e_BlockType _type, std::string _name, Rect _position)
 	}
 
 	//Que el bloque tenga o no power up, es completamente random en cada bloque, hay un 30% de que tenga un power up o no.
-	int random = rand() % 3 + 1;
-	if (random == 1 && type == e_BlockType::BLOCK)
-	{
-		hasPowerUp = true;
-	}
 
 	int offset = 5;
 	collisionRect.x = _position.x + offset;
@@ -114,6 +110,11 @@ e_BlockType Block::GetBlockType()
 
 void Block::Destroy()
 {
+	int random = rand() % 3 + 1;
+	if (random == 2 && type == e_BlockType::BLOCK)
+	{
+		hasPowerUp = true;
+	}
 	type = e_BlockType::DESTROYED;
 }
 

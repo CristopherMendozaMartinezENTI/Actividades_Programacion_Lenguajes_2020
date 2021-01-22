@@ -16,5 +16,7 @@ public:
 	void Update(InputManager _input, float _deltaTime);
 	void Draw();
 	Rect GetPosition();
+	void Destroy();
+	e_PowerupType GetType();
 };
 

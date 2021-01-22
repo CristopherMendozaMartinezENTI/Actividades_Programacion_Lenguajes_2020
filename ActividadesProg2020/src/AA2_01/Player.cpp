@@ -7,7 +7,8 @@ Player::Player()
 Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type)
 {
 	HP = _hp;
-	invulnerability = 3.0;
+	invulnerabilityTime = 3.0;
+	turboTime = 0;
 	position.x = _position.x;
 	position.y = _position.y;
 	nRows = _nRows;
@@ -25,6 +26,7 @@ Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _
 	speedMultiplier = 1; //1.3
 	spawBomb = false;
 	isColliding = false;
+
 
 	Renderer::Instance()->LoadTexture(textureID, texture);
 	Renderer::Instance()->LoadRect(rectID, Rect());
@@ -60,7 +62,22 @@ Player::~Player()
 void Player::Update(InputManager _input, float _deltaTime)
 {
 	bombCD -= _deltaTime;
-	invulnerability -= _deltaTime;
+
+	if (invulnerabilityTime <= 0) {
+		canTakeDmg = true;
+		invulnerabilityTime = 0;
+	}	else {
+		canTakeDmg = false;
+		invulnerabilityTime -= _deltaTime;
+	}
+
+	if (turboTime <= 0) {
+		speedMultiplier = 1.0f;
+		turboTime = 0;
+	}	else {
+		turboTime -= _deltaTime;
+	}
+
 	switch (type)
 	{
 	case e_PlayerType::P1:
@@ -249,7 +266,7 @@ void Player::SpawnBomb(bool _b)
 void Player::TakeDmg()
 {
 	HP -= 1;
-	invulnerability = 3.0;
+	invulnerabilityTime = 3.0;
 }
 
 void Player::KilledEnemy()
@@ -260,4 +277,20 @@ void Player::KilledEnemy()
 void Player::DestroyedBlock()
 {
 	score += 15;
+}
+
+void Player::SpeedUp()
+{
+	turboTime = 10.0f;
+	speedMultiplier = 1.8;
+}
+
+void Player::ShieldUp()
+{
+	invulnerabilityTime = 10.0f;
+}
+
+bool Player::GetCanTakeDmg()
+{
+	return canTakeDmg;
 }

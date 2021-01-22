@@ -9,11 +9,11 @@ public:
 	int HP;
 	int score;
 	bool isMoving;
-	float invulnerability;
 
 private:
-	float bombCD;
-	bool spawBomb, canSpawn;
+	float speed, speedMultiplier;
+	float bombCD, turboTime, invulnerabilityTime;
+	bool spawBomb, canSpawn, canTakeDmg;
 	std::string test;
 	Directions direction;
 	e_PlayerType type;
@@ -21,7 +21,6 @@ private:
 	Rect lastPosition;
 
 public:
-	int speed, speedMultiplier;
 	bool isColliding;
 	Player();
 	Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type);
@@ -44,5 +43,8 @@ public:
 	void TakeDmg();
 	void KilledEnemy();
 	void DestroyedBlock();
+	void SpeedUp();
+	void ShieldUp();
+	bool GetCanTakeDmg();
 };
 

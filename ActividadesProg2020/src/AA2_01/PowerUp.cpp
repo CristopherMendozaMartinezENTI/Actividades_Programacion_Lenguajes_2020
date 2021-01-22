@@ -4,7 +4,7 @@ PowerUp::PowerUp()
 {
 }
 
-PowerUp::PowerUp(std::string _name, Rect _position){
+PowerUp::PowerUp(std::string _name, Rect _position) {
 	erase = false;
 
 	nRows = 2;
@@ -32,7 +32,7 @@ PowerUp::PowerUp(std::string _name, Rect _position){
 	int random;
 	random = rand() % 2 + 1;
 	if (random == 1) { type = e_PowerupType::ROLLER_SKATER; }
-	else if (random == 2)	{ type = e_PowerupType::SHIELD;	}
+	else if (random == 2) { type = e_PowerupType::SHIELD; }
 	else { type = e_PowerupType::SHIELD; }
 
 	switch (type)
@@ -66,10 +66,26 @@ void PowerUp::Update(InputManager _input, float _deltaTime)
 
 void PowerUp::Draw()
 {
-	if (erase == false) Renderer::Instance()->PushSprite(textureID, rectID, positionID);
+	if (type != e_PowerupType::DEFAULT)
+	{
+		Renderer::Instance()->PushSprite(textureID, rectID, positionID);
+	}
 }
 
 Rect PowerUp::GetPosition()
 {
-	return position;
+	if (type != e_PowerupType::DEFAULT)
+	{
+		return position;
+	}
+}
+
+void PowerUp::Destroy()
+{
+	type = e_PowerupType::DEFAULT;
+}
+
+e_PowerupType PowerUp::GetType()
+{
+	return type;
 }

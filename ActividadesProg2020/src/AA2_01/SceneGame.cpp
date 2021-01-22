@@ -4,6 +4,7 @@
 #include "../../dep/inc/XML/rapidxml_print.hpp"
 #include "../../dep/inc/XML/rapidxml_utils.hpp"
 
+
 void SceneGame::LoadGameObjects(e_Levels _level)
 {
 	rapidxml::xml_document<> config;
@@ -90,7 +91,6 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 		level2Player1PositionAttribute = pLevel2Player1Position->first_attribute("y");
 		int pos1Y = atoi(level2Player1PositionAttribute->value());
 
-		players[0] = { vidas1, Vec2(((pos1X * 48) + 48), ((pos1Y * 48) + 128)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
 
 		//---->Estamos en Player2 de Level2
 		rapidxml::xml_node<>* pLevel2Player2 = pLevel2Player1->next_sibling();
@@ -102,7 +102,8 @@ void SceneGame::LoadGameObjects(e_Levels _level)
 		level2Player2PositionAtributte = pPlayer2Position->first_attribute("y");
 		int pos2Y = atoi(level2Player2PositionAtributte->value());
 
-		players[1] = { vidas2, Vec2(((pos2X * 48) + 48), ((pos2Y * 48) + 128)), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
+		players[0] = { vidas1, Vec2(((pos2X * 48) + 48), ((pos2Y * 48) + 128)), 4, 3, "Player1" , "../../res/img/player1.png", e_PlayerType::P1 };
+		players[1] = { vidas2, Vec2(((pos1X * 48) + 48), ((pos1Y * 48) + 128)), 4, 3, "Player2" , "../../res/img/player2.png", e_PlayerType::P2 };
 
 		//---->Estamos en Mapa de Level2
 		rapidxml::xml_node<>* pMapLevel2 = pLevel2Players->next_sibling();
@@ -328,6 +329,22 @@ void SceneGame::Update(InputManager& _input)
 				players[1].isColliding = true;
 			}
 		}
+
+		for (int i = 0; i < powerUps.size(); i++)
+		{
+			if (collisions::isColliding(powerUps[i].GetPosition(), players[0].GetRectCollider()))
+			{
+				if (powerUps.at(i).GetType() == e_PowerupType::ROLLER_SKATER) { players[0].SpeedUp(); }
+				else if (powerUps.at(i).GetType() == e_PowerupType::SHIELD) { players[0].ShieldUp(); }
+				powerUps.at(i).Destroy();
+			}
+			if (collisions::isColliding(powerUps[i].GetPosition(), players[1].GetRectCollider()))
+			{
+				if (powerUps.at(i).GetType() == e_PowerupType::ROLLER_SKATER) { players[1].SpeedUp(); }
+				else if (powerUps.at(i).GetType() == e_PowerupType::SHIELD) { players[1].ShieldUp(); }
+				powerUps.at(i).Destroy();
+			}
+		}
 		//Coldown of the bombs (player variable)
 		for (int i = 0; i < PLAYER_SIZE; i++)
 		{
@@ -390,7 +407,7 @@ void SceneGame::Update(InputManager& _input)
 					{
 						if (d[i] == true)
 						{
-							if (collisions::isColliding(a[i], players[j].GetRectCollider()) && players[j].invulnerability <= 0)
+							if (collisions::isColliding(a[i], players[j].GetRectCollider()) && players[j].GetCanTakeDmg())
 							{
 								players[j].TakeDmg();
 								if (players[j].GetPlayerType() == e_PlayerType::P2)
@@ -431,6 +448,11 @@ void SceneGame::Update(InputManager& _input)
 						if (collisions::isColliding(b[i], blocks[k].GetCollisions()) && blocks[k].GetBlockType() == e_BlockType::BLOCK && c[i] == true)
 						{
 							blocks[k].Destroy();
+							if (blocks[k].GetHasPowerUp() == true)
+							{
+								PowerUp tmpPowerUp = { "PowerUp" + k , blocks[k].GetPosition() };
+								powerUps.push_back(tmpPowerUp);
+							}
 							players[1].DestroyedBlock();
 
 						}
@@ -439,7 +461,7 @@ void SceneGame::Update(InputManager& _input)
 					{
 						if (c[i] == true)
 						{
-							if (collisions::isColliding(b[i], players[j].GetRectCollider()) && players[j].invulnerability <= 0)
+							if (collisions::isColliding(b[i], players[j].GetRectCollider()) && players[j].GetCanTakeDmg())
 							{
 								players[j].TakeDmg();
 								if (players[j].GetPlayerType() == e_PlayerType::P1)
@@ -512,6 +534,11 @@ void SceneGame::Draw()
 			blocks[i].Draw();
 		}
 
+		for (int i = 0; i < powerUps.size(); i++)
+		{
+			powerUps.at(i).Draw();
+		}
+
 		hud.Draw();
 	}
 	break;
@@ -527,4 +554,3 @@ void SceneGame::Draw()
 
 	Renderer::Instance()->Render();
 }
-

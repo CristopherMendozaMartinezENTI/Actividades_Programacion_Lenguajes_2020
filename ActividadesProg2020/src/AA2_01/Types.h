@@ -29,8 +29,8 @@ enum class e_Levels {
 };
 
 enum class EKeys {
-	DEFAULT, ESC, UP, DOWN, LEFT, RIGHT, 
-	W, A, S, D, MOUSE_LEFT, MOUSE_RIGHT, 
+	DEFAULT, ESC, UP, DOWN, LEFT, RIGHT,
+	W, A, S, D, MOUSE_LEFT, MOUSE_RIGHT,
 	SPACE, P, LCTRL, QUIT, ENTER, TOTAL
 };
 
@@ -39,7 +39,7 @@ enum class e_BlockType {
 };
 
 enum class e_PowerupType {
-	ROLLER_SKATER, SHIELD
+	ROLLER_SKATER, SHIELD, DEFAULT
 };
 
 enum class e_BombState {
@@ -69,7 +69,7 @@ struct Rect
 struct Color
 {
 	uint8_t r, g, b, a;
-	Color(): r{ 0 }, g{ 0 }, b{ 0 }, a{ 0 } {};
+	Color() : r{ 0 }, g{ 0 }, b{ 0 }, a{ 0 } {};
 	Color(uint8_t _r, uint8_t _g, uint8_t _b, uint8_t _a) :r{ _r }, g{ _g }, b{ _b }, a{ _a } {};
 };
 
@@ -89,9 +89,9 @@ struct Text
 	Text() : id{ "0" }, text{ "#" }, color{ Color(0,0,0,0) } {};
 	Text(std::string _id, std::string _text, Color _color) :
 		id{ _id }, text{ _text }, color{ _color } {};
-	void UpdateColor(Color _color) 
-	{ 
-		color = _color; 
+	void UpdateColor(Color _color)
+	{
+		color = _color;
 	}
 	void UpdateText(std::string _text)
 	{
