@@ -151,9 +151,9 @@ SceneGame::SceneGame(e_Levels _level)
 
 	Renderer::Instance()->LoadFont(Font({ "Font", "../../res/ttf/game_over.ttf", 80 }));
 
-	Text winText = { "winTextTexture", "YOU WIN, INTRODUCE YOUR NAME",  Color(0, 0, 0, 0) };
+	Text winText = { "winTextTexture", "YOU WIN, INTRODUCE YOUR NAME",  Color(255, 255, 255, 0) };
 	Renderer::Instance()->LoadTextureText("Font", winText);
-	Renderer::Instance()->LoadRect("winTextRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("winTextTexture").x) / 2, 600, Renderer::Instance()->GetTextureSize("winTextTexture").x, Renderer::Instance()->GetTextureSize("winTextTexture").y }));
+	Renderer::Instance()->LoadRect("winTextRect", Rect({ (SCREEN_WIDTH - Renderer::Instance()->GetTextureSize("winTextTexture").x) / 2, 300, Renderer::Instance()->GetTextureSize("winTextTexture").x, Renderer::Instance()->GetTextureSize("winTextTexture").y }));
 
 	LoadGameObjects(_level);
 	hud = { players[0].GetTexture() , players[1].GetTexture(), players[0].HP, players[1].HP, timeDown };
@@ -174,7 +174,7 @@ float SceneGame::UpdateDeltaTime()
 
 void SceneGame::CheckWinnerInput(InputManager& input)
 {
-	if (timeDown <= 0 && input.keyInput != "NONE") {
+	if (input.keyInput != "NONE") {
 		if (input.keyInput == "Return" && winnerText.text != " ") CheckRanking();
 		else if (input.keyInput == "Backspace") {
 			if (winnerText.text.length() > 1)winnerText.text = winnerText.text.substr(0, winnerText.text.size() - 1);
@@ -354,7 +354,7 @@ void SceneGame::Update(InputManager& _input)
 				players[i].ResetBombCD();
 			}
 
-			if (players[i].HP == 0)
+			if (players[i].HP <= 0)
 			{
 				inGameState = SceneState::GAME_OVER;
 			}
@@ -496,6 +496,10 @@ void SceneGame::Update(InputManager& _input)
 			state = e_GameStates::MENU;
 			_input.returnKeyIsDown()[(int)EKeys::ESC] = false;
 		}
+		for (int i = 0; i < 2; i++)
+		{
+			players[i].SetWinPosition();
+		}
 		CheckWinnerInput(_input);
 		playerWinText.UpdateText(winnerText, 50);
 	}
@@ -544,6 +548,9 @@ void SceneGame::Draw()
 	break;
 	case SceneState::GAME_OVER:
 	{
+		if (players[0].score > players[1].score) players[0].Draw();
+		if (players[0].score < players[1].score) players[1].Draw();
+		if (players[0].score == players[1].score) players[1].Draw();
 		Renderer::Instance()->PushImage("winTextTexture", "winTextRect");
 		playerWinText.Draw();
 	}

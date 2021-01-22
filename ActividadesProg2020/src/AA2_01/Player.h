@@ -32,6 +32,7 @@ public:
 	Rect GetFrame();
 	Rect GetPosition();
 	Rect GetRectCollider();
+	void SetWinPosition();
 	e_PlayerType GetPlayerType();
 	Directions GetDirection();
 	std::string GetTexture();

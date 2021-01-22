@@ -217,6 +217,16 @@ Rect Player::GetRectCollider()
 	return collisionRect;
 }
 
+void Player::SetWinPosition()
+{
+	position.x = 500;
+	position.y = 400;
+	rect.y = frame.h * 2;
+	rect.x = frame.w * 1;
+	Renderer::Instance()->SetRect(rectID, rect);
+	Renderer::Instance()->SetRect(positionID, position);
+}
+
 e_PlayerType Player::GetPlayerType()
 {
 	return type;
@@ -266,7 +276,7 @@ void Player::SpawnBomb(bool _b)
 void Player::TakeDmg()
 {
 	HP -= 1;
-	invulnerabilityTime = 3.0;
+	invulnerabilityTime = 5.0;
 }
 
 void Player::KilledEnemy()
