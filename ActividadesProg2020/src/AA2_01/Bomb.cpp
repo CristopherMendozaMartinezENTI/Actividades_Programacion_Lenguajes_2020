@@ -26,7 +26,6 @@ Bomb::Bomb(std::string _name, Rect _position)
 	positionID = _name + "Position";
 	textureID = _name + "Texture";
 
-
 	Renderer::Instance()->LoadTexture(textureID, texture);
 
 	textureWidth = Renderer::Instance()->GetTextureSize(textureID).x;
@@ -42,37 +41,47 @@ Bomb::Bomb(std::string _name, Rect _position)
 
 	Renderer::Instance()->LoadRect(rectID, Rect());
 	Renderer::Instance()->LoadRect(positionID, Rect());
-
-	rectColision[0] = { position.x + 1, position.y - 48 + 1 , position.x + 48 - 1 , position.y };
-	rectColision[1] = { position.x + 48, position.y + 1 , position.x + (48 * 2) - 1 , position.y + 48 - 1 };
-	rectColision[2] = { position.x + 1, position.y + 48 , position.x + 48 - 1  , position.y + (48 * 2) - 1 };
-	rectColision[3] = { position.x - 48 + 1, position.y + 1 , position.x , position.y + 48 - 1 };
-	rectColision[4] = { position.x + 1, (position.y - (48 * 2)) + 1 , position.x + 48 - 1 , position.y - 48 };
-	rectColision[5] = { position.x + (48 * 2), position.y + 1 , position.x + (48 * 3) - 1 , position.y + 48 - 1 };
-	rectColision[6] = { position.x + 1, position.y + (48 * 2), position.x + 48 - 1  , position.y + (48 * 3) - 1 };
-	rectColision[7] = { position.x - (48 * 2) + 1, position.y + 1 , position.x - 48  , position.y + 48 - 1 };
-
 	
+	positionExplosion[0] = { position.x, position.y - 48, rect.w, rect.h };
+	positionExplosion[4] = { position.x, position.y - (48 * 2) , rect.w , rect.h };
+	
+	positionExplosion[1] = { position.x + 48, position.y, rect.w, rect.h };
+	positionExplosion[5] = { position.x + (48 * 2), position.y,rect.w, rect.h };
+	
+	positionExplosion[2] = { position.x , position.y + 48 , rect.w, rect.h };
+	positionExplosion[6] = { position.x , position.y + (48 * 2), rect.w, rect.h };
+	
+	positionExplosion[3] = { position.x - 48, position.y, rect.w, rect.h };
+	positionExplosion[7] = { position.x - (48 * 2), position.y, rect.w, rect.h };
+
+	int offset = 5;
+
+	rectColision[0] = { position.x + offset, position.y - 48 + offset, rect.w - offset , rect.h - offset };
+	rectColision[4] = { position.x + offset, position.y - (48 * 2) + offset , rect.w - offset , rect.h - offset };
+	
+	rectColision[1] = { position.x + 48 + offset , position.y + offset , rect.w - offset , rect.h - offset };
+	rectColision[5] = { position.x + (48 * 2) + offset, position.y + offset , rect.w - offset , rect.h - offset };
+	
+	rectColision[2] = { position.x + offset, position.y + 48 + offset, rect.w - offset  , rect.h - offset };
+	rectColision[6] = { position.x + offset, position.y + (48 * 2) + offset, rect.w - offset  , rect.h - offset };
+	
+	rectColision[3] = { position.x - 48 + offset, position.y + offset , rect.w - offset, rect.h - offset };
+	rectColision[7] = { position.x - (48 * 2) + offset, position.y + offset , rect.w - offset, rect.h - offset };
+
+	//Esta variable es necesaria porque lso RECt que utiliza la bomba cuando esta explotando se tienen que diferenciar entre ellos y entre los players. String solo te permite añadir 2 valores entre ellos con el +.
+	std::stringstream ss;
+
 	for (int j = 0; j < 8; j++)
 	{
-		if (j == 2 || j == 3)
-		{
-			positionExplosion[j] = { rectColision[j].x , rectColision[j].y - 1, frame.w, frame.h };
-		}
-		else if (j == 4 || j == 5)
-		{
-			positionExplosion[j] = { rectColision[j].x - 1, rectColision[j].y, frame.w, frame.h };
-		}
-		else {
-			positionExplosion[j] = { rectColision[j].x - 1, rectColision[j].y - 1, frame.w, frame.h };
-		}
-
-
-		positionExplosionID[j] = "positionExplosionID" + j;
+		explosionIsActive[j] = true;
+		ss << _name << "positionExplosionID" << j;
+		positionExplosionID[j] = ss.str();
 		Renderer::Instance()->LoadRect(positionExplosionID[j], positionExplosion[j]);
 	}
 	for (int i = 0; i < 8; i++)
 	{
+		ss << _name << "rectSpriteExplosionID" << i;
+		rectSpriteExplosionID[i] = ss.str();
 		Renderer::Instance()->LoadRect(rectSpriteExplosionID[i], Rect());
 	}
 
@@ -115,7 +124,7 @@ void Bomb::Update(InputManager _input, float _deltaTime)
 			{
 				rectSpriteExplosion[i].w = frame.w;
 				rectSpriteExplosion[i].h = frame.h;
-			} 
+			}
 			rectSpriteExplosion[0].y = frame.h * 6;
 			rectSpriteExplosion[1].y = frame.h * 5;
 			rectSpriteExplosion[2].y = frame.h * 6;
@@ -158,8 +167,15 @@ void Bomb::Update(InputManager _input, float _deltaTime)
 
 		for (int i = 0; i < 8; i++)
 		{
+			if (rectColision[i].y < 128) { explosionIsActive[i] = false; }
 
+			else if (rectColision[i].y > SCREEN_HEIGHT - 91) { explosionIsActive[i] = false; }
+
+			else if (rectColision[i].x > SCREEN_WIDTH - 91) { explosionIsActive[i] = false; }
+
+			else if (rectColision[i].x < 48) { explosionIsActive[i] = false; }
 		}
+
 		break;
 
 	case e_BombState::GONE:
@@ -184,7 +200,10 @@ void Bomb::Draw()
 	{
 		for (int i = 0; i < 8; i++)
 		{
-			Renderer::Instance()->PushSprite(textureID, rectSpriteExplosionID[i], positionExplosionID[i]);
+			if (explosionIsActive[i])
+			{
+				Renderer::Instance()->PushSprite(textureID, rectSpriteExplosionID[i], positionExplosionID[i]);
+			}
 		}
 	}
 }
@@ -222,5 +241,30 @@ Rect* Bomb::GetExplosionRects()
 int Bomb::GetRange()
 {
 	return range;
+}
+
+void Bomb::SetExplosionInactive(int n)
+{
+	switch (n)
+	{
+	case 0:
+		explosionIsActive[4] = false;
+		break;
+	case 1:
+		explosionIsActive[5] = false;
+		break;
+	case 2:
+		explosionIsActive[6] = false;
+		break;
+	case 3:
+		explosionIsActive[7] = false;
+		break;
+
+	}
+}
+
+bool* Bomb::GetExplosionActive()
+{
+	return explosionIsActive;
 }
 

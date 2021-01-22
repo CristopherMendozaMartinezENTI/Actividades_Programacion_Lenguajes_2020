@@ -18,8 +18,11 @@ private:
 	Rect rectSpriteExplosion[8];
 	std::string rectSpriteExplosionID[8];
 	
+	//Position Explosion. Es la posición de cada sprite de la bomba
 	Rect positionExplosion[8]; //0 - 1 para arriba, 2 - 3 para derecha, 4 - 5 para abajo, 6 - 7 para izquierda
 	std::string positionExplosionID[8];
+	bool explosionIsActive[8];
+
 
 public:
 
@@ -33,7 +36,9 @@ public:
 	Rect GetFrame();
 	Rect GetPosition();
 	Rect* GetExplosionRects();
+	bool* GetExplosionActive();
 	std::string GetTexture();
 	e_BombState GetBombState();
 	int GetRange();
+	void SetExplosionInactive(int n);
 };

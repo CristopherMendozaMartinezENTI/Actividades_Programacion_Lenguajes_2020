@@ -4,8 +4,7 @@ PowerUp::PowerUp()
 {
 }
 
-PowerUp::PowerUp(e_PowerupType _type, std::string _name, Rect _position)
-{
+PowerUp::PowerUp(std::string _name, Rect _position){
 	erase = false;
 
 	nRows = 2;
@@ -19,7 +18,6 @@ PowerUp::PowerUp(e_PowerupType _type, std::string _name, Rect _position)
 	rectID = _name + "Rect";
 	positionID = _name + "Position";
 	textureID = _name + "Texture";
-	type = _type;
 
 	Renderer::Instance()->LoadTexture(textureID, texture);
 
@@ -31,7 +29,13 @@ PowerUp::PowerUp(e_PowerupType _type, std::string _name, Rect _position)
 	position.w = rect.w = frame.w;
 	position.h = rect.h = frame.h;
 
-	switch (_type)
+	int random;
+	random = rand() % 2 + 1;
+	if (random == 1) { type = e_PowerupType::ROLLER_SKATER; }
+	else if (random == 2)	{ type = e_PowerupType::SHIELD;	}
+	else { type = e_PowerupType::SHIELD; }
+
+	switch (type)
 	{
 	case e_PowerupType::ROLLER_SKATER:
 		rect.x = frame.w * 1;

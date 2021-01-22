@@ -10,7 +10,7 @@ private:
 public:
 	bool erase;
 	PowerUp();
-	PowerUp(e_PowerupType _type, std::string _name, Rect _position);
+	PowerUp(std::string _name, Rect _position);
 	~PowerUp();
 
 	void Update(InputManager _input, float _deltaTime);

@@ -5,6 +5,7 @@
 #include "Bomb.h"
 #include "Block.h"
 #include "Hud.h"
+#include "PowerUp.h"
 #include "Constants.h"
 #include "DynText.h"
 #include "../../dep/inc/XML/rapidxml.hpp"
@@ -37,7 +38,7 @@ private:
 	Hud hud;
 
 	std::vector<Block> blocks;
-	std::vector<Block> powerUps;
+	std::vector<PowerUp> powerUps;
 	
 	//HUD
 	//Hud scoreboard;

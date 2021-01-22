@@ -35,7 +35,7 @@ enum class EKeys {
 };
 
 enum class e_BlockType {
-	BLOCK, WALL, DEFAULT
+	BLOCK, WALL, DESTROYED, DEFAULT
 };
 
 enum class e_PowerupType {

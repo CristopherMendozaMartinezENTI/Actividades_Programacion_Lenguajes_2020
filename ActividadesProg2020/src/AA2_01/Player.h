@@ -6,9 +6,10 @@
 class Player : public GameObject
 {
 public:
-	int score;
 	int HP;
+	int score;
 	bool isMoving;
+	float invulnerability;
 
 private:
 	float bombCD;
@@ -40,5 +41,8 @@ public:
 	void ResetBombCD();
 	void SpawnBomb(bool _b);
 	void CanSpawnBomb();
+	void TakeDmg();
+	void KilledEnemy();
+	void DestroyedBlock();
 };
 

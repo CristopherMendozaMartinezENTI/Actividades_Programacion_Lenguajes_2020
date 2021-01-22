@@ -15,14 +15,14 @@ private:
 	std::string avatarTextureID[PLAYER_SIZE], avatarRectID[PLAYER_SIZE], avatarPositionID[PLAYER_SIZE * 3];
 
 	//Variables needed to print the score that each player has (a number)
-	Text scoreText1;
-	Text scoreText2;
+	Text scoreText1, lastScore1;
+	Text scoreText2, lastScore2;
 	int score[PLAYER_SIZE];
 	Rect rectScore[PLAYER_SIZE];
 	std::string scoreRectID[PLAYER_SIZE];
 
 	//Varibales needed to print the Game Time left
-	Text gameTimeText;
+	Text gameTimeText, lastTime;
 	float gameTime;
 	Rect rectGameTime[PLAYER_SIZE];
 	Rect positionGameTime[PLAYER_SIZE];

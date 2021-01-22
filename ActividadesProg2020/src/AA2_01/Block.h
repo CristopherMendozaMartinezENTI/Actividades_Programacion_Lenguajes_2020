@@ -6,6 +6,10 @@ class Block : public GameObject
 {
 private: 
 	e_BlockType type;
+	Rect collisionRect;
+	float destoyTime;
+	int spriteSpeed;
+	bool hasPowerUp;
 
 public:
 	bool erase;
@@ -16,4 +20,8 @@ public:
 	void Update(InputManager _input, float _deltaTime);
 	void Draw();
 	Rect GetPosition();
+	Rect GetCollisions();
+	e_BlockType GetBlockType();
+	void Destroy();
+	bool GetHasPowerUp();
 };

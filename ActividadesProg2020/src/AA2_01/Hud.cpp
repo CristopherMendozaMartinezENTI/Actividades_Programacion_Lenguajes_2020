@@ -97,20 +97,23 @@ Hud::Hud(std::string _avatar1, std::string _avatar2, int _hp1, int _hp2, float _
 	//Textos Score P1, Score P2, Tiempo
 	Renderer::Instance()->LoadFont(Font({ "BomberFont", "../../res/ttf/game_over.ttf", 80 }));
 	scoreRectID[0] = "scoreRect1";
-	scoreText1 = { "scoreText1", "Score: ", Color(0,0,0,0)};
+	scoreText1 = { "scoreText1", "Score: ", Color(0,0,0,0) };
 	Renderer::Instance()->LoadTextureText("BomberFont", scoreText1);
 	Renderer::Instance()->LoadRect(scoreRectID[0], Rect({ 30, 30, Renderer::Instance()->GetTextureSize("scoreText1").x, Renderer::Instance()->GetTextureSize("scoreText1").y }));
 
 	scoreRectID[1] = "scoreRect2";
-	scoreText2 = { "scoreText2", "Score: 13", Color(0,0,0,0)};
+	scoreText2 = { "scoreText2", "Score: 13", Color(0,0,0,0) };
 	Renderer::Instance()->LoadTextureText("BomberFont", scoreText2);
 	Renderer::Instance()->LoadRect(scoreRectID[1], Rect({ SCREEN_WIDTH - 148, 30, Renderer::Instance()->GetTextureSize("scoreText2").x, Renderer::Instance()->GetTextureSize("scoreText2").y }));
-	
-	std::string times = "Time: " + std::to_string(gameTime/100);
+
+	std::string times = "Time: " + std::to_string(gameTime / 100);
 	gameTimeRectID = "gameTimeRect";
-	gameTimeText = { "gameTimeText", "Time: ", Color(0,0,0,0)};
+	gameTimeText = { "gameTimeText", "Time: ", Color(0,0,0,0) };
 	Renderer::Instance()->LoadTextureText("BomberFont", gameTimeText);
 	Renderer::Instance()->LoadRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize("gameTimeText").x / 2) , 30, Renderer::Instance()->GetTextureSize("gameTimeText").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+
+	lastScore1.text = ".";
+	lastScore2.text = ".";
 }
 
 
@@ -127,30 +130,41 @@ void Hud::Update(InputManager _input, float _deltaTime)
 
 	Renderer::Instance()->SetRect(avatarPositionID[0], posAvatar[0]);
 	Renderer::Instance()->SetRect(avatarPositionID[1], posAvatar[1]);
-
 	Renderer::Instance()->SetRect(avatarPositionID[2], posAvatar[2]);
 
 	Renderer::Instance()->SetRect(avatarPositionID[3], posAvatar[3]);
 	Renderer::Instance()->SetRect(avatarPositionID[4], posAvatar[4]);
 	Renderer::Instance()->SetRect(avatarPositionID[5], posAvatar[5]);
-	
+
 	//Update Score Player 1
 	scoreText1.UpdateText("Score: " + std::to_string(score[1]));
-	Renderer::Instance()->LoadTextureText("BomberFont", scoreText1);
-	Renderer::Instance()->SetRect(scoreRectID[0], Rect({ 30, 30, Renderer::Instance()->GetTextureSize("scoreText1").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
-	
+	if (scoreText1.text != lastScore1.text)
+	{
+		Renderer::Instance()->LoadTextureText("BomberFont", scoreText1);
+		Renderer::Instance()->SetRect(scoreRectID[0], Rect({ 30, 30, Renderer::Instance()->GetTextureSize("scoreText1").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+	}
 	//Update Score Player 2
 	scoreText2.UpdateText("Score: " + std::to_string(score[1]));
-	Renderer::Instance()->LoadTextureText("BomberFont", scoreText2);
-	Renderer::Instance()->SetRect(scoreRectID[1], Rect({ SCREEN_WIDTH - 148, 30, Renderer::Instance()->GetTextureSize("scoreText2").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+	if (scoreText2.text != lastScore2.text)
+	{
+		Renderer::Instance()->LoadTextureText("BomberFont", scoreText2);
+		Renderer::Instance()->SetRect(scoreRectID[1], Rect({ SCREEN_WIDTH - 148, 30, Renderer::Instance()->GetTextureSize("scoreText2").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+	}
 
 	//Update Game Time
+	
 	gameTimeText.UpdateText("Time: " + FloatToString(gameTime, 2));
-	Renderer::Instance()->LoadTextureText("BomberFont", gameTimeText);
-	Renderer::Instance()->SetRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize("gameTimeText").x / 2) , 30, Renderer::Instance()->GetTextureSize("gameTimeText").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
-
+	if (gameTimeText.text != lastTime.text)
+	{
+		Renderer::Instance()->LoadTextureText("BomberFont", gameTimeText);
+		Renderer::Instance()->SetRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize("gameTimeText").x / 2) , 30, Renderer::Instance()->GetTextureSize("gameTimeText").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+	}
+	
 
 	gameTime -= _deltaTime;
+	lastScore1.text = scoreText1.text;
+	lastScore2.text = scoreText2.text;
+	lastTime.text = gameTimeText.text;
 }
 
 void Hud::Reset()

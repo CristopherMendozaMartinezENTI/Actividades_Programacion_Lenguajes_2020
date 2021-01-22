@@ -7,11 +7,12 @@ Block::Block()
 Block::Block(e_BlockType _type, std::string _name, Rect _position)
 {
 	erase = false;
-
+	destoyTime = 1.0f;
 	nRows = 2;
 	nColumns = 3;
 	texture = "../../res/img/items.png";
-	
+	spriteSpeed = 15;
+
 	rect = Rect(0, 0, 0, 0);
 	frame = Rect(0, 0, 0, 0);
 	position = _position;
@@ -45,6 +46,18 @@ Block::Block(e_BlockType _type, std::string _name, Rect _position)
 		break;
 	}
 
+	//Que el bloque tenga o no power up, es completamente random en cada bloque, hay un 30% de que tenga un power up o no.
+	int random = rand() % 3 + 1;
+	if (random == 1 && type == e_BlockType::BLOCK)
+	{
+		hasPowerUp = true;
+	}
+
+	int offset = 5;
+	collisionRect.x = _position.x + offset;
+	collisionRect.y = _position.y + offset;
+	collisionRect.w = rect.w - offset;
+	collisionRect.h = rect.h - offset;
 
 	Renderer::Instance()->LoadRect(rectID, Rect());
 	Renderer::Instance()->LoadRect(positionID, Rect());
@@ -59,14 +72,52 @@ Block::~Block()
 
 void Block::Update(InputManager _input, float _deltaTime)
 {
+	if (type == e_BlockType::DESTROYED)
+	{
+		rect.x = frame.w * 2;
+		destoyTime -= _deltaTime;
+		if (destoyTime <= 0)
+		{
+			type = e_BlockType::DEFAULT;
+		}
+	}
+	Renderer::Instance()->SetRect(rectID, rect);
 }
 
 void Block::Draw()
 {
-	if(erase ==  false) Renderer::Instance()->PushSprite(textureID, rectID, positionID);
+	if (type != e_BlockType::DEFAULT)
+	{
+		Renderer::Instance()->PushSprite(textureID, rectID, positionID);
+	}
 }
 
 Rect Block::GetPosition()
 {
 	return position;
+}
+
+Rect Block::GetCollisions()
+{
+	if (type != e_BlockType::DEFAULT)
+	{
+		return collisionRect;
+	}
+	else
+		return Rect(0, 0, 0, 0);
+}
+
+e_BlockType Block::GetBlockType()
+{
+	return type;
+}
+
+void Block::Destroy()
+{
+	type = e_BlockType::DESTROYED;
+}
+
+bool Block::GetHasPowerUp()
+{
+	return hasPowerUp;
 }

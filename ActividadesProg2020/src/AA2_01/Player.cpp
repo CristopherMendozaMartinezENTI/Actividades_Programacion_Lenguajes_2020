@@ -7,6 +7,7 @@ Player::Player()
 Player::Player(int _hp, Vec2 _position, int _nRows, int _nColumns, std::string _name, std::string _path, e_PlayerType _type)
 {
 	HP = _hp;
+	invulnerability = 3.0;
 	position.x = _position.x;
 	position.y = _position.y;
 	nRows = _nRows;
@@ -59,6 +60,7 @@ Player::~Player()
 void Player::Update(InputManager _input, float _deltaTime)
 {
 	bombCD -= _deltaTime;
+	invulnerability -= _deltaTime;
 	switch (type)
 	{
 	case e_PlayerType::P1:
@@ -242,4 +244,20 @@ void Player::SpawnBomb(bool _b)
 	{
 		spawBomb = false;
 	}
+}
+
+void Player::TakeDmg()
+{
+	HP -= 1;
+	invulnerability = 3.0;
+}
+
+void Player::KilledEnemy()
+{
+	score += 100;
+}
+
+void Player::DestroyedBlock()
+{
+	score += 15;
 }

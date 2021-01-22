@@ -2,6 +2,7 @@
 
 GameManager::GameManager()
 {
+	srand(time(NULL));
 	currentScene = new SceneMenu();
 	state = lastState = e_GameStates::MENU;
 	isRunning = true;
