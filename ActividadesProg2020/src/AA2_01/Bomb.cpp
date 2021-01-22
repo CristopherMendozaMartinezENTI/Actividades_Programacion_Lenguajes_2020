@@ -87,9 +87,8 @@ Bomb::Bomb(std::string _name, Rect _position)
 
 }
 
-Bomb::~Bomb() //iMPORTANTE MIRAR ESTO A VER SI DA PROBLMEAS CON LA MEMORIA,  AUNQUE SEGURAMENTE ME VA A CRASHEAR PORQUE SOY UN TROZO DE BASURA HUMANA QUE NO SABE ESCRIBIR MAS DE 3 LINIAS DE CODIGO SI EQUIVOCARSE.
+Bomb::~Bomb()
 {
-	//Renderer::Instance()->DeleteObject(textureID, rectName, positionName);
 }
 
 void Bomb::Update(InputManager _input, float _deltaTime)

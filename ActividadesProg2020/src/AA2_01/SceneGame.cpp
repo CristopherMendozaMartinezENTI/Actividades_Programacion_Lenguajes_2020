@@ -275,7 +275,6 @@ void SceneGame::CheckRanking()
 
 	//SAVE
 	std::ofstream fsalida("../../res/files/ranking.bin", std::ios::out | std::ios::binary);
-	//std::cout << rankFile << std::endl;
 	len = rankFile.size();
 	fsalida.write(reinterpret_cast<char*>(&len), sizeof(size_t));
 	fsalida.write(rankFile.c_str(), rankFile.size());
