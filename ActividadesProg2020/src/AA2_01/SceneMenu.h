@@ -8,12 +8,14 @@ class SceneMenu :
 {
 private:
     Cursor cursor;
-    std::map<std::string, Color> colors;
-    std::map<std::string, Text> texts;
-    std::map<std::string, Rect> rectangles;
+    Text tittleText;
 
-    bool mouseClicked, musicOff,
-        playLevel1Hover, playLevel2Hover, rankingHover, sondOffHover, sondOnHover, exitHover;
+    std::vector<Button> buttons;
+    SpecialButton soundButton;
+
+    std::map<std::string, Color> colors;
+
+    bool mouseClicked, musicOff;
 
 public:
     SceneMenu();

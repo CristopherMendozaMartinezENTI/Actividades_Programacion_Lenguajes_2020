@@ -99,18 +99,18 @@ Hud::Hud(std::string _avatar1, std::string _avatar2, int _hp1, int _hp2, float _
 	scoreRectID[0] = "scoreRect1";
 	scoreText1 = { "scoreText1", "Score:", Color(0,0,0,0) };
 	Renderer::Instance()->LoadTextureText("BomberFont", scoreText1);
-	Renderer::Instance()->LoadRect(scoreRectID[0], Rect({ 30, 30, Renderer::Instance()->GetTextureSize("scoreText1").x, Renderer::Instance()->GetTextureSize("scoreText1").y }));
+	Renderer::Instance()->LoadRect(scoreRectID[0], Rect({ 30, 30, Renderer::Instance()->GetTextureSize(scoreText1.id).x, Renderer::Instance()->GetTextureSize(scoreText1.id).y }));
 
 	scoreRectID[1] = "scoreRect2";
 	scoreText2 = { "scoreText2", "Score:", Color(0,0,0,0) };
 	Renderer::Instance()->LoadTextureText("BomberFont", scoreText2);
-	Renderer::Instance()->LoadRect(scoreRectID[1], Rect({ SCREEN_WIDTH - 148, 30, Renderer::Instance()->GetTextureSize("scoreText2").x, Renderer::Instance()->GetTextureSize("scoreText2").y }));
+	Renderer::Instance()->LoadRect(scoreRectID[1], Rect({ SCREEN_WIDTH - 148, 30, Renderer::Instance()->GetTextureSize(scoreText2.id).x, Renderer::Instance()->GetTextureSize(scoreText2.id).y }));
 
 	std::string times = "Time: " + std::to_string(gameTime / 100);
 	gameTimeRectID = "gameTimeRect";
 	gameTimeText = { "gameTimeText", "Time: ", Color(0,0,0,0) };
 	Renderer::Instance()->LoadTextureText("BomberFont", gameTimeText);
-	Renderer::Instance()->LoadRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize("gameTimeText").x / 2) , 30, Renderer::Instance()->GetTextureSize("gameTimeText").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+	Renderer::Instance()->LoadRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize(gameTimeText.id).x / 2) , 30, Renderer::Instance()->GetTextureSize(gameTimeText.id).x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
 
 	lastScore1.text = ".";
 	lastScore2.text = ".";
@@ -141,14 +141,14 @@ void Hud::Update(InputManager _input, float _deltaTime)
 	if (scoreText1.text != lastScore1.text)
 	{
 		Renderer::Instance()->LoadTextureText("BomberFont", scoreText1);
-		Renderer::Instance()->SetRect(scoreRectID[0], Rect({ 30, 30, Renderer::Instance()->GetTextureSize("scoreText1").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+		Renderer::Instance()->SetRect(scoreRectID[0], Rect({ 30, 30, Renderer::Instance()->GetTextureSize(scoreText1.id).x , Renderer::Instance()->GetTextureSize(scoreText1.id).y }));
 	}
 	//Update Score Player 2
 	scoreText2.UpdateText("Score:" + std::to_string(score[1]));
 	if (scoreText2.text != lastScore2.text)
 	{
 		Renderer::Instance()->LoadTextureText("BomberFont", scoreText2);
-		Renderer::Instance()->SetRect(scoreRectID[1], Rect({ SCREEN_WIDTH - 155, 30, Renderer::Instance()->GetTextureSize("scoreText2").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+		Renderer::Instance()->SetRect(scoreRectID[1], Rect({ SCREEN_WIDTH - 148, 30, Renderer::Instance()->GetTextureSize(scoreText2.id).x , Renderer::Instance()->GetTextureSize(scoreText2.id).y }));
 	}
 
 	//Update Game Time
@@ -157,7 +157,7 @@ void Hud::Update(InputManager _input, float _deltaTime)
 	if (gameTimeText.text != lastTime.text)
 	{
 		Renderer::Instance()->LoadTextureText("BomberFont", gameTimeText);
-		Renderer::Instance()->SetRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize("gameTimeText").x / 2) , 30, Renderer::Instance()->GetTextureSize("gameTimeText").x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
+		Renderer::Instance()->SetRect(gameTimeRectID, Rect({ SCREEN_WIDTH / 2 - (Renderer::Instance()->GetTextureSize(gameTimeText.id).x / 2) , 30, Renderer::Instance()->GetTextureSize(gameTimeText.id).x , Renderer::Instance()->GetTextureSize("scoreText2").y }));
 	}
 	
 
@@ -208,9 +208,9 @@ void Hud::Draw()
 	}
 	else {}
 
-	Renderer::Instance()->PushImage("scoreText1", scoreRectID[0]);
-	Renderer::Instance()->PushImage("scoreText2", scoreRectID[1]);
-	Renderer::Instance()->PushImage("gameTimeText", gameTimeRectID);
+	Renderer::Instance()->PushImage(scoreText1.id, scoreRectID[0]);
+	Renderer::Instance()->PushImage(scoreText2.id, scoreRectID[1]);
+	Renderer::Instance()->PushImage(gameTimeText.id, gameTimeRectID);
 }
 
 
@@ -249,21 +249,21 @@ void Hud::UpdateScorePlayer(int _score1, int _score2)
 std::string Hud::FloatToString(float num, int _precision)
 {
 	// Create an output string stream
-	std::ostringstream streamObj3;
+	std::ostringstream newNum;
 	int minutes, seconds;
 	minutes = num / 60;
 	seconds = fmod(num, 60);
 
 	// Set Fixed -Point Notation
-	streamObj3 << std::fixed;
+	newNum << std::fixed;
 	// Set precision 
-	streamObj3 << std::setprecision(_precision);
+	newNum << std::setprecision(_precision);
 	//Add double to stream
-	streamObj3 << minutes << ":" << seconds;
+	newNum << minutes << ":" << seconds;
 	// Get string from output string stream
-	std::string strObj3 = streamObj3.str();
+	std::string newString = newNum.str();
 
-	return strObj3;
+	return newString;
 }
 
 

@@ -22,6 +22,7 @@
     <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Bomb.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="DynText.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -35,11 +36,13 @@
     <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneMenu.cpp" />
     <ClCompile Include="SceneRanking.cpp" />
+    <ClCompile Include="SpecialButton.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Bomb.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Collisions.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Cursor.h" />

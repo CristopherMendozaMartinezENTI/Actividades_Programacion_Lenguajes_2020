@@ -146,10 +146,10 @@ SceneGame::SceneGame(e_Levels _level)
 
 	playerWinText = DynText({ 125, 400, 300, 50 });
 
+	Renderer::Instance()->LoadFont(Font({ "Font", "../../res/ttf/game_over.ttf", 80 }));
 	Renderer::Instance()->LoadTexture("gameBgTexture", "../../res/img/bgGame.jpg");
 	Renderer::Instance()->LoadRect("gameBgRect", Rect({ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT }));
 
-	Renderer::Instance()->LoadFont(Font({ "Font", "../../res/ttf/game_over.ttf", 80 }));
 
 	Text winText = { "winTextTexture", "YOU WIN, INTRODUCE YOUR NAME",  Color(255, 255, 255, 0) };
 	Renderer::Instance()->LoadTextureText("Font", winText);
